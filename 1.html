@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .question h3 {
+            margin-bottom: 10px;
+        }
+        .choices {
+            list-style-type: none;
+            padding: 0;
+        }
+        .choices li {
+            margin-bottom: 10px;
+        }
+        .choices li input {
+            margin-right: 10px;
+        }
+        .submit-btn, .reset-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reset-btn {
+            background-color: #dc3545;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vocabulary Quiz</h1>
+        <div id="quiz">
+            <div class="question" id="question1">
+                <h3>1. What is the meaning of "ABSTRACT"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q1" value="wrong1">Alive; moving</li>
+                    <li><input type="radio" name="q1" value="wrong2">A comparison</li>
+                    <li><input type="radio" name="q1" value="correct">Theoretical; lacking substance</li>
+                    <li><input type="radio" name="q1" value="wrong3">A short account of an interesting incident</li>
+                </ul>
+            </div>
+            <div class="question" id="question2">
+                <h3>2. What is the meaning of "ACUTE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q2" value="wrong1">Absence of government or control</li>
+                    <li><input type="radio" name="q2" value="correct">Sensitive; sharp; discerning</li>
+                    <li><input type="radio" name="q2" value="wrong2">To relieve, especially pain</li>
+                    <li><input type="radio" name="q2" value="wrong3">Lack of emotion or interest</li>
+                </ul>
+            </div>
+            <div class="question" id="question3">
+                <h3>3. What is the meaning of "ADVOCATE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q3" value="wrong1">A comparison</li>
+                    <li><input type="radio" name="q3" value="wrong2">Real</li>
+                    <li><input type="radio" name="q3" value="correct">To promote; one who promotes a cause</li>
+                    <li><input type="radio" name="q3" value="wrong3">Fearful about the future</li>
+                </ul>
+            </div>
+            <div class="question" id="question4">
+                <h3>4. What is the meaning of "AESTHETIC"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q4" value="wrong1">To relieve, especially pain</li>
+                    <li><input type="radio" name="q4" value="correct">Having to do with artistic beauty; artistic</li>
+                    <li><input type="radio" name="q4" value="wrong2">To soothe; to pacify by giving in to</li>
+                    <li><input type="radio" name="q4" value="wrong3">Sensitive; sharp; discerning</li>
+                </ul>
+            </div>
+            <div class="question" id="question5">
+                <h3>5. What is the meaning of "ALLEVIATE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q5" value="wrong1">To accumulate</li>
+                    <li><input type="radio" name="q5" value="correct">To relieve, especially pain</li>
+                    <li><input type="radio" name="q5" value="wrong2">Simultaneously feeling opposing feelings</li>
+                    <li><input type="radio" name="q5" value="wrong3">Absence of government or control</li>
+                </ul>
+            </div>
+            <div class="question" id="question6">
+                <h3>6. What is the meaning of "AMASS"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q6" value="correct">To accumulate</li>
+                    <li><input type="radio" name="q6" value="wrong1">Something that is abnormal or irregular</li>
+                    <li><input type="radio" name="q6" value="wrong2">Lack of emotion or interest</li>
+                    <li><input type="radio" name="q6" value="wrong3">A short account of an interesting incident</li>
+                </ul>
+            </div>
+            <div class="question" id="question7">
+                <h3>7. What is the meaning of "AMBIVALENT"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q7" value="correct">Simultaneously feeling opposing feelings; uncertain</li>
+                    <li><input type="radio" name="q7" value="wrong1">Speaking clearly and well</li>
+                    <li><input type="radio" name="q7" value="wrong2">Real</li>
+                    <li><input type="radio" name="q7" value="wrong3">To soothe; to pacify by giving in to</li>
+                </ul>
+            </div>
+            <div class="question" id="question8">
+                <h3>8. What is the meaning of "ANALOGY"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q8" value="correct">A comparison</li>
+                    <li><input type="radio" name="q8" value="wrong1">To determine with certainty</li>
+                    <li><input type="radio" name="q8" value="wrong2">Sensitive; sharp; discerning</li>
+                    <li><input type="radio" name="q8" value="wrong3">Lack of emotion or interest</li>
+                </ul>
+            </div>
+            <div class="question" id="question9">
+                <h3>9. What is the meaning of "ANARCHY"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q9" value="correct">Absence of government or control; lawlessness; disorder</li>
+                    <li><input type="radio" name="q9" value="wrong1">To pacify by giving in to</li>
+                    <li><input type="radio" name="q9" value="wrong2">To determine with certainty</li>
+                    <li><input type="radio" name="q9" value="wrong3">Feeling superior to others</li>
+                </ul>
+            </div>
+            <div class="question" id="question10">
+                <h3>10. What is the meaning of "ANECDOTE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q10" value="wrong1">Fearful about the future</li>
+                    <li><input type="radio" name="q10" value="correct">A short account of an interesting incident</li>
+                    <li><input type="radio" name="q10" value="wrong2">To soothe; to pacify by giving in to</li>
+                    <li><input type="radio" name="q10" value="wrong3">Sensitive; sharp; discerning</li>
+                </ul>
+            </div>
+            <div class="question" id="question11">
+                <h3>11. What is the meaning of "ANIMATED"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q11" value="correct">Alive; moving</li>
+                    <li><input type="radio" name="q11" value="wrong1">To accumulate</li>
+                    <li><input type="radio" name="q11" value="wrong2">To relieve, especially pain</li>
+                    <li><input type="radio" name="q11" value="wrong3">Something that is abnormal or irregular</li>
+                </ul>
+            </div>
+            <div class="question" id="question12">
+                <h3>12. What is the meaning of "ANOMALY"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q12" value="correct">Something that is abnormal or irregular</li>
+                    <li><input type="radio" name="q12" value="wrong1">Lack of emotion or interest</li>
+                    <li><input type="radio" name="q12" value="wrong2">To determine with certainty</li>
+                    <li><input type="radio" name="q12" value="wrong3">To promote; one who promotes a cause</li>
+                </ul>
+            </div>
+            <div class="question" id="question13">
+                <h3>13. What is the meaning of "APATHY"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q13" value="wrong1">Sensitive; sharp; discerning</li>
+                    <li><input type="radio" name="q13" value="wrong2">Real</li>
+                    <li><input type="radio" name="q13" value="correct">Lack of emotion or interest</li>
+                    <li><input type="radio" name="q13" value="wrong3">A comparison</li>
+                </ul>
+            </div>
+            <div class="question" id="question14">
+                <h3>14. What is the meaning of "APPEASE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q14" value="correct">To soothe; to pacify by giving in to</li>
+                    <li><input type="radio" name="q14" value="wrong1">Fearful about the future</li>
+                    <li><input type="radio" name="q14" value="wrong2">Something that is abnormal or irregular</li>
+                    <li><input type="radio" name="q14" value="wrong3">To promote; one who promotes a cause</li>
+                </ul>
+            </div>
+            <div class="question" id="question15">
+                <h3>15. What is the meaning of "APPREHENSIVE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q15" value="wrong1">To relieve, especially pain</li>
+                    <li><input type="radio" name="q15" value="wrong2">Sensitive; sharp; discerning</li>
+                    <li><input type="radio" name="q15" value="correct">Fearful about the future</li>
+                    <li><input type="radio" name="q15" value="wrong3">To promote; one who promotes a cause</li>
+                </ul>
+            </div>
+            <div class="question" id="question16">
+                <h3>16. What is the meaning of "ARROGANT"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q16" value="correct">Feeling superior to others; snooty</li>
+                    <li><input type="radio" name="q16" value="wrong1">A short account of an interesting incident</li>
+                    <li><input type="radio" name="q16" value="wrong2">To soothe; to pacify by giving in to</li>
+                    <li><input type="radio" name="q16" value="wrong3">Something that is abnormal or irregular</li>
+                </ul>
+            </div>
+            <div class="question" id="question17">
+                <h3>17. What is the meaning of "ARTICULATE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q17" value="correct">Speaking clearly and well</li>
+                    <li><input type="radio" name="q17" value="wrong1">To accumulate</li>
+                    <li><input type="radio" name="q17" value="wrong2">To relieve, especially pain</li>
+                    <li><input type="radio" name="q17" value="wrong3">Absence of government or control</li>
+                </ul>
+            </div>
+            <div class="question" id="question18">
+                <h3>18. What is the meaning of "ASCERTAIN"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q18" value="correct">To determine with certainty</li>
+                    <li><input type="radio" name="q18" value="wrong1">Simultaneously feeling opposing feelings</li>
+                    <li><input type="radio" name="q18" value="wrong2">Real</li>
+                    <li><input type="radio" name="q18" value="wrong3">To soothe; to pacify by giving in to</li>
+                </ul>
+            </div>
+            <div class="question" id="question19">
+                <h3>19. What is the meaning of "AUTHENTIC"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q19" value="correct">Real</li>
+                    <li><input type="radio" name="q19" value="wrong1">To relieve, especially pain</li>
+                    <li><input type="radio" name="q19" value="wrong2">A comparison</li>
+                    <li><input type="radio" name="q19" value="wrong3">Absence of government or control</li>
+                </ul>
+            </div>
+            <div class="question" id="question20">
+                <h3>20. What is the meaning of "BELITTLE"?</h3>
+                <ul class="choices">
+                    <li><input type="radio" name="q20" value="correct">To make to seem little</li>
+                    <li><input type="radio" name="q20" value="wrong1">Sensitive; sharp; discerning</li>
+                    <li><input type="radio" name="q20" value="wrong2">To pacify by giving in to</li>
+                    <li><input type="radio" name="q20" value="wrong3">A short account of an interesting incident</li>
+                </ul>
+            </div>
+        </div>
+        <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+        <button class="reset-btn" onclick="resetQuiz()">Reset</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function submitQuiz() {
+            const resultElement = document.getElementById('result');
+            let score = 0;
+            let totalQuestions = 20;
+            const questions = document.querySelectorAll('.question');
+
+            // Check each question
+            questions.forEach((question, index) => {
+                const selectedAnswer = question.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswer = question.querySelector(`input[value="correct"]`);
+
+                // Highlight correct and incorrect answers
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === "correct") {
+                        score++;
+                        selectedAnswer.parentElement.classList.add('correct');
+                    } else {
+                        selectedAnswer.parentElement.classList.add('incorrect');
+                        correctAnswer.parentElement.classList.add('correct');
+                    }
+                } else {
+                    correctAnswer.parentElement.classList.add('correct');
+                }
+            });
+
+            // Show result
+            resultElement.innerHTML = `You scored ${score} out of ${totalQuestions}.`;
+
+            // Disable the submit button after quiz is submitted
+            document.querySelector('.submit-btn').disabled = true;
+        }
+
+        function resetQuiz() {
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.getElementById('result').innerHTML = "";
+            document.querySelectorAll('.choices li').forEach(li => {
+                li.classList.remove('correct', 'incorrect');
+            });
+            document.querySelector('.submit-btn').disabled = false;
+        }
+    </script>
+</body>
+</html>
