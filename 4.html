@@ -1,0 +1,366 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .question h3 {
+            margin-bottom: 10px;
+        }
+        .choices {
+            list-style-type: none;
+            padding: 0;
+        }
+        .choices li {
+            margin-bottom: 10px;
+        }
+        .choices li input {
+            margin-right: 10px;
+        }
+        .submit-btn, .reset-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reset-btn {
+            background-color: #dc3545;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Vocabulary Quiz</h1>
+    <div id="quiz">
+
+        <div class="question" id="question1">
+            <h3>1. What is the meaning of "FANATIC"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q1" value="correct">One who is extremely devoted to a cause or idea</li>
+                <li><input type="radio" name="q1" value="wrong1">Capricious; whimsical; unpredictable</li>
+                <li><input type="radio" name="q1" value="wrong2">Not serious; not solemn; with levity</li>
+                <li><input type="radio" name="q1" value="wrong3">Overly trusting; willing to believe anything</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question2">
+            <h3>2. What is the meaning of "FICKLE"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q2" value="correct">Capricious; whimsical; unpredictable</li>
+                <li><input type="radio" name="q2" value="wrong1">Hopeless; without effect</li>
+                <li><input type="radio" name="q2" value="wrong2">To listen to</li>
+                <li><input type="radio" name="q2" value="wrong3">One who is extremely devoted to a cause or idea</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question3">
+            <h3>3. What is the meaning of "FRIVOLOUS"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q3" value="correct">Not serious; not solemn; with levity</li>
+                <li><input type="radio" name="q3" value="wrong1">Unbiased; neutral</li>
+                <li><input type="radio" name="q3" value="wrong2">Anger aroused by something perceived as unjust</li>
+                <li><input type="radio" name="q3" value="wrong3">Danger</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question4">
+            <h3>4. What is the meaning of "FUTILE"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q4" value="correct">Hopeless; without effect</li>
+                <li><input type="radio" name="q4" value="wrong1">Unceasing; never-ending</li>
+                <li><input type="radio" name="q4" value="wrong2">To provoke; to stir up</li>
+                <li><input type="radio" name="q4" value="wrong3">One who is extremely devoted to a cause or idea</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question5">
+            <h3>5. What is the meaning of "GULLIBLE"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q5" value="correct">Overly trusting; willing to believe anything</li>
+                <li><input type="radio" name="q5" value="wrong1">Irrelevant; extra; unnecessary</li>
+                <li><input type="radio" name="q5" value="wrong2">To listen to</li>
+                <li><input type="radio" name="q5" value="wrong3">To differentiate; to make a clear distinction</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question6">
+            <h3>6. What is the meaning of "HEED"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q6" value="correct">To listen to</li>
+                <li><input type="radio" name="q6" value="wrong1">Completely necessary</li>
+                <li><input type="radio" name="q6" value="wrong2">Jumbled; chaotic; impossible to understand</li>
+                <li><input type="radio" name="q6" value="wrong3">Doubtful; of unlikely authenticity</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question7">
+            <h3>7. What is the meaning of "HYPOTHETICAL"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q7" value="correct">Uncertain; unproven</li>
+                <li><input type="radio" name="q7" value="wrong1">To change the direction of</li>
+                <li><input type="radio" name="q7" value="wrong2">Without passion; objective</li>
+                <li><input type="radio" name="q7" value="wrong3">Detailed; careful; thorough</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question8">
+            <h3>8. What is the meaning of "IMPARTIAL"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q8" value="correct">Unbiased; neutral</li>
+                <li><input type="radio" name="q8" value="wrong1">To evoke; to summon or draw forth</li>
+                <li><input type="radio" name="q8" value="wrong2">Irrelevant; extra; unnecessary</li>
+                <li><input type="radio" name="q8" value="wrong3">To differentiate; to make a clear distinction</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question9">
+            <h3>9. What is the meaning of "IMPERATIVE"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q9" value="correct">Completely necessary</li>
+                <li><input type="radio" name="q9" value="wrong1">To differentiate; to make a clear distinction</li>
+                <li><input type="radio" name="q9" value="wrong2">To provoke; to stir up</li>
+                <li><input type="radio" name="q9" value="wrong3">Jumbled; chaotic; impossible to understand</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question10">
+            <h3>10. What is the meaning of "IMPLICIT"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q10" value="correct">Implied</li>
+                <li><input type="radio" name="q10" value="wrong1">To make better; to augment</li>
+                <li><input type="radio" name="q10" value="wrong2">To regard with contempt</li>
+                <li><input type="radio" name="q10" value="wrong3">Danger</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question11">
+            <h3>11. What is the meaning of "INADVERTENT"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q11" value="correct">Lax; careless; without intention</li>
+                <li><input type="radio" name="q11" value="wrong1">One who is extremely devoted to a cause or idea</li>
+                <li><input type="radio" name="q11" value="wrong2">Detailed; careful; thorough</li>
+                <li><input type="radio" name="q11" value="wrong3">To differentiate; to make a clear distinction</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question12">
+            <h3>12. What is the meaning of "INCESSANT"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q12" value="correct">Unceasing; never-ending</li>
+                <li><input type="radio" name="q12" value="wrong1">Doubtful; of unlikely authenticity</li>
+                <li><input type="radio" name="q12" value="wrong2">To summon or draw forth</li>
+                <li><input type="radio" name="q12" value="wrong3">To differentiate; to make a clear distinction</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question13">
+            <h3>13. What is the meaning of "INCOHERENT"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q13" value="correct">Jumbled; chaotic; impossible to understand</li>
+                <li><input type="radio" name="q13" value="wrong1">Irrelevant; extra; unnecessary</li>
+                <li><input type="radio" name="q13" value="wrong2">Completely necessary</li>
+                <li><input type="radio" name="q13" value="wrong3">Having no interest or concern</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question14">
+            <h3>14. What is the meaning of "INDIFFERENT"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q14" value="correct">Having no interest or concern</li>
+                <li><input type="radio" name="q14" value="wrong1">Anger aroused by something perceived as unjust</li>
+                <li><input type="radio" name="q14" value="wrong2">Not serious; not solemn; with levity</li>
+                <li><input type="radio" name="q14" value="wrong3">Danger</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question15">
+            <h3>15. What is the meaning of "INDIGNATION"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q15" value="correct">Anger aroused by something perceived as unjust</li>
+                <li><input type="radio" name="q15" value="wrong1">Hopeless; without effect</li>
+                <li><input type="radio" name="q15" value="wrong2">Unbiased; neutral</li>
+                <li><input type="radio" name="q15" value="wrong3">To listen to</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question16">
+            <h3>16. What is the meaning of "INDULGENT"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q16" value="correct">Lenient; yielding to desire</li>
+                <li><input type="radio" name="q16" value="wrong1">Completely necessary</li>
+                <li><input type="radio" name="q16" value="wrong2">To provoke; to stir up</li>
+                <li><input type="radio" name="q16" value="wrong3">Implied</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question17">
+            <h3>17. What is the meaning of "INEVITABLE"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q17" value="correct">Unavoidable; bound to happen</li>
+                <li><input type="radio" name="q17" value="wrong1">Doubtful; of unlikely authenticity</li>
+                <li><input type="radio" name="q17" value="wrong2">Danger</li>
+                <li><input type="radio" name="q17" value="wrong3">To make better; to augment</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question18">
+            <h3>18. What is the meaning of "INNATE"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q18" value="correct">Existing since birth; inborn; inherent</li>
+                <li><input type="radio" name="q18" value="wrong1">To evoke; to summon or draw forth</li>
+                <li><input type="radio" name="q18" value="wrong2">Hopeless; without effect</li>
+                <li><input type="radio" name="q18" value="wrong3">Capricious; whimsical; unpredictable</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question19">
+            <h3>19. What is the meaning of "INNOVATION"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q19" value="correct">The act of introducing something new</li>
+                <li><input type="radio" name="q19" value="wrong1">Jumbled; chaotic; impossible to understand</li>
+                <li><input type="radio" name="q19" value="wrong2">Completely necessary</li>
+                <li><input type="radio" name="q19" value="wrong3">To listen to</li>
+            </ul>
+        </div>
+
+        <div class="question" id="question20">
+            <h3>20. What is the meaning of "INSTIGATE"?</h3>
+            <ul class="choices">
+                <li><input type="radio" name="q20" value="correct">To provoke; to stir up</li>
+                <li><input type="radio" name="q20" value="wrong1">Lenient; yielding to desire</li>
+                <li><input type="radio" name="q20" value="wrong2">Anger aroused by something perceived as unjust</li>
+                <li><input type="radio" name="q20" value="wrong3">Danger</li>
+            </ul>
+        </div>
+ <div class="question" id="question21">
+        <h3>21. What is the meaning of "IRONIC"?</h3>
+        <ul class="choices">
+            <li><input type="radio" name="q21" value="correct">Satiric; unexpected</li>
+            <li><input type="radio" name="q21" value="wrong1">Danger</li>
+            <li><input type="radio" name="q21" value="wrong2">Unbiased; neutral</li>
+            <li><input type="radio" name="q21" value="wrong3">Hopeless; without effect</li>
+        </ul>
+    </div>
+
+    <div class="question" id="question22">
+        <h3>22. What is the meaning of "JEOPARDY"?</h3>
+        <ul class="choices">
+            <li><input type="radio" name="q22" value="correct">Danger</li>
+            <li><input type="radio" name="q22" value="wrong1">Existing since birth; inborn; inherent</li>
+            <li><input type="radio" name="q22" value="wrong2">To provoke; to stir up</li>
+            <li><input type="radio" name="q22" value="wrong3">To listen to</li>
+        </ul>
+    </div>
+
+    </div>
+
+    <button id="submit">Submit</button>
+    <button id="reset">Reset</button>
+    <div id="results"></div>
+</div>
+
+    
+
+    <script>
+        function submitQuiz() {
+            const resultElement = document.getElementById('result');
+            let score = 0;
+            let totalQuestions = 20;
+            const questions = document.querySelectorAll('.question');
+
+            // Check each question
+            questions.forEach((question, index) => {
+                const selectedAnswer = question.querySelector(`input[name="q${index + 1}"]:checked`);
+                const correctAnswer = question.querySelector(`input[value="correct"]`);
+
+                // Highlight correct and incorrect answers
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === "correct") {
+                        score++;
+                        selectedAnswer.parentElement.classList.add('correct');
+                    } else {
+                        selectedAnswer.parentElement.classList.add('incorrect');
+                        correctAnswer.parentElement.classList.add('correct');
+                    }
+                } else {
+                    correctAnswer.parentElement.classList.add('correct');
+                }
+            });
+
+            // Show result
+            resultElement.innerHTML = `You scored ${score} out of ${totalQuestions}.`;
+
+            // Disable the submit button after quiz is submitted
+            document.querySelector('.submit-btn').disabled = true;
+        }
+
+        function resetQuiz() {
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.getElementById('result').innerHTML = "";
+            document.querySelectorAll('.choices li').forEach(li => {
+                li.classList.remove('correct', 'incorrect');
+            });
+            document.querySelector('.submit-btn').disabled = false;
+        }
+        // Function to shuffle an array (Fisher-Yates shuffle)
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+// Function to shuffle choices for each question
+function shuffleChoices() {
+    const questions = document.querySelectorAll('.question');
+
+    questions.forEach((question) => {
+        const choicesList = question.querySelector('.choices');
+        const choices = Array.from(choicesList.children);
+        shuffle(choices);
+        choices.forEach(choice => choicesList.appendChild(choice)); // Reorder DOM elements
+    });
+}
+
+// Call shuffleChoices when the page is loaded
+window.onload = shuffleChoices;
+
+    </script>
+</body>
+</html>
