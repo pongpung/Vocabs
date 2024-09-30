@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            width: 45%;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .item.selected {
+            background-color: #d1e7ff;
+        }
+        .item.matched {
+            background-color: #c3f9c6;
+        }
+        .item.wrong {
+            background-color: #f8d7da;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .correct-definitions {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #007bff;
+            background-color: #e9f7ff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vocabulary Matching Game</h1>
+
+    <div class="container">
+        <!-- Words Column -->
+        <div class="column" id="words-column">
+            <div class="item" data-word="Elegy">Elegy</div>
+            <div class="item" data-word="Elicit">Elicit</div>
+            <div class="item" data-word="Embellish">Embellish</div>
+            <div class="item" data-word="Empirical">Empirical</div>
+            <div class="item" data-word="Emulate">Emulate</div>
+            <div class="item" data-word="Endemic">Endemic</div>
+            <div class="item" data-word="Enervate">Enervate</div>
+            <div class="item" data-word="Engender">Engender</div>
+            <div class="item" data-word="Enhance">Enhance</div>
+            <div class="item" data-word="Ephemeral">Ephemeral</div>
+            <div class="item" data-word="Equanimity">Equanimity</div>
+            <div class="item" data-word="Equivocate">Equivocate</div>
+            <div class="item" data-word="Erudite">Erudite</div>
+            <div class="item" data-word="Esoteric">Esoteric</div>
+        </div>
+
+        <!-- Definitions Column (shuffled) -->
+        <div class="column" id="definitions-column">
+            <div class="item" data-definition="Poem or song expressing lamentation">Poem or song expressing lamentation</div>
+            <div class="item" data-definition="Draw out by discussion">Draw out by discussion</div>
+            <div class="item" data-definition="Adorn; ornament; enhance, as a story">Adorn; ornament; enhance, as a story</div>
+            <div class="item" data-definition="Based on experience">Based on experience</div>
+            <div class="item" data-definition="Imitate; rival">Imitate; rival</div>
+            <div class="item" data-definition="Prevailing among a specific group or in a specific area">Prevailing among a specific group or in a specific area</div>
+            <div class="item" data-definition="Weaken">Weaken</div>
+            <div class="item" data-definition="Cause; produce">Cause; produce</div>
+            <div class="item" data-definition="Increase; improve">Increase; improve</div>
+            <div class="item" data-definition="Short-lived; fleeting">Short-lived; fleeting</div>
+            <div class="item" data-definition="Calmness of temperament; composure">Calmness of temperament; composure</div>
+            <div class="item" data-definition="Lie; mislead; attempt to conceal the truth">Lie; mislead; attempt to conceal the truth</div>
+            <div class="item" data-definition="Learned; scholarly">Learned; scholarly</div>
+            <div class="item" data-definition="Hard to understand; known only to a chosen few">Hard to understand; known only to a chosen few</div>
+        </div>
+    </div>
+
+    <button onclick="checkAnswers()">Submit and Check</button>
+
+    <div class="result" id="result"></div>
+    <div class="correct-definitions" id="correct-definitions" style="display: none;"></div>
+
+    <script>
+        // Shuffle function to randomize the definitions column
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Shuffle the definitions on page load
+        window.onload = function() {
+            const definitionsColumn = document.getElementById('definitions-column');
+            const definitions = Array.from(definitionsColumn.children);
+            const shuffledDefinitions = shuffle(definitions);
+            definitionsColumn.innerHTML = '';
+            shuffledDefinitions.forEach(definition => {
+                definitionsColumn.appendChild(definition);
+            });
+        };
+
+        let selectedWord = null;
+        let matches = {};
+
+        const correctAnswers = {
+            "Elegy": "Poem or song expressing lamentation",
+            "Elicit": "Draw out by discussion",
+            "Embellish": "Adorn; ornament; enhance, as a story",
+            "Empirical": "Based on experience",
+            "Emulate": "Imitate; rival",
+            "Endemic": "Prevailing among a specific group or in a specific area",
+            "Enervate": "Weaken",
+            "Engender": "Cause; produce",
+            "Enhance": "Increase; improve",
+            "Ephemeral": "Short-lived; fleeting",
+            "Equanimity": "Calmness of temperament; composure",
+            "Equivocate": "Lie; mislead; attempt to conceal the truth",
+            "Erudite": "Learned; scholarly",
+            "Esoteric": "Hard to understand; known only to a chosen few"
+        };
+
+        // Handle selection of words
+        document.getElementById('words-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item')) {
+                clearSelection('words-column');
+                e.target.classList.add('selected');
+                selectedWord = e.target.getAttribute('data-word');
+            }
+        });
+
+        // Handle selection of definitions
+        document.getElementById('definitions-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item') && selectedWord) {
+                clearSelection('definitions-column');
+                e.target.classList.add('selected');
+                const selectedDefinition = e.target.getAttribute('data-definition');
+                matches[selectedWord] = selectedDefinition;
+                document.getElementById('result').innerText = `Selected: ${selectedWord} -> ${selectedDefinition}`;
+                selectedWord = null; // Reset for the next match
+                clearSelection('words-column');
+            }
+        });
+
+        // Clear previous selections
+        function clearSelection(columnId) {
+            const items = document.getElementById(columnId).getElementsByClassName('item');
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('selected');
+            }
+        }
+
+        // Check all the answers
+        function checkAnswers() {
+            const resultDiv = document.getElementById('result');
+            const correctDefinitionsDiv = document.getElementById('correct-definitions');
+            resultDiv.innerHTML = ''; // Clear previous results
+            correctDefinitionsDiv.innerHTML = ''; // Clear previous correct definitions
+            correctDefinitionsDiv.style.display = 'none'; // Hide initially
+
+            let correct = 0, total = Object.keys(correctAnswers).length;
+            
+            for (const word in correctAnswers) {
+                const selectedDefinition = matches[word];
+                const correctDefinition = correctAnswers[word];
+
+                const wordElement = document.querySelector(`[data-word="${word}"]`);
+                const definitionElement = document.querySelector(`[data-definition="${selectedDefinition}"]`);
+
+                if (selectedDefinition === correctDefinition) {
+                    wordElement.classList.add('matched');
+                    definitionElement.classList.add('matched');
+                    correct++;
+                } else {
+                    wordElement.classList.add('wrong');
+                    if (definitionElement) definitionElement.classList.add('wrong');
+                    // Display the correct definition for the wrong matches
+                    correctDefinitionsDiv.innerHTML += `<p>${word}: Correct Definition: ${correctDefinition}</p>`;
+                }
+            }
+
+            resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
+            if (correctDefinitionsDiv.innerHTML) {
+                correctDefinitionsDiv.style.display = 'block'; // Show if there are wrong matches
+            }
+        }
+    </script>
+
+</body>
+</html>
