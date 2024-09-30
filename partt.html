@@ -13,27 +13,55 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            background-color: #f5f5f5; /* Light background for contrast */
+        }
+        h1 {
+            margin-bottom: 40px;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px;
+            width: 200px; /* Fixed width for cards */
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+            transition: transform 0.2s; /* Smooth scaling effect */
+        }
+        .card:hover {
+            transform: scale(1.05); /* Scale effect on hover */
         }
         a {
             text-decoration: none;
-            font-size: 2em;
+            font-size: 1.5em; /* Slightly smaller font for card */
             color: #3498db;
-            margin: 20px;
         }
         a:hover {
             color: #2980b9;
         }
+        .card-container {
+            display: flex;
+            flex-direction: column; /* Arrange cards vertically */
+            align-items: center; /* Center cards horizontally */
+        }
     </style>
 </head>
 <body>
-    <h1>Vocab(SAT HIT PARADE) </h1>
-    <div>
-        <a href="s1.html">section 1</a>
-        <a href="s2.html">section 2</a>
-        <a href="s3.html">section 3</a>
-        <a href="s4.html">section 4</a>
-
-       
+    <h1>Vocab (SAT HIT PARADE)</h1>
+    <div class="card-container">
+        <div class="card">
+            <a href="s1.html">Section 1</a>
+        </div>
+        <div class="card">
+            <a href="s2.html">Section 2</a>
+        </div>
+        <div class="card">
+            <a href="s3.html">Section 3</a>
+        </div>
+        <div class="card">
+            <a href="s4.html">Section 4</a>
+        </div>
     </div>
 </body>
 </html>
