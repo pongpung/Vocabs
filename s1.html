@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            width: 45%;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .item.selected {
+            background-color: #d1e7ff;
+        }
+        .item.matched {
+            background-color: #c3f9c6;
+        }
+        .item.wrong {
+            background-color: #f8d7da;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vocabulary Matching Game</h1>
+
+    <div class="container">
+        <!-- Words Column -->
+        <div class="column" id="words-column">
+            <div class="item" data-word="Digression">Digression</div>
+            <div class="item" data-word="Dirge">Dirge</div>
+            <div class="item" data-word="Disabuse">Disabuse</div>
+            <div class="item" data-word="Discerning">Discerning</div>
+            <div class="item" data-word="Discordant">Discordant</div>
+            <div class="item" data-word="Discredit">Discredit</div>
+            <div class="item" data-word="Discrepancy">Discrepancy</div>
+            <div class="item" data-word="Discrete">Discrete</div>
+            <div class="item" data-word="Disingenuous">Disingenuous</div>
+            <div class="item" data-word="Disinterested">Disinterested</div>
+        </div>
+
+        <!-- Definitions Column (shuffled) -->
+        <div class="column" id="definitions-column">
+            <div class="item" data-definition="Wandering away from the subject">Wandering away from the subject</div>
+            <div class="item" data-definition="Lament with music">Lament with music</div>
+            <div class="item" data-definition="Correct a false impression; undeceive">Correct a false impression; undeceive</div>
+            <div class="item" data-definition="Mentally quick and observant; having insight">Mentally quick and observant; having insight</div>
+            <div class="item" data-definition="Not harmonious; conflicting">Not harmonious; conflicting</div>
+            <div class="item" data-definition="Defame; destroy confidence in; disbelieve">Defame; destroy confidence in; disbelieve</div>
+            <div class="item" data-definition="Lack of consistency; difference">Lack of consistency; difference</div>
+            <div class="item" data-definition="Separate; unconnected; consisting of distinct parts">Separate; unconnected; consisting of distinct parts</div>
+            <div class="item" data-definition="Lacking genuine candor; insincere">Lacking genuine candor; insincere</div>
+            <div class="item" data-definition="Unprejudiced">Unprejudiced</div>
+        </div>
+    </div>
+
+    <button onclick="checkAnswers()">Submit and Check</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        // Shuffle function to randomize the definitions column
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Shuffle the definitions on page load
+        window.onload = function() {
+            const definitionsColumn = document.getElementById('definitions-column');
+            const definitions = Array.from(definitionsColumn.children);
+            const shuffledDefinitions = shuffle(definitions);
+            definitionsColumn.innerHTML = '';
+            shuffledDefinitions.forEach(definition => {
+                definitionsColumn.appendChild(definition);
+            });
+        };
+
+        let selectedWord = null;
+        let matches = {};
+
+        const correctAnswers = {
+            "Digression": "Wandering away from the subject",
+            "Dirge": "Lament with music",
+            "Disabuse": "Correct a false impression; undeceive",
+            "Discerning": "Mentally quick and observant; having insight",
+            "Discordant": "Not harmonious; conflicting",
+            "Discredit": "Defame; destroy confidence in; disbelieve",
+            "Discrepancy": "Lack of consistency; difference",
+            "Discrete": "Separate; unconnected; consisting of distinct parts",
+            "Disingenuous": "Lacking genuine candor; insincere",
+            "Disinterested": "Unprejudiced"
+        };
+
+        // Handle selection of words
+        document.getElementById('words-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item')) {
+                clearSelection('words-column');
+                e.target.classList.add('selected');
+                selectedWord = e.target.getAttribute('data-word');
+            }
+        });
+
+        // Handle selection of definitions
+        document.getElementById('definitions-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item') && selectedWord) {
+                clearSelection('definitions-column');
+                e.target.classList.add('selected');
+                const selectedDefinition = e.target.getAttribute('data-definition');
+                matches[selectedWord] = selectedDefinition;
+                document.getElementById('result').innerText = `Selected: ${selectedWord} -> ${selectedDefinition}`;
+                selectedWord = null; // Reset for the next match
+                clearSelection('words-column');
+            }
+        });
+
+        // Clear previous selections
+        function clearSelection(columnId) {
+            const items = document.getElementById(columnId).getElementsByClassName('item');
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('selected');
+            }
+        }
+
+        // Check all the answers
+        function checkAnswers() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Clear previous results
+
+            let correct = 0, total = Object.keys(correctAnswers).length;
+            
+            for (const word in correctAnswers) {
+                const selectedDefinition = matches[word];
+                const correctDefinition = correctAnswers[word];
+
+                const wordElement = document.querySelector(`[data-word="${word}"]`);
+                const definitionElement = document.querySelector(`[data-definition="${selectedDefinition}"]`);
+
+                if (selectedDefinition === correctDefinition) {
+                    wordElement.classList.add('matched');
+                    definitionElement.classList.add('matched');
+                    correct++;
+                } else {
+                    wordElement.classList.add('wrong');
+                    if (definitionElement) definitionElement.classList.add('wrong');
+                }
+            }
+
+            resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
+        }
+    </script>
+
+</body>
+</html>
