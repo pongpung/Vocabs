@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+        }
+        .quiz-section {
+            margin: 20px 0;
+        }
+        .question {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            margin: 5px 50px 5px 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .option:hover {
+            background-color: #0056b3;
+        }
+        .progress {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .feedback.correct {
+            color: #28a745; /* Green for correct */
+        }
+        .feedback.wrong {
+            color: #dc3545; /* Red for wrong */
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vocabulary Quiz</h1>
+
+        <div class="quiz-section">
+            <div id="question" class="question"></div>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)"></button>
+                <button class="option" onclick="checkAnswer(1)"></button>
+                <button class="option" onclick="checkAnswer(2)"></button>
+                <button class="option" onclick="checkAnswer(3)"></button>
+            </div>
+        </div>
+
+        <div class="progress">
+            <p>Question: <span id="currentQuestion">1</span>/41</p>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="sentence" id="sentence"></div>
+        <div class="score" id="score"></div>
+
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+        <button onclick="resetQuiz()">Reset Quiz</button>
+
+    </div>
+
+    <script>
+        const vocabList = [
+            { word: "Eulogy", definition: "expression of praise, often on the occasion of someone's death", sentence: "At the funeral, the speaker delivered a heartfelt eulogy for the deceased." },
+            { word: "Euphemism", definition: "mild expression in place of an unpleasant one", sentence: "Using 'passed away' as a euphemism for 'died' can soften the harshness of the news." },
+            { word: "Exacerbate", definition: "worsen; embitter", sentence: "His reckless comments only served to exacerbate the tension in the room." },
+            { word: "Exculpate", definition: "clear from blame", sentence: "The evidence presented was enough to exculpate him from the charges." },
+            { word: "Exigency", definition: "urgent situation; pressing needs or demands", sentence: "The exigency of the situation required immediate action." },
+            { word: "Extrapolation", definition: "projection; conjecture", sentence: "The extrapolation of current trends suggests a significant increase in population over the next decade." },
+            { word: "Facetious", definition: "joking (often inappropriately); humorous", sentence: "His facetious remarks during the serious meeting were not well received." },
+            { word: "Facilitate", definition: "help bring about; make less difficult", sentence: "The new software is designed to facilitate easier communication between departments." },
+            { word: "Fallacious", definition: "false; misleading", sentence: "The argument was based on fallacious reasoning." },
+            { word: "Fatuous", definition: "brainless; inane; foolish, yet smug", sentence: "His fatuous remarks made it clear he had not considered the implications." },
+            { word: "Fawning", definition: "trying to please by behaving obsequiously, flattering, or cringing", sentence: "The fawning employee tried to win the boss's favor." },
+            { word: "Felicitous", definition: "apt; suitably expressed; well chosen", sentence: "Her felicitous choice of words made the speech memorable." },
+            { word: "Fervor", definition: "glowing ardor; intensity of feeling", sentence: "He spoke with fervor about the importance of education." },
+            { word: "Flag", definition: "droop; grow feeble", sentence: "The athlete began to flag after hours of competition." },
+            { word: "Fledgling", definition: "inexperienced", sentence: "As a fledgling writer, she sought feedback from her peers." },
+            { word: "Flout", definition: "reject; mock; show contempt for", sentence: "They chose to flout the rules set by the organization." },
+            { word: "Foment", definition: "stir up; instigate", sentence: "His actions were intended to foment unrest among the crowd." },
+            { word: "Forestall", definition: "prevent by taking action in advance", sentence: "They took measures to forestall any potential conflicts." },
+            { word: "Frugality", definition: "thrift; economy", sentence: "His frugality allowed him to save for his future." },
+            { word: "Futile", definition: "useless; hopeless; ineffectual", sentence: "Their attempts to negotiate were ultimately futile." },
+            { word: "Gainsay", definition: "deny", sentence: "You cannot gainsay the impact of climate change." },
+            { word: "Garrulous", definition: "loquacious; talkative; wordy", sentence: "The garrulous old man told stories for hours." },
+            { word: "Goad", definition: "urge on", sentence: "She goaded him into making a decision." },
+            { word: "Gouge", definition: "overcharge", sentence: "The mechanic tried to gouge me for repairs." },
+            { word: "Grandiloquent", definition: "pompous; bombastic; using high-sounding language", sentence: "His grandiloquent speeches often left the audience confused." },
+            { word: "Gregarious", definition: "sociable", sentence: "She is a gregarious person who loves to be around others." },
+            { word: "Guileless", definition: "without deceit", sentence: "His guileless nature made him well-liked among his peers." },
+            { word: "Gullible", definition: "easily deceived", sentence: "She was too gullible and believed every story she heard." },
+            { word: "Harangue", definition: "long, passionate, and vehement speech", sentence: "He delivered a harangue about the need for reform." },
+            { word: "Homogeneous", definition: "of the same kind", sentence: "The population was relatively homogeneous in terms of culture." },
+            { word: "Hyperbole", definition: "exaggeration; overstatement", sentence: "His claims were mere hyperbole and not to be taken seriously." },
+            { word: "Iconoclastic", definition: "attacking cherished traditions", sentence: "Her iconoclastic views challenged conventional wisdom." },
+            { word: "Idolatry", definition: "worship of idols; excessive admiration", sentence: "The movie star's idolatry among fans was evident." },
+            { word: "Immutable", definition: "unchangeable", sentence: "The laws of physics are generally considered immutable." },
+            { word: "Impair", definition: "injure; hurt", sentence: "Drinking too much can impair your judgment." },
+            { word: "Impassive", definition: "without feeling; imperturbable; stoical", sentence: "His impassive demeanor gave nothing away." },
+            { word: "Impede", definition: "hinder; block", sentence: "The heavy rains could impede the rescue efforts." },
+            { word: "Impermeable", definition: "impervious; not permitting passage through its substance", sentence: "The raincoat is made from impermeable material." },
+            { word: "Imperturbable", definition: "calm; placid", sentence: "She remained imperturbable in the face of chaos." },
+            { word: "Impervious", definition: "impenetrable; incapable of being damaged or distressed", sentence: "The armor was impervious to the enemy's attacks." },
+            { word: "Implacable", definition: "incapable of being pacified", sentence: "He had an implacable resolve to win the competition." }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const questionElement = document.getElementById('question');
+            const options = document.getElementsByClassName('option');
+            const currentVocab = vocabList[currentQuestion];
+
+            questionElement.innerText = `What is the definition of "${currentVocab.word}"?`;
+
+            let correctAnswerIndex = Math.floor(Math.random() * 4);
+            options[correctAnswerIndex].innerText = currentVocab.definition;
+
+            let wrongOptions = vocabList.filter((_, index) => index !== currentQuestion);
+            wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+
+            let wrongIndex = 0;
+            for (let i = 0; i < 4; i++) {
+                if (i !== correctAnswerIndex) {
+                    options[i].innerText = wrongOptions[wrongIndex].definition;
+                    wrongIndex++;
+                }
+            }
+
+            document.getElementById('nextButton').style.display = "none";
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('sentence').innerText = '';
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function checkAnswer(selectedOption) {
+            const options = document.getElementsByClassName('option');
+            const feedbackElement = document.getElementById('feedback');
+            const sentenceElement = document.getElementById('sentence');
+
+            if (options[selectedOption].innerText === vocabList[currentQuestion].definition) {
+                feedbackElement.innerText = "Correct!";
+                feedbackElement.classList.add("correct");
+                feedbackElement.classList.remove("wrong");
+                score++;
+                sentenceElement.innerText = vocabList[currentQuestion].sentence;
+            } else {
+                feedbackElement.innerText = `Wrong! The correct answer is: ${vocabList[currentQuestion].definition}`;
+                feedbackElement.classList.add("wrong");
+                feedbackElement.classList.remove("correct");
+                sentenceElement.innerText = vocabList[currentQuestion].sentence;
+            }
+
+            document.getElementById('currentQuestion').innerText = currentQuestion + 1;
+            document.getElementById('nextButton').style.display = "block";
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < vocabList.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                document.getElementById('score').innerText = `You scored ${score} out of ${vocabList.length}`;
+                document.getElementById('nextButton').style.display = "none";
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').innerText = '';
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('feedback').classList.remove("correct", "wrong");
+            document.getElementById('sentence').innerText = '';
+            loadQuestion();
+        }
+
+        window.onload = function () {
+            loadQuestion();
+        };
+    </script>
+
+</body>
+</html>
