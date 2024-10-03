@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            width: 45%;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .item.selected {
+            background-color: #d1e7ff;
+        }
+        .item.matched {
+            background-color: #c3f9c6;
+        }
+        .item.wrong {
+            background-color: #f8d7da;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .correct-definitions {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #007bff;
+            background-color: #e9f7ff;
+        }
+    </style>
+</head>
+<body> 
+
+    <h1>Vocabulary Matching Game</h1> 
+
+    <div class="container">
+        <!-- Words Column -->
+        <div class="column" id="words-column">
+            <div class="item" data-word="Eulogy">Eulogy</div>
+            <div class="item" data-word="Euphemism">Euphemism</div>
+            <div class="item" data-word="Exacerbate">Exacerbate</div>
+            <div class="item" data-word="Exculpate">Exculpate</div>
+            <div class="item" data-word="Exigency">Exigency</div>
+            <div class="item" data-word="Extrapolation">Extrapolation</div>
+            <div class="item" data-word="Facetious">Facetious</div>
+            <div class="item" data-word="Facilitate">Facilitate</div>
+            <div class="item" data-word="Fallacious">Fallacious</div>
+            <div class="item" data-word="Fatuous">Fatuous</div>
+            <div class="item" data-word="Fawning">Fawning</div>
+            <div class="item" data-word="Felicitous">Felicitous</div>
+            <div class="item" data-word="Fervor">Fervor</div>
+            <div class="item" data-word="Flag">Flag</div>
+            <div class="item" data-word="Fledgling">Fledgling</div>
+        </div> 
+
+        <!-- Definitions Column (shuffled) -->
+        <div class="column" id="definitions-column">
+            <div class="item" data-definition="Expression of praise, often on the occasion of someone's death">Expression of praise, often on the occasion of someone's death</div>
+            <div class="item" data-definition="Mild expression in place of an unpleasant one">Mild expression in place of an unpleasant one</div>
+            <div class="item" data-definition="Worsen; embitter">Worsen; embitter</div>
+            <div class="item" data-definition="Clear from blame">Clear from blame</div>
+            <div class="item" data-definition="Urgent situation; pressing needs or demands; state of requiring immediate attention">Urgent situation; pressing needs or demands; state of requiring immediate attention</div>
+            <div class="item" data-definition="Projection; conjecture">Projection; conjecture</div>
+            <div class="item" data-definition="Joking (often inappropriately); humorous">Joking (often inappropriately); humorous</div>
+            <div class="item" data-definition="Help bring about; make less difficult">Help bring about; make less difficult</div>
+            <div class="item" data-definition="False; misleading">False; misleading</div>
+            <div class="item" data-definition="Brainless; inane; foolish, yet smug">Brainless; inane; foolish, yet smug</div>
+            <div class="item" data-definition="Trying to please by behaving obsequiously, flattering, or cringing">Trying to please by behaving obsequiously, flattering, or cringing</div>
+            <div class="item" data-definition="Apt; suitably expressed; well chosen">Apt; suitably expressed; well chosen</div>
+            <div class="item" data-definition="Glowing ardor; intensity of feeling">Glowing ardor; intensity of feeling</div>
+            <div class="item" data-definition="Droop; grow feeble">Droop; grow feeble</div>
+            <div class="item" data-definition="Inexperienced">Inexperienced</div>
+        </div>
+    </div> 
+
+    <button onclick="checkAnswers()">Submit and Check</button> 
+
+    <div class="result" id="result"></div>
+    <div class="correct-definitions" id="correct-definitions" style="display: none;"></div> 
+
+    <script>
+        // Shuffle function to randomize the definitions column
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        } 
+
+        // Shuffle the definitions on page load
+        window.onload = function() {
+            const definitionsColumn = document.getElementById('definitions-column');
+            const definitions = Array.from(definitionsColumn.children);
+            const shuffledDefinitions = shuffle(definitions);
+            definitionsColumn.innerHTML = '';
+            shuffledDefinitions.forEach(definition => {
+                definitionsColumn.appendChild(definition);
+            });
+        }; 
+
+        let selectedWord = null;
+        let matches = {}; 
+
+        const correctAnswers = {
+            "Eulogy": "Expression of praise, often on the occasion of someone's death",
+            "Euphemism": "Mild expression in place of an unpleasant one",
+            "Exacerbate": "Worsen; embitter",
+            "Exculpate": "Clear from blame",
+            "Exigency": "Urgent situation; pressing needs or demands; state of requiring immediate attention",
+            "Extrapolation": "Projection; conjecture",
+            "Facetious": "Joking (often inappropriately); humorous",
+            "Facilitate": "Help bring about; make less difficult",
+            "Fallacious": "False; misleading",
+            "Fatuous": "Brainless; inane; foolish, yet smug",
+            "Fawning": "Trying to please by behaving obsequiously, flattering, or cringing",
+            "Felicitous": "Apt; suitably expressed; well chosen",
+            "Fervor": "Glowing ardor; intensity of feeling",
+            "Flag": "Droop; grow feeble",
+            "Fledgling": "Inexperienced"
+        }; 
+
+        // Handle selection of words
+        document.getElementById('words-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item')) {
+                clearSelection('words-column');
+                e.target.classList.add('selected');
+                selectedWord = e.target.getAttribute('data-word');
+            }
+        }); 
+
+        // Handle selection of definitions
+        document.getElementById('definitions-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item') && selectedWord) {
+                clearSelection('definitions-column');
+                e.target.classList.add('selected');
+                const selectedDefinition = e.target.getAttribute('data-definition');
+                matches[selectedWord] = selectedDefinition;
+                document.getElementById('result').innerText = `Selected: ${selectedWord} -> ${selectedDefinition}`;
+                selectedWord = null; // Reset for the next match
+                clearSelection('words-column');
+            }
+        }); 
+
+        // Clear previous selections
+        function clearSelection(columnId) {
+            const items = document.getElementById(columnId).getElementsByClassName('item');
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('selected');
+            }
+        } 
+
+        // Check all the answers
+        function checkAnswers() {
+            const resultDiv = document.getElementById('result');
+            const correctDefinitionsDiv = document.getElementById('correct-definitions');
+            resultDiv.innerHTML = ''; // Clear previous results
+            correctDefinitionsDiv.innerHTML = ''; // Clear previous correct definitions
+            correctDefinitionsDiv.style.display = 'none'; // Hide initially 
+
+            let correct = 0, total = Object.keys(correctAnswers).length;
+            
+            for (const word in correctAnswers) {
+                const selectedDefinition = matches[word];
+                const correctDefinition = correctAnswers[word]; 
+
+                const wordElement = document.querySelector(`[data-word="${word}"]`);
+                const definitionElement = document.querySelector(`[data-definition="${selectedDefinition}"]`); 
+
+                if (selectedDefinition === correctDefinition) {
+                    wordElement.classList.add('matched');
+                    definitionElement.classList.add('matched');
+                    correct++;
+                } else {
+                    wordElement.classList.add('wrong');
+                    if (definitionElement) definitionElement.classList.add('wrong');
+                    // Display the correct definition for the wrong matches
+                    correctDefinitionsDiv.innerHTML += `<p>${word}: Correct Definition: ${correctDefinition}</p>`;
+                }
+            } 
+
+            resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
+            if (correctDefinitionsDiv.innerHTML) {
+                correctDefinitionsDiv.style.display = 'block'; // Show if there are wrong matches
+            }
+        }
+    </script> 
+
+</body>
+</html>
