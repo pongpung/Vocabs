@@ -62,10 +62,10 @@
             font-size: 16px;
         }
         .feedback.correct {
-            color: #28a745; /* Green for correct */
+            color: #1e90ff; /* Non-green color for correct */
         }
         .feedback.wrong {
-            color: #dc3545; /* Red for wrong */
+            color: #ff4500; /* Non-red color for wrong */
         }
         .score {
             margin-top: 20px;
@@ -121,7 +121,7 @@
     </div>
 
     <script>
-        const vocabList = [
+            const vocabList = [
             { word: "Eulogy", definition: "expression of praise, often on the occasion of someone's death", sentence: "At the funeral, the speaker delivered a heartfelt eulogy for the deceased." },
             { word: "Euphemism", definition: "mild expression in place of an unpleasant one", sentence: "Using 'passed away' as a euphemism for 'died' can soften the harshness of the news." },
             { word: "Exacerbate", definition: "worsen; embitter", sentence: "His reckless comments only served to exacerbate the tension in the room." },
@@ -164,89 +164,129 @@
             { word: "Impervious", definition: "impenetrable; incapable of being damaged or distressed", sentence: "The armor was impervious to the enemy's attacks." },
             { word: "Implacable", definition: "incapable of being pacified", sentence: "He had an implacable resolve to win the competition." }
         ];
-
+        
         let currentQuestion = 0;
-        let score = 0;
+let score = 0;
+let incorrectAnswers = [];
 
-        function loadQuestion() {
-            const questionElement = document.getElementById('question');
-            const options = document.getElementsByClassName('option');
-            const currentVocab = vocabList[currentQuestion];
+function loadQuestion() {
+    const questionElement = document.getElementById('question');
+    const options = document.getElementsByClassName('option');
+    const currentVocab = vocabList[currentQuestion];
 
-            questionElement.innerText = `What is the definition of "${currentVocab.word}"?`;
+    // Display the question
+    questionElement.innerText = `What is the definition of "${currentVocab.word}"?`;
 
-            let correctAnswerIndex = Math.floor(Math.random() * 4);
-            options[correctAnswerIndex].innerText = currentVocab.definition;
+    // Set correct answer in a random option
+    let correctAnswerIndex = Math.floor(Math.random() * 4);
+    options[correctAnswerIndex].innerText = currentVocab.definition;
 
-            let wrongOptions = vocabList.filter((_, index) => index !== currentQuestion);
-            wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+    // Filter out the correct answer and shuffle the wrong options
+    let wrongOptions = vocabList.filter((_, index) => index !== currentQuestion);
+    wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
 
-            let wrongIndex = 0;
-            for (let i = 0; i < 4; i++) {
-                if (i !== correctAnswerIndex) {
-                    options[i].innerText = wrongOptions[wrongIndex].definition;
-                    wrongIndex++;
-                }
-            }
-
-            document.getElementById('nextButton').style.display = "none";
-            document.getElementById('feedback').innerText = '';
-            document.getElementById('sentence').innerText = '';
+    // Fill the remaining options with wrong answers
+    let wrongIndex = 0;
+    for (let i = 0; i < 4; i++) {
+        if (i !== correctAnswerIndex) {
+            options[i].innerText = wrongOptions[wrongIndex].definition;
+            wrongIndex++;
         }
+    }
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+    // Reset feedback and next button
+    document.getElementById('nextButton').style.display = "none";
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('sentence').innerText = '';
+}
 
-        function checkAnswer(selectedOption) {
-            const options = document.getElementsByClassName('option');
-            const feedbackElement = document.getElementById('feedback');
-            const sentenceElement = document.getElementById('sentence');
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
-            if (options[selectedOption].innerText === vocabList[currentQuestion].definition) {
-                feedbackElement.innerText = "Correct!";
-                feedbackElement.classList.add("correct");
-                feedbackElement.classList.remove("wrong");
-                score++;
-                sentenceElement.innerText = vocabList[currentQuestion].sentence;
-            } else {
-                feedbackElement.innerText = `Wrong! The correct answer is: ${vocabList[currentQuestion].definition}`;
-                feedbackElement.classList.add("wrong");
-                feedbackElement.classList.remove("correct");
-                sentenceElement.innerText = vocabList[currentQuestion].sentence;
-            }
+function checkAnswer(selectedOption) {
+    const options = document.getElementsByClassName('option');
+    const feedbackElement = document.getElementById('feedback');
+    const sentenceElement = document.getElementById('sentence');
+    
+    if (options[selectedOption].innerText === vocabList[currentQuestion].definition) {
+        feedbackElement.innerText = "Correct!";
+        feedbackElement.classList.add("correct");
+        feedbackElement.classList.remove("wrong");
+        score++;
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+    } else {
+        feedbackElement.innerText = `Wrong! The correct answer is: ${vocabList[currentQuestion].definition}`;
+        feedbackElement.classList.add("wrong");
+        feedbackElement.classList.remove("correct");
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+        
+        // Store the incorrect answer
+        incorrectAnswers.push({
+            word: vocabList[currentQuestion].word,
+            correctAnswer: vocabList[currentQuestion].definition,
+            userAnswer: options[selectedOption].innerText
+        });
+    }
 
-            document.getElementById('currentQuestion').innerText = currentQuestion + 1;
-            document.getElementById('nextButton').style.display = "block";
-        }
+    document.getElementById('currentQuestion').innerText = currentQuestion + 1;
+    document.getElementById('nextButton').style.display = "block";
+}
 
-        function nextQuestion() {
-            if (currentQuestion < vocabList.length - 1) {
-                currentQuestion++;
-                loadQuestion();
-            } else {
-                document.getElementById('score').innerText = `You scored ${score} out of ${vocabList.length}`;
-                document.getElementById('nextButton').style.display = "none";
-            }
-        }
+function nextQuestion() {
+    if (currentQuestion < vocabList.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+    } else {
+        document.getElementById('score').innerText = `You scored ${score} out of ${vocabList.length}`;
+        document.getElementById('nextButton').style.display = "none";
+        displayIncorrectAnswers();
+    }
+}
 
-        function resetQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            document.getElementById('score').innerText = '';
-            document.getElementById('feedback').innerText = '';
-            document.getElementById('feedback').classList.remove("correct", "wrong");
-            document.getElementById('sentence').innerText = '';
-            loadQuestion();
-        }
+function displayIncorrectAnswers() {
+    // Create a new container with a unique ID for incorrect answers
+    const container = document.createElement('div');
+    container.id = 'incorrect-answers';
+    container.innerHTML = `<h2>Incorrect Answers:</h2>`;
+    
+    // Loop through incorrect answers and display them
+    incorrectAnswers.forEach(item => {
+        const answer = document.createElement('p');
+        answer.innerText = `Word: ${item.word}\nYour Answer: ${item.userAnswer}\nCorrect Answer: ${item.correctAnswer}`;
+        container.appendChild(answer);
+    });
+    document.querySelector('.container').appendChild(container);
+}
 
-        window.onload = function () {
-            loadQuestion();
-        };
+function resetQuiz() {
+    // Reset quiz state
+    currentQuestion = 0;
+    score = 0;
+    incorrectAnswers = []; // Reset incorrect answers array
+    document.getElementById('score').innerText = '';
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('feedback').classList.remove("correct", "wrong");
+    document.getElementById('sentence').innerText = '';
+
+    // Remove the incorrect answers container by ID, if it exists
+    const incorrectAnswersContainer = document.getElementById('incorrect-answers');
+    if (incorrectAnswersContainer) {
+        incorrectAnswersContainer.remove();
+    }
+
+    // Load the first question
+    loadQuestion();
+}
+
+window.onload = function () {
+    loadQuestion();
+};
+        
     </script>
 
 </body>
