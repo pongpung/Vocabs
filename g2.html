@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .column {
+            width: 45%;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .item.selected {
+            background-color: #d1e7ff;
+        }
+        .item.matched {
+            background-color: #c3f9c6;
+        }
+        .item.wrong {
+            background-color: #f8d7da;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .correct-definitions {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #007bff;
+            background-color: #e9f7ff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vocabulary Matching Game</h1>
+
+    <div class="container">
+        <!-- Words Column -->
+        <div class="column" id="words-column">
+            <div class="item" data-word="Commensurate">Commensurate</div>
+            <div class="item" data-word="Compendium">Compendium</div>
+            <div class="item" data-word="Complaisant">Complaisant</div>
+            <div class="item" data-word="Compliant">Compliant</div>
+            <div class="item" data-word="Conciliatory">Conciliatory</div>
+            <div class="item" data-word="Condone">Condone</div>
+            <div class="item" data-word="Confound">Confound</div>
+            <div class="item" data-word="Connoisseur">Connoisseur</div>
+            <div class="item" data-word="Contention">Contention</div>
+            <div class="item" data-word="Contentious">Contentious</div>
+            <div class="item" data-word="Contrite">Contrite</div>
+            <div class="item" data-word="Conundrum">Conundrum</div>
+            <div class="item" data-word="Converge">Converge</div>
+            <div class="item" data-word="Convoluted">Convoluted</div>
+            <div class="item" data-word="Craven">Craven</div>
+        </div>
+
+        <!-- Definitions Column (shuffled) -->
+        <div class="column" id="definitions-column">
+            <div class="item" data-definition="Corresponding in extent, degree, etc.; proportionate">Corresponding in extent, degree, etc.; proportionate</div>
+            <div class="item" data-definition="Brief, comprehensive summary">Brief, comprehensive summary</div>
+            <div class="item" data-definition="Trying to please; overly polite; obliging">Trying to please; overly polite; obliging</div>
+            <div class="item" data-definition="Yielding; conforming to requirements">Yielding; conforming to requirements</div>
+            <div class="item" data-definition="Reconciling; soothing">Reconciling; soothing</div>
+            <div class="item" data-definition="Overlook; forgive; give tacit approval; excuse">Overlook; forgive; give tacit approval; excuse</div>
+            <div class="item" data-definition="Confuse; puzzle">Confuse; puzzle</div>
+            <div class="item" data-definition="Person competent to act as a judge of art; a lover of art">Person competent to act as a judge of art; a lover of art</div>
+            <div class="item" data-definition="Claim; thesis; heated argument">Claim; thesis; heated argument</div>
+            <div class="item" data-definition="Quarrelsome">Quarrelsome</div>
+            <div class="item" data-definition="Penitent">Penitent</div>
+            <div class="item" data-definition="Riddle; difficult problem">Riddle; difficult problem</div>
+            <div class="item" data-definition="Approach; tend to meet; come together">Approach; tend to meet; come together</div>
+            <div class="item" data-definition="Coiled around; involved; intricate">Coiled around; involved; intricate</div>
+            <div class="item" data-definition="Cowardly">Cowardly</div>
+        </div>
+    </div>
+
+    <button onclick="checkAnswers()">Submit and Check</button>
+    <button onclick="resetGame()">Reset</button>
+
+    <div class="result" id="result"></div>
+    <div class="correct-definitions" id="correct-definitions" style="display: none;"></div>
+
+    <script>
+        // Shuffle function to randomize the definitions column
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Shuffle the definitions on page load
+        window.onload = function() {
+            const definitionsColumn = document.getElementById('definitions-column');
+            const definitions = Array.from(definitionsColumn.children);
+            const shuffledDefinitions = shuffle(definitions);
+            definitionsColumn.innerHTML = '';
+            shuffledDefinitions.forEach(definition => {
+                definitionsColumn.appendChild(definition);
+            });
+        };
+
+        let selectedWord = null;
+        let matches = {};
+
+        const correctAnswers = {
+            "Commensurate": "Corresponding in extent, degree, etc.; proportionate",
+            "Compendium": "Brief, comprehensive summary",
+            "Complaisant": "Trying to please; overly polite; obliging",
+            "Compliant": "Yielding; conforming to requirements",
+            "Conciliatory": "Reconciling; soothing",
+            "Condone": "Overlook; forgive; give tacit approval; excuse",
+            "Confound": "Confuse; puzzle",
+            "Connoisseur": "Person competent to act as a judge of art; a lover of art",
+            "Contention": "Claim; thesis; heated argument",
+            "Contentious": "Quarrelsome",
+            "Contrite": "Penitent",
+            "Conundrum": "Riddle; difficult problem",
+            "Converge": "Approach; tend to meet; come together",
+            "Convoluted": "Coiled around; involved; intricate",
+            "Craven": "Cowardly"
+        };
+
+        // Handle selection of words
+        document.getElementById('words-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item')) {
+                clearSelection('words-column');
+                e.target.classList.add('selected');
+                selectedWord = e.target.getAttribute('data-word');
+            }
+        });
+
+        // Handle selection of definitions
+        document.getElementById('definitions-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item') && selectedWord) {
+                clearSelection('definitions-column');
+                e.target.classList.add('selected');
+                const selectedDefinition = e.target.getAttribute('data-definition');
+                matches[selectedWord] = selectedDefinition;
+                document.getElementById('result').innerText = `Selected: ${selectedWord} -> ${selectedDefinition}`;
+                selectedWord = null; // Reset for the next match
+                clearSelection('words-column');
+            }
+        });
+
+        // Clear previous selections
+        function clearSelection(columnId) {
+            const items = document.getElementById(columnId).getElementsByClassName('item');
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('selected');
+            }
+        }
+
+        // Check all the answers
+        function checkAnswers() {
+            const resultDiv = document.getElementById('result');
+            const correctDefinitionsDiv = document.getElementById('correct-definitions');
+            resultDiv.innerHTML = ''; // Clear previous results
+            correctDefinitionsDiv.innerHTML = ''; // Clear previous correct definitions
+            correctDefinitionsDiv.style.display = 'none'; // Hide initially 
+
+            let correct = 0, total = Object.keys(correctAnswers).length;
+
+            for (const word in correctAnswers) {
+                const selectedDefinition = matches[word];
+                const correctDefinition = correctAnswers[word];
+
+                const wordElement = document.querySelector(`[data-word="${word}"]`);
+                const definitionElement = document.querySelector(`[data-definition="${selectedDefinition}"]`);
+
+                if (selectedDefinition === correctDefinition) {
+                    if (wordElement) wordElement.classList.add('matched');
+                    if (definitionElement) definitionElement.classList.add('matched');
+                    correct++;
+                } else {
+                    wordElement.classList.add('wrong');
+                    if (definitionElement) definitionElement.classList.add('wrong');
+                    // Display the correct definition for the wrong matches
+                    correctDefinitionsDiv.innerHTML += `<p>${word}: Correct Definition: ${correctDefinition}</p>`;
+                }
+            }
+
+            resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
+            if (correctDefinitionsDiv.innerHTML) {
+                correctDefinitionsDiv.style.display = 'block'; // Show if there are wrong matches
+            }
+        }
+
+        // Reset the game
+        function resetGame() {
+            selectedWord = null;
+            matches = {};
+            clearSelection('words-column');
+            clearSelection('definitions-column');
+            document.getElementById('result').innerText = '';
+            document.getElementById('correct-definitions').innerHTML = '';
+            document.getElementById('correct-definitions').style.display = 'none';
+            window.onload(); // Re-shuffle definitions
+        }
+    </script>
+
+</body>
+</html>
