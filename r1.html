@@ -102,12 +102,25 @@
     </div>
 
     <button onclick="checkAnswers()">Submit and Check</button>
+    <button onclick="resetGame()">Reset</button>
+
 
     <div class="result" id="result"></div>
     <div class="correct-definitions" id="correct-definitions" style="display: none;"></div>
 
     <script>
         // Shuffle function to randomize the definitions column
+        function resetGame() {
+    selectedWord = null;
+    matches = {};
+    clearSelection('words-column');
+    clearSelection('definitions-column');
+    document.getElementById('result').innerText = '';
+    document.getElementById('correct-definitions').innerHTML = '';
+    document.getElementById('correct-definitions').style.display = 'none';
+    window.onload(); // Re-shuffle definitions
+}
+
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
