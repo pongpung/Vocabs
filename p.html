@@ -1,4 +1,5 @@
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,514 +8,284 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
+            background-color: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
         }
         h1 {
+            font-size: 24px;
             text-align: center;
+            color: #333;
         }
-        .question {
+        .quiz-section {
             margin: 20px 0;
         }
-        .question h3 {
-            margin-bottom: 10px;
+        .question {
+            margin-bottom: 15px;
+            font-size: 18px;
         }
-        .choices {
-            list-style-type: none;
-            padding: 0;
+        .options {
+            display: flex;
+            flex-direction: column;
         }
-        .choices li {
-            margin-bottom: 10px;
+        .option {
+            margin:10px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
         }
-        .choices li input {
-            margin-right: 10px;
+        .option:hover {
+            background-color: #0056b3;
         }
-        .submit-btn, .reset-btn {
-            display: inline-block;
-            padding: 10px 20px;
+        .progress {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .feedback.correct {
+            color: #1e90ff; /* Non-green color for correct */
+        }
+        .feedback.wrong {
+            color: #ff4500; /* Non-red color for wrong */
+        }
+        .score {
             margin-top: 20px;
-            background-color: #28a745;
+            font-size: 18px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 5px 0;
         }
-        .reset-btn {
-            background-color: #dc3545;
+        button:hover {
+            background-color: #0056b3;
         }
-        .result {
-            margin-top: 20px;
-            font-size: 1.2em;
-        }
-        .correct {
-            color: green;
-        }
-        .incorrect {
-            color: red;
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-    <h1>Vocabulary Quiz</h1>
-    <div id="quiz">
+        <h1>Vocabulary Quiz</h1>
 
-<div class="quiz">
-
-    <div class="question" id="question1">
-        <h3>1. What is the meaning of "ABATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q1" value="correct">Subside, or moderate</li>
-            <li><input type="radio" name="q1" value="wrong1">To approve</li>
-            <li><input type="radio" name="q1" value="wrong2">To gather; accumulate</li>
-            <li><input type="radio" name="q1" value="wrong3">To make impure</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question2">
-        <h3>2. What is the meaning of "ABERRANT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q2" value="correct">Abnormal, or deviant</li>
-            <li><input type="radio" name="q2" value="wrong1">Relieve</li>
-            <li><input type="radio" name="q2" value="wrong2">Self-governing; independent</li>
-            <li><input type="radio" name="q2" value="wrong3">To warn; reprove</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question3">
-        <h3>3. What is the meaning of "ABEYANCE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q3" value="correct">Suspended action</li>
-            <li><input type="radio" name="q3" value="wrong1">Sparing in eating and drinking</li>
-            <li><input type="radio" name="q3" value="wrong2">To combine; unite</li>
-            <li><input type="radio" name="q3" value="wrong3">Unclear or doubtful in meaning</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question4">
-        <h3>4. What is the meaning of "ABSCOND"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q4" value="correct">Depart secretly and hide</li>
-            <li><input type="radio" name="q4" value="wrong1">To improve</li>
-            <li><input type="radio" name="q4" value="wrong2">To ease or lessen</li>
-            <li><input type="radio" name="q4" value="wrong3">To take possession of for one’s own use</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question5">
-        <h3>5. What is the meaning of "ABSTEMIOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q5" value="correct">Sparing in eating and drinking; temperate</li>
-            <li><input type="radio" name="q5" value="wrong1">Daring; bold</li>
-            <li><input type="radio" name="q5" value="wrong2">To examine closely</li>
-            <li><input type="radio" name="q5" value="wrong3">Lacking originality</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question6">
-        <h3>6. What is the meaning of "ADMONISH"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q6" value="correct">Warn; reprove</li>
-            <li><input type="radio" name="q6" value="wrong1">To relieve</li>
-            <li><input type="radio" name="q6" value="wrong2">To assert confidently</li>
-            <li><input type="radio" name="q6" value="wrong3">To gather; accumulate</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question7">
-        <h3>7. What is the meaning of "ADULTERATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q7" value="correct">Make impure by adding inferior or tainted substances</li>
-            <li><input type="radio" name="q7" value="wrong1">To pacify or soothe</li>
-            <li><input type="radio" name="q7" value="wrong2">To be present throughout</li>
-            <li><input type="radio" name="q7" value="wrong3">To ease or lessen</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question8">
-        <h3>8. What is the meaning of "AESTHETIC"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q8" value="correct">Artistic; dealing with or capable of appreciating the beautiful</li>
-            <li><input type="radio" name="q8" value="wrong1">Self-denial; austere</li>
-            <li><input type="radio" name="q8" value="wrong2">To reject; to deny</li>
-            <li><input type="radio" name="q8" value="wrong3">To assert confidently</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question9">
-        <h3>9. What is the meaning of "AGGREGATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q9" value="correct">Gather; accumulate</li>
-            <li><input type="radio" name="q9" value="wrong1">To contradict; give a false impression</li>
-            <li><input type="radio" name="q9" value="wrong2">To examine closely</li>
-            <li><input type="radio" name="q9" value="wrong3">To approve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question10">
-        <h3>10. What is the meaning of "ALACRITY"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q10" value="correct">Cheerful promptness; eagerness</li>
-            <li><input type="radio" name="q10" value="wrong1">Indifference</li>
-            <li><input type="radio" name="q10" value="wrong2">Menacing; threatening</li>
-            <li><input type="radio" name="q10" value="wrong3">Flowing; extravagant</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question11">
-        <h3>11. What is the meaning of "ALLEVIATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q11" value="correct">Relieve</li>
-            <li><input type="radio" name="q11" value="wrong1">To take back; to withdraw</li>
-            <li><input type="radio" name="q11" value="wrong2">To waste</li>
-            <li><input type="radio" name="q11" value="wrong3">To be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question12">
-        <h3>12. What is the meaning of "AMALGAMATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q12" value="correct">Combine; unite in one body</li>
-            <li><input type="radio" name="q12" value="wrong1">Unclear or doubtful in meaning</li>
-            <li><input type="radio" name="q12" value="wrong2">To make thinner</li>
-            <li><input type="radio" name="q12" value="wrong3">To assert confidently</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question13">
-        <h3>13. What is the meaning of "AMBIGUOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q13" value="correct">Unclear or doubtful in meaning</li>
-            <li><input type="radio" name="q13" value="wrong1">Daring; bold</li>
-            <li><input type="radio" name="q13" value="wrong2">To inform</li>
-            <li><input type="radio" name="q13" value="wrong3">To ease or lessen</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question14">
-        <h3>14. What is the meaning of "AMBIVALENCE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q14" value="correct">The state of having contradictory or conflicting emotional attitudes</li>
-            <li><input type="radio" name="q14" value="wrong1">To practice self-denial; austere</li>
-            <li><input type="radio" name="q14" value="wrong2">To pacify or soothe</li>
-            <li><input type="radio" name="q14" value="wrong3">Indifference</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question15">
-        <h3>15. What is the meaning of "AMELIORATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q15" value="correct">Improve</li>
-            <li><input type="radio" name="q15" value="wrong1">To contradict; give a false impression</li>
-            <li><input type="radio" name="q15" value="wrong2">To hold down</li>
-            <li><input type="radio" name="q15" value="wrong3">To withdraw; to pull back</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question16">
-        <h3>16. What is the meaning of "ANACHRONISM"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q16" value="correct">Something or someone misplaced in time</li>
-            <li><input type="radio" name="q16" value="wrong1">Abnormal; irregular</li>
-            <li><input type="radio" name="q16" value="wrong2">To pacify or soothe</li>
-            <li><input type="radio" name="q16" value="wrong3">To examine closely</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question17">
-        <h3>17. What is the meaning of "ANALOGOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q17" value="correct">Comparable</li>
-            <li><input type="radio" name="q17" value="wrong1">To gather; accumulate</li>
-            <li><input type="radio" name="q17" value="wrong2">To make impure</li>
-            <li><input type="radio" name="q17" value="wrong3">To assert confidently</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question18">
-        <h3>18. What is the meaning of "ANARCHY"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q18" value="correct">Absence of governing body; state of disorder</li>
-            <li><input type="radio" name="q18" value="wrong1">To inform</li>
-            <li><input type="radio" name="q18" value="wrong2">Sparing in eating and drinking</li>
-            <li><input type="radio" name="q18" value="wrong3">Menacing; threatening</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question19">
-        <h3>19. What is the meaning of "ANOMALOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q19" value="correct">Abnormal; irregular</li>
-            <li><input type="radio" name="q19" value="wrong1">Quick to evaporate; highly unstable</li>
-            <li><input type="radio" name="q19" value="wrong2">To ease or lessen</li>
-            <li><input type="radio" name="q19" value="wrong3">To approve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question20">
-        <h3>20. What is the meaning of "ANTIPATHY"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q20" value="correct">Aversion; dislike</li>
-            <li><input type="radio" name="q20" value="wrong1">Lack of caring; indifference</li>
-            <li><input type="radio" name="q20" value="wrong2">To take back; to withdraw</li>
-            <li><input type="radio" name="q20" value="wrong3">To combine; unite in one body</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question21">
-        <h3>21. What is the meaning of "APATHY"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q21" value="correct">Lack of caring; indifference</li>
-            <li><input type="radio" name="q21" value="wrong1">To combine; unite</li>
-            <li><input type="radio" name="q21" value="wrong2">To assert confidently</li>
-            <li><input type="radio" name="q21" value="wrong3">To examine closely</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question22">
-        <h3>22. What is the meaning of "APPEASE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q22" value="correct">Pacify or soothe; relieve</li>
-            <li><input type="radio" name="q22" value="wrong1">To reject; to deny</li>
-            <li><input type="radio" name="q22" value="wrong2">To make thinner</li>
-            <li><input type="radio" name="q22" value="wrong3">Indifference</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question23">
-        <h3>23. What is the meaning of "APPRISE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q23" value="correct">Inform</li>
-            <li><input type="radio" name="q23" value="wrong1">To practice self-denial; austere</li>
-            <li><input type="radio" name="q23" value="wrong2">To approve</li>
-            <li><input type="radio" name="q23" value="wrong3">To alleviate</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question24">
-        <h3>24. What is the meaning of "APPROBATION"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q24" value="correct">Approval</li>
-            <li><input type="radio" name="q24" value="wrong1">To waste</li>
-            <li><input type="radio" name="q24" value="wrong2">To unite in one body</li>
-            <li><input type="radio" name="q24" value="wrong3">To relieve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question25">
-        <h3>25. What is the meaning of "APPROPRIATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q25" value="correct">Acquire; take possession of for one’s own use</li>
-            <li><input type="radio" name="q25" value="wrong1">To examine closely</li>
-            <li><input type="radio" name="q25" value="wrong2">To pacify or soothe</li>
-            <li><input type="radio" name="q25" value="wrong3">To withdraw; to pull back</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question26">
-        <h3>26. What is the meaning of "ARDUOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q26" value="correct">Hard; strenuous</li>
-            <li><input type="radio" name="q26" value="wrong1">Daring; bold</li>
-            <li><input type="radio" name="q26" value="wrong2">To be present throughout</li>
-            <li><input type="radio" name="q26" value="wrong3">To approve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question27">
-        <h3>27. What is the meaning of "ARTLESS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q27" value="correct">Without guile; open and honest</li>
-            <li><input type="radio" name="q27" value="wrong1">Abnormal; irregular</li>
-            <li><input type="radio" name="q27" value="wrong2">To take possession of for one’s own use</li>
-            <li><input type="radio" name="q27" value="wrong3">To gather; accumulate</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question28">
-        <h3>28. What is the meaning of "ASCETIC"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q28" value="correct">Practicing self-denial; austere</li>
-            <li><input type="radio" name="q28" value="wrong1">To make thinner</li>
-            <li><input type="radio" name="q28" value="wrong2">To ease or lessen</li>
-            <li><input type="radio" name="q28" value="wrong3">To improve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question29">
-        <h3>29. What is the meaning of "ASSIDUOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q29" value="correct">Diligent</li>
-            <li><input type="radio" name="q29" value="wrong1">To assert confidently</li>
-            <li><input type="radio" name="q29" value="wrong2">To reject; to deny</li>
-            <li><input type="radio" name="q29" value="wrong3">To approve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question30">
-        <h3>30. What is the meaning of "ASSUAGE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q30" value="correct">Ease or lessen (pain); satisfy (hunger); soothe (anger)</li>
-            <li><input type="radio" name="q30" value="wrong1">To withdraw; to pull back</li>
-            <li><input type="radio" name="q30" value="wrong2">To inform</li>
-            <li><input type="radio" name="q30" value="wrong3">To examine closely</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question31">
-        <h3>31. What is the meaning of "ATTENUATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q31" value="correct">Make thinner</li>
-            <li><input type="radio" name="q31" value="wrong1">Abnormal; irregular</li>
-            <li><input type="radio" name="q31" value="wrong2">To make impure</li>
-            <li><input type="radio" name="q31" value="wrong3">To inform</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question32">
-        <h3>32. What is the meaning of "AUDACIOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q32" value="correct">Daring; bold</li>
-            <li><input type="radio" name="q32" value="wrong1">To gather; accumulate</li>
-            <li><input type="radio" name="q32" value="wrong2">To take possession of for one’s own use</li>
-            <li><input type="radio" name="q32" value="wrong3">To combine; unite</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question33">
-        <h3>33. What is the meaning of "AUSTERE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q33" value="correct">Forbiddingly stern; severely simple and unornamented</li>
-            <li><input type="radio" name="q33" value="wrong1">To assert confidently</li>
-            <li><input type="radio" name="q33" value="wrong2">To make impure</li>
-            <li><input type="radio" name="q33" value="wrong3">To reject; to deny</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question34">
-        <h3>34. What is the meaning of "AUTONOMOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q34" value="correct">Self-governing; independent</li>
-            <li><input type="radio" name="q34" value="wrong1">To alleviate</li>
-            <li><input type="radio" name="q34" value="wrong2">Abnormal; irregular</li>
-            <li><input type="radio" name="q34" value="wrong3">To combine; unite in one body</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question35">
-        <h3>35. What is the meaning of "AVER"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q35" value="correct">Assert confidently or declare; as used in law, state formally as a fact</li>
-            <li><input type="radio" name="q35" value="wrong1">To be present throughout</li>
-            <li><input type="radio" name="q35" value="wrong2">To relieve</li>
-            <li><input type="radio" name="q35" value="wrong3">To improve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question36">
-        <h3>36. What is the meaning of "BANAL"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q36" value="correct">Hackneyed; commonplace; trite; lacking originality</li>
-            <li><input type="radio" name="q36" value="wrong1">To relieve</li>
-            <li><input type="radio" name="q36" value="wrong2">To assert confidently</li>
-            <li><input type="radio" name="q36" value="wrong3">To gather; accumulate</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question37">
-        <h3>37. What is the meaning of "BELIE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q37" value="correct">Contradict; give a false impression</li>
-            <li><input type="radio" name="q37" value="wrong1">To assert confidently</li>
-            <li><input type="radio" name="q37" value="wrong2">To be present throughout</li>
-            <li><input type="radio" name="q37" value="wrong3">To improve</li>
-        </ul>
-    </div>
-
-</div>
-
+        <div class="quiz-section">
+            <div id="question" class="question"></div>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)"></button>
+                <button class="option" onclick="checkAnswer(1)"></button>
+                <button class="option" onclick="checkAnswer(2)"></button>
+                <button class="option" onclick="checkAnswer(3)"></button>
+            </div>
         </div>
-        <button class="submit-btn" onclick="submitQuiz()">Submit</button>
-        <button class="reset-btn" onclick="resetQuiz()">Reset</button>
-        <div class="result" id="result"></div>
-    </div>
 
-    
+        <div class="progress">
+            <p>Question: <span id="currentQuestion">1</span>/41</p>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="sentence" id="sentence"></div>
+        <div class="score" id="score"></div>
+
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+        <button onclick="resetQuiz()">Reset Quiz</button>
+
+    </div>
 
     <script>
-        function submitQuiz() {
-            const resultElement = document.getElementById('result');
-            let score = 0;
-            let totalQuestions = 23;
-            const questions = document.querySelectorAll('.question');
+            const vocabList = [
+    { word: "Abate", definition: "subside, or moderate", sentence: "The storm began to abate after several hours of heavy rain." },
+    { word: "Aberrant", definition: "abnormal, or deviant", sentence: "The scientist studied the aberrant behavior of the rare species." },
+    { word: "Abeyance", definition: "suspended action", sentence: "The project was held in abeyance until more funding was secured." },
+    { word: "Abscond", definition: "depart secretly and hide", sentence: "The thief tried to abscond with the stolen jewels." },
+    { word: "Abstemious", definition: "sparing in eating and drinking; temperate", sentence: "Monks typically lead abstemious lifestyles." },
+    { word: "Admonish", definition: "warn; reprove", sentence: "The teacher admonished the students for being too noisy." },
+    { word: "Adulterate", definition: "make impure by adding inferior or tainted substances", sentence: "The chef refused to adulterate the recipe with cheap ingredients." },
+    { word: "Aesthetic", definition: "artistic; dealing with or capable of appreciating the beautiful", sentence: "The gallery was known for its modern aesthetic." },
+    { word: "Aggregate", definition: "gather; accumulate", sentence: "The data was aggregated from various sources." },
+    { word: "Alacrity", definition: "cheerful promptness; eagerness", sentence: "She accepted the invitation with alacrity." },
+    { word: "Alleviate", definition: "relieve", sentence: "The medicine helped alleviate her headache." },
+    { word: "Amalgamate", definition: "combine; unite in one body", sentence: "The two companies decided to amalgamate to increase market share." },
+    { word: "Ambiguous", definition: "unclear or doubtful in meaning", sentence: "The instructions were ambiguous and led to confusion." },
+    { word: "Ambivalence", definition: "the state of having contradictory or conflicting emotional attitudes", sentence: "Her ambivalence toward the decision was apparent." },
+    { word: "Ameliorate", definition: "improve", sentence: "The reforms were designed to ameliorate the living conditions of the poor." },
+    { word: "Anachronism", definition: "something or someone misplaced in time", sentence: "The movie was full of anachronisms, like a smartphone in a 19th-century setting." },
+    { word: "Analogous", definition: "comparable", sentence: "The human brain is analogous to a computer in how it processes information." },
+    { word: "Anarchy", definition: "absence of governing body; state of disorder", sentence: "The country descended into anarchy after the government collapsed." },
+    { word: "Anomalous", definition: "abnormal; irregular", sentence: "The scientist found an anomalous result that didn’t fit the pattern." },
+    { word: "Antipathy", definition: "aversion; dislike", sentence: "He had a strong antipathy toward unfair practices." },
+    { word: "Apathy", definition: "lack of caring; indifference", sentence: "The general apathy among the voters led to low turnout at the election." },
+    { word: "Appease", definition: "pacify or soothe; relieve", sentence: "The government tried to appease the protesters by meeting their demands." },
+    { word: "Apprise", definition: "inform", sentence: "She was apprised of the situation as soon as it happened." },
+    { word: "Approbation", definition: "approval", sentence: "The policy received widespread approbation from the public." },
+    { word: "Appropriate", definition: "acquire; take possession of for one’s own use", sentence: "The land was appropriated by the state for the new highway." },
+    { word: "Arduous", definition: "hard; strenuous", sentence: "Climbing the mountain was an arduous task." },
+    { word: "Artless", definition: "without guile; open and honest", sentence: "Her artless charm won over everyone at the party." },
+    { word: "Ascetic", definition: "practicing self-denial; austere", sentence: "The monk led an ascetic life, devoid of luxuries." },
+    { word: "Assiduous", definition: "diligent", sentence: "The assiduous student earned top marks in all her classes." },
+    { word: "Assuage", definition: "ease or lessen (pain); satisfy (hunger); soothe (anger)", sentence: "She tried to assuage his guilt by offering an apology." },
+    { word: "Attenuate", definition: "make thinner", sentence: "The signal was attenuated as it traveled through the cable." },
+    { word: "Audacious", definition: "daring; bold", sentence: "His audacious plan shocked everyone in the meeting." },
+    { word: "Austere", definition: "forbiddingly stern; severely simple and unornamented", sentence: "The room was plain, almost austere, with no decorations." },
+    { word: "Autonomous", definition: "self-governing; independent", sentence: "The region gained autonomous status after years of negotiation." },
+    { word: "Aver", definition: "assert confidently or declare", sentence: "The lawyer averred that her client was innocent." },
+    { word: "Banal", definition: "hackneyed; commonplace; trite; lacking originality", sentence: "The movie was filled with banal dialogue." },
+    { word: "Belie", definition: "contradict; give a false impression", sentence: "His calm expression belied the anxiety he felt inside." }
+];
 
-            // Check each question
-            questions.forEach((question, index) => {
-                const selectedAnswer = question.querySelector(`input[name="q${index + 1}"]:checked`);
-                const correctAnswer = question.querySelector(`input[value="correct"]`);
+        
+        let currentQuestion = 0;
+let score = 0;
+let incorrectAnswers = [];
 
-                // Highlight correct and incorrect answers
-                if (selectedAnswer) {
-                    if (selectedAnswer.value === "correct") {
-                        score++;
-                        selectedAnswer.parentElement.classList.add('correct');
-                    } else {
-                        selectedAnswer.parentElement.classList.add('incorrect');
-                        correctAnswer.parentElement.classList.add('correct');
-                    }
-                } else {
-                    correctAnswer.parentElement.classList.add('correct');
-                }
-            });
+function loadQuestion() {
+    const questionElement = document.getElementById('question');
+    const options = document.getElementsByClassName('option');
+    const currentVocab = vocabList[currentQuestion];
 
-            // Show result
-            resultElement.innerHTML = `You scored ${score} out of ${totalQuestions}.`;
+    // Display the question
+    questionElement.innerText = `What is the definition of "${currentVocab.word}"?`;
 
-            // Disable the submit button after quiz is submitted
-            document.querySelector('.submit-btn').disabled = true;
+    // Set correct answer in a random option
+    let correctAnswerIndex = Math.floor(Math.random() * 4);
+    options[correctAnswerIndex].innerText = currentVocab.definition;
+
+    // Filter out the correct answer and shuffle the wrong options
+    let wrongOptions = vocabList.filter((_, index) => index !== currentQuestion);
+    wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+
+    // Fill the remaining options with wrong answers
+    let wrongIndex = 0;
+    for (let i = 0; i < 4; i++) {
+        if (i !== correctAnswerIndex) {
+            options[i].innerText = wrongOptions[wrongIndex].definition;
+            wrongIndex++;
         }
+    }
 
-        function resetQuiz() {
-            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
-            document.getElementById('result').innerHTML = "";
-            document.querySelectorAll('.choices li').forEach(li => {
-                li.classList.remove('correct', 'incorrect');
-            });
-            document.querySelector('.submit-btn').disabled = false;
-        }
-        // Function to shuffle an array (Fisher-Yates shuffle)
-function shuffle(array) {
+    // Reset feedback and next button
+    document.getElementById('nextButton').style.display = "none";
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('sentence').innerText = '';
+}
+
+function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
 }
 
-// Function to shuffle choices for each question
-function shuffleChoices() {
-    const questions = document.querySelectorAll('.question');
+function checkAnswer(selectedOption) {
+    const options = document.getElementsByClassName('option');
+    const feedbackElement = document.getElementById('feedback');
+    const sentenceElement = document.getElementById('sentence');
+    
+    if (options[selectedOption].innerText === vocabList[currentQuestion].definition) {
+        feedbackElement.innerText = "Correct!";
+        feedbackElement.classList.add("correct");
+        feedbackElement.classList.remove("wrong");
+        score++;
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+    } else {
+        feedbackElement.innerText = `Wrong! The correct answer is: ${vocabList[currentQuestion].definition}`;
+        feedbackElement.classList.add("wrong");
+        feedbackElement.classList.remove("correct");
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+        
+        // Store the incorrect answer
+        incorrectAnswers.push({
+            word: vocabList[currentQuestion].word,
+            correctAnswer: vocabList[currentQuestion].definition,
+            userAnswer: options[selectedOption].innerText
+        });
+    }
 
-    questions.forEach((question) => {
-        const choicesList = question.querySelector('.choices');
-        const choices = Array.from(choicesList.children);
-        shuffle(choices);
-        choices.forEach(choice => choicesList.appendChild(choice)); // Reorder DOM elements
+    document.getElementById('currentQuestion').innerText = currentQuestion + 1;
+    document.getElementById('nextButton').style.display = "block";
+}
+
+function nextQuestion() {
+    if (currentQuestion < vocabList.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+    } else {
+        document.getElementById('score').innerText = `You scored ${score} out of ${vocabList.length}`;
+        document.getElementById('nextButton').style.display = "none";
+        displayIncorrectAnswers();
+    }
+}
+
+function displayIncorrectAnswers() {
+    // Create a new container with a unique ID for incorrect answers
+    const container = document.createElement('div');
+    container.id = 'incorrect-answers';
+    container.innerHTML = `<h2>Incorrect Answers:</h2>`;
+    
+    // Loop through incorrect answers and display them
+    incorrectAnswers.forEach(item => {
+        const answer = document.createElement('p');
+        answer.innerText = `Word: ${item.word}\nYour Answer: ${item.userAnswer}\nCorrect Answer: ${item.correctAnswer}`;
+        container.appendChild(answer);
     });
+    document.querySelector('.container').appendChild(container);
 }
 
-// Call shuffleChoices when the page is loaded
-window.onload = shuffleChoices;
+function resetQuiz() {
+    // Reset quiz state
+    currentQuestion = 0;
+    score = 0;
+    incorrectAnswers = []; // Reset incorrect answers array
+    document.getElementById('score').innerText = '';
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('feedback').classList.remove("correct", "wrong");
+    document.getElementById('sentence').innerText = '';
 
+    // Remove the incorrect answers container by ID, if it exists
+    const incorrectAnswersContainer = document.getElementById('incorrect-answers');
+    if (incorrectAnswersContainer) {
+        incorrectAnswersContainer.remove();
+    }
+
+    // Load the first question
+    loadQuestion();
+}
+
+window.onload = function () {
+    loadQuestion();
+};
+        
     </script>
+
 </body>
 </html>
