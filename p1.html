@@ -1,4 +1,5 @@
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,595 +8,292 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
+            background-color: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
         }
         h1 {
+            font-size: 24px;
             text-align: center;
+            color: #333;
         }
-        .question {
+        .quiz-section {
             margin: 20px 0;
         }
-        .question h3 {
-            margin-bottom: 10px;
+        .question {
+            margin-bottom: 15px;
+            font-size: 18px;
         }
-        .choices {
-            list-style-type: none;
-            padding: 0;
+        .options {
+            display: flex;
+            flex-direction: column;
         }
-        .choices li {
-            margin-bottom: 10px;
+        .option {
+            margin:10px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
         }
-        .choices li input {
-            margin-right: 10px;
+        .option:hover {
+            background-color: #0056b3;
         }
-        .submit-btn, .reset-btn {
-            display: inline-block;
-            padding: 10px 20px;
+        .progress {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .feedback.correct {
+            color: #1e90ff; /* Non-green color for correct */
+        }
+        .feedback.wrong {
+            color: #ff4500; /* Non-red color for wrong */
+        }
+        .score {
             margin-top: 20px;
-            background-color: #28a745;
+            font-size: 18px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 5px 0;
         }
-        .reset-btn {
-            background-color: #dc3545;
+        button:hover {
+            background-color: #0056b3;
         }
-        .result {
-            margin-top: 20px;
-            font-size: 1.2em;
-        }
-        .correct {
-            color: green;
-        }
-        .incorrect {
-            color: red;
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-    <h1>Vocabulary Quiz</h1>
-    <div id="quiz">
+        <h1>Vocabulary Quiz</h1>
 
-<div class="quiz">
-
-
-    <div class="question" id="question1">
-        <h3>1. What is the meaning of "BENEFICENT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q1" value="correct">Kindly; doing good</li>
-            <li><input type="radio" name="q1" value="wrong1">Unoriginal; obtained from another source</li>
-            <li><input type="radio" name="q1" value="wrong2">Dry up</li>
-            <li><input type="radio" name="q1" value="wrong3">Aimless; haphazard</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question2">
-        <h3>2. What is the meaning of "BOLSTER"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q2" value="correct">Support; reinforce</li>
-            <li><input type="radio" name="q2" value="wrong1">punish; severe criticism</li>
-            <li><input type="radio" name="q2" value="wrong2">dry up</li>
-            <li><input type="radio" name="q2" value="wrong3">grow forth</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question3">
-        <h3>3. What is the meaning of "BOMBASTIC"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q3" value="correct">Pompous; using inflated language</li>
-            <li><input type="radio" name="q3" value="wrong1">Confused; puzzling</li>
-            <li><input type="radio" name="q3" value="wrong2">Supportive; prop up</li>
-            <li><input type="radio" name="q3" value="wrong3">Unpredictable; fickle</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question4">
-        <h3>4. What is the meaning of "BOORISH"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q4" value="correct">Rude; insensitive</li>
-            <li><input type="radio" name="q4" value="wrong1">make shiny by rubbing</li>
-            <li><input type="radio" name="q4" value="wrong2">forgive; excuse</li>
-            <li><input type="radio" name="q4" value="wrong3">yield; conform</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question5">
-        <h3>5. What is the meaning of "BURGEON"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q5" value="correct">Grow forth; send out buds</li>
-            <li><input type="radio" name="q5" value="wrong1">dry up</li>
-            <li><input type="radio" name="q5" value="wrong2">sketcth</li>
-            <li><input type="radio" name="q5" value="wrong3">portray</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question6">
-        <h3>6. What is the meaning of "BURNISH"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q6" value="correct">Make shiny by rubbing; polish</li>
-            <li><input type="radio" name="q6" value="wrong1">blacken</li>
-            <li><input type="radio" name="q6" value="wrong2">punish severely</li>
-            <li><input type="radio" name="q6" value="wrong3">congeal</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question7">
-        <h3>7. What is the meaning of "BUTTRESS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q7" value="correct">Support; prop up</li>
-            <li><input type="radio" name="q7" value="wrong1">confuse; puzzle</li>
-            <li><input type="radio" name="q7" value="wrong2">deviate</li>
-            <li><input type="radio" name="q7" value="wrong3">make impure</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question8">
-        <h3>8. What is the meaning of "CAPRICIOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q8" value="correct">Unpredictable; fickle</li>
-            <li><input type="radio" name="q8" value="wrong1">forgive; excuse</li>
-            <li><input type="radio" name="q8" value="wrong2">grow forth</li>
-            <li><input type="radio" name="q8" value="wrong3">inform</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question9">
-        <h3>9. What is the meaning of "CASTIGATION"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q9" value="correct">Punishment; severe criticism</li>
-            <li><input type="radio" name="q9" value="wrong1">lover of art</li>
-            <li><input type="radio" name="q9" value="wrong2">paint; depict</li>
-            <li><input type="radio" name="q9" value="wrong3">grow forth</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question10">
-        <h3>10. What is the meaning of "CATALYST"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q10" value="correct">Agent that increases the pace of a chemical action</li>
-            <li><input type="radio" name="q10" value="wrong1">congeal; clot</li>
-            <li><input type="radio" name="q10" value="wrong2">approve</li>
-            <li><input type="radio" name="q10" value="wrong3">A brief summary</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question11">
-        <h3>11. What is the meaning of "CAUSTIC"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q11" value="correct">Burning; sarcastically biting</li>
-            <li><input type="radio" name="q11" value="wrong1">Confusing; puzzling</li>
-            <li><input type="radio" name="q11" value="wrong2">relieve</li>
-            <li><input type="radio" name="q11" value="wrong3">dry up</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question12">
-        <h3>12. What is the meaning of "CHICANERY"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q12" value="correct">Trickery; deception</li>
-            <li><input type="radio" name="q12" value="wrong1">comply; yield</li>
-            <li><input type="radio" name="q12" value="wrong2">forgive</li>
-            <li><input type="radio" name="q12" value="wrong3">difficult problem</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question13">
-        <h3>13. What is the meaning of "COAGULATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q13" value="correct">Thicken; congeal; clot</li>
-            <li><input type="radio" name="q13" value="wrong1">inform</li>
-            <li><input type="radio" name="q13" value="wrong2">mock; ridicule</li>
-            <li><input type="radio" name="q13" value="wrong3">be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question14">
-        <h3>14. What is the meaning of "CODA"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q14" value="correct">Concluding section of a musical or literary composition; summarizes or concludes</li>
-            <li><input type="radio" name="q14" value="wrong1">sketch or portray</li>
-            <li><input type="radio" name="q14" value="wrong2">difficult problem</li>
-            <li><input type="radio" name="q14" value="wrong3">relieve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question15">
-        <h3>15. What is the meaning of "COGENT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q15" value="correct">Convincing</li>
-            <li><input type="radio" name="q15" value="wrong1">deviate</li>
-            <li><input type="radio" name="q15" value="wrong2">riddle; difficult problem</li>
-            <li><input type="radio" name="q15" value="wrong3">thicken</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question16">
-        <h3>16. What is the meaning of "Commensurate"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q16" value="correct">Corresponding in extent, degree, etc.; proportionate</li>
-            <li><input type="radio" name="q16" value="wrong1">soothe; pacify</li>
-            <li><input type="radio" name="q16" value="wrong2">forgive; excuse</li>
-            <li><input type="radio" name="q16" value="wrong3">be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question17">
-        <h3>17. What is the meaning of "COMPENDIUM"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q17" value="correct">Brief, comprehensive summary</li>
-            <li><input type="radio" name="q17" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q17" value="wrong2">Inform</li>
-            <li><input type="radio" name="q17" value="wrong3">Make shiny</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question18">
-        <h3>18. What is the meaning of "COMPLAISANT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q18" value="correct">Trying to please; overly polite; obliging</li>
-            <li><input type="radio" name="q18" value="wrong1">Confuse; puzzle</li>
-            <li><input type="radio" name="q18" value="wrong2">Thicken</li>
-            <li><input type="radio" name="q18" value="wrong3">Deviate</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question19">
-        <h3>19. What is the meaning of "COMPLIANT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q19" value="correct">Yielding; conforming to requirements</li>
-            <li><input type="radio" name="q19" value="wrong1">Paint; depict</li>
-            <li><input type="radio" name="q19" value="wrong2">Soothe; pacify</li>
-            <li><input type="radio" name="q19" value="wrong3">Thicken</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question20">
-        <h3>20. What is the meaning of "CONCILIATORY"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q20" value="correct">Reconciling; soothing</li>
-            <li><input type="radio" name="q20" value="wrong1">A lover of art</li>
-            <li><input type="radio" name="q20" value="wrong2">Inform</li>
-            <li><input type="radio" name="q20" value="wrong3">Be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question21">
-        <h3>21. What is the meaning of "CONDONE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q21" value="correct">Overlook; forgive; give tacit approval; excuse</li>
-            <li><input type="radio" name="q21" value="wrong1">Deviate</li>
-            <li><input type="radio" name="q21" value="wrong2">Ridicule; make fun of</li>
-            <li><input type="radio" name="q21" value="wrong3">Make impure</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question22">
-        <h3>22. What is the meaning of "CONFOUND"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q22" value="correct">Confuse; puzzle</li>
-            <li><input type="radio" name="q22" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q22" value="wrong2">Forgive; excuse</li>
-            <li><input type="radio" name="q22" value="wrong3">Grow forth</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question23">
-        <h3>23. What is the meaning of "CONNOISSEUR"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q23" value="correct">Person competent to act as a judge of art; a lover of art</li>
-            <li><input type="radio" name="q23" value="wrong1">Riddle; difficult problem</li>
-            <li><input type="radio" name="q23" value="wrong2">Comply; yield</li>
-            <li><input type="radio" name="q23" value="wrong3">Be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question24">
-        <h3>24. What is the meaning of "CONTENTION"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q24" value="correct">Claim; thesis</li>
-            <li><input type="radio" name="q24" value="wrong1">Dry up</li>
-            <li><input type="radio" name="q24" value="wrong2">Relieve</li>
-            <li><input type="radio" name="q24" value="wrong3">Make shiny</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question25">
-        <h3>25. What is the meaning of "CONTENTIOUS"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q25" value="correct">Quarrelsome</li>
-            <li><input type="radio" name="q25" value="wrong1">Grow forth</li>
-            <li><input type="radio" name="q25" value="wrong2">Make shiny</li>
-            <li><input type="radio" name="q25" value="wrong3">Be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question26">
-        <h3>26. What is the meaning of "CONTRITE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q26" value="correct">Penitent</li>
-            <li><input type="radio" name="q26" value="wrong1">Make thinner</li>
-            <li><input type="radio" name="q26" value="wrong2">Forgive; excuse</li>
-            <li><input type="radio" name="q26" value="wrong3">Depict; sketch</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question27">
-        <h3>27. What is the meaning of "CONUNDRUM"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q27" value="correct">Riddle; difficult problem</li>
-            <li><input type="radio" name="q27" value="wrong1">Grow forth</li>
-            <li><input type="radio" name="q27" value="wrong2">Forgive; excuse</li>
-            <li><input type="radio" name="q27" value="wrong3">Support; prop up</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question28">
-        <h3>28. What is the meaning of "CONVERGE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q28" value="correct">Approach; tend to meet; come together</li>
-            <li><input type="radio" name="q28" value="wrong1">Comply; yield</li>
-            <li><input type="radio" name="q28" value="wrong2">Soothe; pacify</li>
-            <li><input type="radio" name="q28" value="wrong3">Be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question29">
-        <h3>29. What is the meaning of "CONVOLUTED"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q29" value="correct">Coiled around; involved; intricate</li>
-            <li><input type="radio" name="q29" value="wrong1">Be present throughout</li>
-            <li><input type="radio" name="q29" value="wrong2">Relieve</li>
-            <li><input type="radio" name="q29" value="wrong3">Make shiny</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question30">
-        <h3>30. What is the meaning of "CRAVEN"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q30" value="correct">Cowardly</li>
-            <li><input type="radio" name="q30" value="wrong1">Forgive; excuse</li>
-            <li><input type="radio" name="q30" value="wrong2">Paint; depict</li>
-            <li><input type="radio" name="q30" value="wrong3">Thicken</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question31">
-        <h3>31. What is the meaning of "DAUNT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q31" value="correct">Intimidate; frighten</li>
-            <li><input type="radio" name="q31" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q31" value="wrong2">Relieve</li>
-            <li><input type="radio" name="q31" value="wrong3">Make impure</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question32">
-        <h3>32. What is the meaning of "DECORUM"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q32" value="correct">Propriety; orderliness and good taste in manners</li>
-            <li><input type="radio" name="q32" value="wrong1">Relieve</li>
-            <li><input type="radio" name="q32" value="wrong2">Forgive; excuse</li>
-            <li><input type="radio" name="q32" value="wrong3">Lover of art</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question33">
-        <h3>33. What is the meaning of "DEFAULT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q33" value="correct">Failure to act</li>
-            <li><input type="radio" name="q33" value="wrong1">Grow forth</li>
-            <li><input type="radio" name="q33" value="wrong2">Forgive; excuse</li>
-            <li><input type="radio" name="q33" value="wrong3">Yield; conform</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question34">
-        <h3>34. What is the meaning of "DEFERENCE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q34" value="correct">Courteous regard for another’s wishes</li>
-            <li><input type="radio" name="q34" value="wrong1">Relieve</li>
-            <li><input type="radio" name="q34" value="wrong2">Be present throughout</li>
-            <li><input type="radio" name="q34" value="wrong3">Punish; severe criticism</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question35">
-        <h3>35. What is the meaning of "DELINEATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q35" value="correct">Portray; depict; sketch</li>
-            <li><input type="radio" name="q35" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q35" value="wrong2">Inform</li>
-            <li><input type="radio" name="q35" value="wrong3">Confuse; puzzle</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question36">
-        <h3>36. What is the meaning of "DENIGRATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q36" value="correct">Blacken</li>
-            <li><input type="radio" name="q36" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q36" value="wrong2">Relieve</li>
-            <li><input type="radio" name="q36" value="wrong3">Confuse; puzzle</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question37">
-        <h3>37. What is the meaning of "DERIDE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q37" value="correct">Ridicule; make fun of</li>
-            <li><input type="radio" name="q37" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q37" value="wrong2">Relieve</li>
-            <li><input type="radio" name="q37" value="wrong3">Support; prop up</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question38">
-        <h3>38. What is the meaning of "DERIVATIVE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q38" value="correct">Unoriginal; obtained from another source</li>
-            <li><input type="radio" name="q38" value="wrong1">Forgive; excuse</li>
-            <li><input type="radio" name="q38" value="wrong2">Thicken</li>
-            <li><input type="radio" name="q38" value="wrong3">Relieve</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question39">
-        <h3>39. What is the meaning of "DESICATE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q39" value="correct">Dry up</li>
-            <li><input type="radio" name="q39" value="wrong1">Forgive; excuse</li>
-            <li><input type="radio" name="q39" value="wrong2">Yield; conform</li>
-            <li><input type="radio" name="q39" value="wrong3">Support; prop up</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question40">
-        <h3>40. What is the meaning of "DESULTORY"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q40" value="correct">Aimless; haphazard; digressing at random</li>
-            <li><input type="radio" name="q40" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q40" value="wrong2">Forgive; excuse</li>
-            <li><input type="radio" name="q40" value="wrong3">Dry up</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question41">
-        <h3>41. What is the meaning of "DETERRENT"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q41" value="correct">Something that discourages; hindrance</li>
-            <li><input type="radio" name="q41" value="wrong1">Relieve</li>
-            <li><input type="radio" name="q41" value="wrong2">Grow forth</li>
-            <li><input type="radio" name="q41" value="wrong3">Comply; yield</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question42">
-        <h3>42. What is the meaning of "DIATRIBE"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q42" value="correct">bitter scolding; invective</li>
-            <li><input type="radio" name="q42" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q42" value="wrong2">Confuse; puzzle</li>
-            <li><input type="radio" name="q42" value="wrong3">Be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question43">
-        <h3>43. What is the meaning of "Dichotomy"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q43" value="correct">split; branching into two parts (especially contradictory ones)</li>
-            <li><input type="radio" name="q43" value="wrong1">Relieve</li>
-            <li><input type="radio" name="q43" value="wrong2">Comply; yield</li>
-            <li><input type="radio" name="q43" value="wrong3">Forgive; excuse</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question44">
-        <h3>44. What is the meaning of "Diffidence"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q44" value="correct">Shyness</li>
-            <li><input type="radio" name="q44" value="wrong1">Comply; yield</li>
-            <li><input type="radio" name="q44" value="wrong2">Confuse; puzzle</li>
-            <li><input type="radio" name="q44" value="wrong3">Be present throughout</li>
-        </ul>
-    </div>
-
-    <div class="question" id="question45">
-        <h3>45. What is the meaning of "Diffuse"?</h3>
-        <ul class="choices">
-            <li><input type="radio" name="q45" value="correct">wordy, rambling, spread out (like a gas)</li>
-            <li><input type="radio" name="q45" value="wrong1">Yield; conform</li>
-            <li><input type="radio" name="q45" value="wrong2">Relieve</li>
-            <li><input type="radio" name="q45" value="wrong3">Confuse; puzzle</li>
-        </ul>
-    </div>
-
-  </div>
-
+        <div class="quiz-section">
+            <div id="question" class="question"></div>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)"></button>
+                <button class="option" onclick="checkAnswer(1)"></button>
+                <button class="option" onclick="checkAnswer(2)"></button>
+                <button class="option" onclick="checkAnswer(3)"></button>
+            </div>
         </div>
-        <button class="submit-btn" onclick="submitQuiz()">Submit</button>
-        <button class="reset-btn" onclick="resetQuiz()">Reset</button>
-        <div class="result" id="result"></div>
-    </div>
 
-    
+        <div class="progress">
+            <p>Question: <span id="currentQuestion">1</span>/45</p>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="sentence" id="sentence"></div>
+        <div class="score" id="score"></div>
+
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+        <button onclick="resetQuiz()">Reset Quiz</button>
+
+    </div>
 
     <script>
-        function submitQuiz() {
-            const resultElement = document.getElementById('result');
-            let score = 0;
-            let totalQuestions = 45;
-            const questions = document.querySelectorAll('.question');
+            const vocabList = [
+    { word: "Beneficent", definition: "kindly; doing good", sentence: "The beneficent organization helped thousands of people in need." },
+    { word: "Bolster", definition: "support; reinforce", sentence: "The new evidence bolstered his argument." },
+    { word: "Bombastic", definition: "pompous; using inflated language", sentence: "The politician's bombastic speech failed to impress the audience." },
+    { word: "Boorish", definition: "rude; insensitive", sentence: "His boorish behavior offended everyone at the dinner party." },
+    { word: "Burgeon", definition: "grow forth; send out buds", sentence: "The small company burgeoned into a global corporation." },
+    { word: "Burnish", definition: "make shiny by rubbing; polish", sentence: "He spent hours burnishing his antique car to a high shine." },
+    { word: "Buttress", definition: "support; prop up", sentence: "The architect designed buttresses to strengthen the walls of the cathedral." },
+    { word: "Capricious", definition: "unpredictable; fickle", sentence: "The stock market can be quite capricious." },
+    { word: "Castigation", definition: "punishment; severe criticism", sentence: "The critic’s castigation of the play was harsh but fair." },
+    { word: "Catalyst", definition: "agent that increases the pace of a chemical action", sentence: "Enzymes act as catalysts in biological reactions." },
+    { word: "Caustic", definition: "burning; sarcastically biting", sentence: "Her caustic remarks hurt his feelings." },
+    { word: "Chicanery", definition: "trickery; deception", sentence: "The politician was known for his chicanery and manipulative tactics." },
+    { word: "Coagulate", definition: "thicken; congeal; clot", sentence: "The blood began to coagulate at the wound site." },
+    { word: "Coda", definition: "concluding section of a musical or literary composition; summarizes or concludes", sentence: "The symphony’s coda brought the performance to a thrilling end." },
+    { word: "Cogent", definition: "convincing", sentence: "Her cogent argument persuaded the committee." },
+    { word: "Commensurate", definition: "corresponding in extent, degree, etc.; proportionate", sentence: "His salary was commensurate with his experience and skills." },
+    { word: "Compendium", definition: "brief, comprehensive summary", sentence: "The book is a compendium of basic facts about the human body." },
+    { word: "Complaisant", definition: "trying to please; overly polite; obliging", sentence: "Her complaisant nature made her easy to get along with." },
+    { word: "Compliant", definition: "yielding; conforming to requirements", sentence: "The company was compliant with all government regulations." },
+    { word: "Conciliatory", definition: "reconciling; soothing", sentence: "The diplomat took a conciliatory approach to resolve the conflict." },
+    { word: "Condone", definition: "overlook; forgive; give tacit approval; excuse", sentence: "The manager couldn’t condone such reckless behavior in the workplace." },
+    { word: "Confound", definition: "confuse; puzzle", sentence: "The puzzle confounded even the experts." },
+    { word: "Connoisseur", definition: "person competent to act as a judge of art; a lover of art", sentence: "The wine connoisseur could easily distinguish between the finest vintages." },
+    { word: "Contention", definition: "claim; thesis", sentence: "His main contention was that the law was unconstitutional." },
+    { word: "Contentious", definition: "quarrelsome", sentence: "The contentious debate lasted for hours." },
+    { word: "Contrite", definition: "penitent", sentence: "Feeling contrite after the argument, she apologized to her friend." },
+    { word: "Conundrum", definition: "riddle; difficult problem", sentence: "Solving this math problem felt like an unsolvable conundrum." },
+    { word: "Converge", definition: "approach; tend to meet; come together", sentence: "The two rivers converge just outside the city." },
+    { word: "Convoluted", definition: "coiled around; involved; intricate", sentence: "The novel’s convoluted plot left readers confused." },
+    { word: "Craven", definition: "cowardly", sentence: "His craven refusal to stand up for his friend was disappointing." },
+    { word: "Daunt", definition: "intimidate; frighten", sentence: "The challenging climb did not daunt the experienced hikers." },
+    { word: "Decorum", definition: "propriety; orderliness and good taste in manners", sentence: "The guests were asked to maintain decorum during the ceremony." },
+    { word: "Default", definition: "failure to act", sentence: "Her default on the loan led to legal consequences." },
+    { word: "Deference", definition: "courteous regard for another’s wishes", sentence: "He showed deference to his elders by listening respectfully." },
+    { word: "Delineate", definition: "portray; depict; sketch", sentence: "The artist delineated the features of the landscape with great detail." },
+    { word: "Denigrate", definition: "blacken", sentence: "The politician tried to denigrate his opponent’s character during the debate." },
+    { word: "Deride", definition: "ridicule; make fun of", sentence: "The comedian’s jokes were intended to deride political figures." },
+    { word: "Derivative", definition: "unoriginal; obtained from another source", sentence: "Her artwork was criticized for being too derivative of modernist styles." },
+    { word: "Desiccate", definition: "dry up", sentence: "The hot sun desiccated the once-lush fields." },
+    { word: "Desultory", definition: "aimless; haphazard; digressing at random", sentence: "His desultory conversation jumped from one topic to another." },
+    { word: "Deterrent", definition: "something that discourages; hindrance", sentence: "The new security measures serve as a deterrent to potential thieves." },
+    { word: "Diatribe", definition: "bitter scolding; invective", sentence: "The article was a diatribe against the government’s policies." },
+    { word: "Dichotomy", definition: "split; branching into two parts (especially contradictory ones)", sentence: "The play explores the dichotomy between good and evil." },
+    { word: "Diffidence", definition: "shyness", sentence: "Her diffidence made it difficult for her to speak in public." },
+    { word: "Diffuse", definition: "wordy, rambling, spread out (like a gas)", sentence: "His diffuse writing style made the essay hard to follow." }
+];
 
-            // Check each question
-            questions.forEach((question, index) => {
-                const selectedAnswer = question.querySelector(`input[name="q${index + 1}"]:checked`);
-                const correctAnswer = question.querySelector(`input[value="correct"]`);
+        
+        let currentQuestion = 0;
+let score = 0;
+let incorrectAnswers = [];
 
-                // Highlight correct and incorrect answers
-                if (selectedAnswer) {
-                    if (selectedAnswer.value === "correct") {
-                        score++;
-                        selectedAnswer.parentElement.classList.add('correct');
-                    } else {
-                        selectedAnswer.parentElement.classList.add('incorrect');
-                        correctAnswer.parentElement.classList.add('correct');
-                    }
-                } else {
-                    correctAnswer.parentElement.classList.add('correct');
-                }
-            });
+function loadQuestion() {
+    const questionElement = document.getElementById('question');
+    const options = document.getElementsByClassName('option');
+    const currentVocab = vocabList[currentQuestion];
 
-            // Show result
-            resultElement.innerHTML = `You scored ${score} out of ${totalQuestions}.`;
+    // Display the question
+    questionElement.innerText = `What is the definition of "${currentVocab.word}"?`;
 
-            // Disable the submit button after quiz is submitted
-            document.querySelector('.submit-btn').disabled = true;
+    // Set correct answer in a random option
+    let correctAnswerIndex = Math.floor(Math.random() * 4);
+    options[correctAnswerIndex].innerText = currentVocab.definition;
+
+    // Filter out the correct answer and shuffle the wrong options
+    let wrongOptions = vocabList.filter((_, index) => index !== currentQuestion);
+    wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+
+    // Fill the remaining options with wrong answers
+    let wrongIndex = 0;
+    for (let i = 0; i < 4; i++) {
+        if (i !== correctAnswerIndex) {
+            options[i].innerText = wrongOptions[wrongIndex].definition;
+            wrongIndex++;
         }
+    }
 
-        function resetQuiz() {
-            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
-            document.getElementById('result').innerHTML = "";
-            document.querySelectorAll('.choices li').forEach(li => {
-                li.classList.remove('correct', 'incorrect');
-            });
-            document.querySelector('.submit-btn').disabled = false;
-        }
-        // Function to shuffle an array (Fisher-Yates shuffle)
-function shuffle(array) {
+    // Reset feedback and next button
+    document.getElementById('nextButton').style.display = "none";
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('sentence').innerText = '';
+}
+
+function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
 }
 
-// Function to shuffle choices for each question
-function shuffleChoices() {
-    const questions = document.querySelectorAll('.question');
+function checkAnswer(selectedOption) {
+    const options = document.getElementsByClassName('option');
+    const feedbackElement = document.getElementById('feedback');
+    const sentenceElement = document.getElementById('sentence');
+    
+    if (options[selectedOption].innerText === vocabList[currentQuestion].definition) {
+        feedbackElement.innerText = "Correct!";
+        feedbackElement.classList.add("correct");
+        feedbackElement.classList.remove("wrong");
+        score++;
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+    } else {
+        feedbackElement.innerText = `Wrong! The correct answer is: ${vocabList[currentQuestion].definition}`;
+        feedbackElement.classList.add("wrong");
+        feedbackElement.classList.remove("correct");
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+        
+        // Store the incorrect answer
+        incorrectAnswers.push({
+            word: vocabList[currentQuestion].word,
+            correctAnswer: vocabList[currentQuestion].definition,
+            userAnswer: options[selectedOption].innerText
+        });
+    }
 
-    questions.forEach((question) => {
-        const choicesList = question.querySelector('.choices');
-        const choices = Array.from(choicesList.children);
-        shuffle(choices);
-        choices.forEach(choice => choicesList.appendChild(choice)); // Reorder DOM elements
+    document.getElementById('currentQuestion').innerText = currentQuestion + 1;
+    document.getElementById('nextButton').style.display = "block";
+}
+
+function nextQuestion() {
+    if (currentQuestion < vocabList.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+    } else {
+        document.getElementById('score').innerText = `You scored ${score} out of ${vocabList.length}`;
+        document.getElementById('nextButton').style.display = "none";
+        displayIncorrectAnswers();
+    }
+}
+
+function displayIncorrectAnswers() {
+    // Create a new container with a unique ID for incorrect answers
+    const container = document.createElement('div');
+    container.id = 'incorrect-answers';
+    container.innerHTML = `<h2>Incorrect Answers:</h2>`;
+    
+    // Loop through incorrect answers and display them
+    incorrectAnswers.forEach(item => {
+        const answer = document.createElement('p');
+        answer.innerText = `Word: ${item.word}\nYour Answer: ${item.userAnswer}\nCorrect Answer: ${item.correctAnswer}`;
+        container.appendChild(answer);
     });
+    document.querySelector('.container').appendChild(container);
 }
 
-// Call shuffleChoices when the page is loaded
-window.onload = shuffleChoices;
+function resetQuiz() {
+    // Reset quiz state
+    currentQuestion = 0;
+    score = 0;
+    incorrectAnswers = []; // Reset incorrect answers array
+    document.getElementById('score').innerText = '';
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('feedback').classList.remove("correct", "wrong");
+    document.getElementById('sentence').innerText = '';
 
+    // Remove the incorrect answers container by ID, if it exists
+    const incorrectAnswersContainer = document.getElementById('incorrect-answers');
+    if (incorrectAnswersContainer) {
+        incorrectAnswersContainer.remove();
+    }
+
+    // Load the first question
+    loadQuestion();
+}
+
+window.onload = function () {
+    loadQuestion();
+};
+        
     </script>
+
 </body>
 </html>
