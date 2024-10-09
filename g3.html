@@ -14,14 +14,16 @@
         }
         .container {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
+            justify-content: space-between;
         }
         .column {
-            width: 45%;
+            flex: 1 1 45%; /* Allow columns to grow and shrink with a base width of 45% */
+            min-width: 100px; /* Minimum width to maintain layout */
             border: 1px solid #ddd;
             padding: 10px;
             margin-bottom: 20px;
+            box-sizing: border-box; /* Include padding and border in width calculations */
         }
         .item {
             padding: 10px;
