@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            width: 45%;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .item.selected {
+            background-color: #d1e7ff;
+        }
+        .item.matched {
+            background-color: #c3f9c6;
+        }
+        .item.wrong {
+            background-color: #f8d7da;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .correct-definitions {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #007bff;
+            background-color: #e9f7ff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vocabulary Matching Game</h1>
+
+    <div class="container">
+        <!-- Words Column -->
+        <div class="column" id="words-column">
+            <div class="item" data-word="Alleviate">Alleviate</div>
+            <div class="item" data-word="Amalgamate">Amalgamate</div>
+            <div class="item" data-word="Ambiguous">Ambiguous</div>
+            <div class="item" data-word="Ambivalence">Ambivalence</div>
+            <div class="item" data-word="Ameliorate">Ameliorate</div>
+            <div class="item" data-word="Anachronism">Anachronism</div>
+            <div class="item" data-word="Analogous">Analogous</div>
+            <div class="item" data-word="Anarchy">Anarchy</div>
+            <div class="item" data-word="Anomalous">Anomalous</div>
+            <div class="item" data-word="Antipathy">Antipathy</div>
+        </div>
+
+        <!-- Definitions Column (shuffled) -->
+        <div class="column" id="definitions-column">
+            <div class="item" data-definition="Relieve">Relieve</div>
+            <div class="item" data-definition="Combine; unite in one body">Combine; unite in one body</div>
+            <div class="item" data-definition="Unclear or doubtful in meaning">Unclear or doubtful in meaning</div>
+            <div class="item" data-definition="The state of having contradictory or conflicting emotional attitudes">The state of having contradictory or conflicting emotional attitudes</div>
+            <div class="item" data-definition="Improve">Improve</div>
+            <div class="item" data-definition="Something or someone misplaced in time">Something or someone misplaced in time</div>
+            <div class="item" data-definition="Comparable">Comparable</div>
+            <div class="item" data-definition="Absence of governing body; state of disorder">Absence of governing body; state of disorder</div>
+            <div class="item" data-definition="Abnormal; irregular">Abnormal; irregular</div>
+            <div class="item" data-definition="Aversion; dislike">Aversion; dislike</div>
+        </div>
+    </div>
+
+    <button onclick="checkAnswers()">Submit and Check</button>
+    <button onclick="resetGame()">Reset</button>
+
+    <div class="result" id="result"></div>
+    <div class="correct-definitions" id="correct-definitions" style="display: none;"></div>
+
+    <script>
+        // Shuffle function to randomize the definitions column
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Shuffle the definitions on page load
+        window.onload = function() {
+            const definitionsColumn = document.getElementById('definitions-column');
+            const definitions = Array.from(definitionsColumn.children);
+            const shuffledDefinitions = shuffle(definitions);
+            definitionsColumn.innerHTML = '';
+            shuffledDefinitions.forEach(definition => {
+                definitionsColumn.appendChild(definition);
+            });
+        };
+
+        let selectedWord = null;
+        let matches = {};
+
+        const correctAnswers = {
+            "Alleviate": "Relieve",
+            "Amalgamate": "Combine; unite in one body",
+            "Ambiguous": "Unclear or doubtful in meaning",
+            "Ambivalence": "The state of having contradictory or conflicting emotional attitudes",
+            "Ameliorate": "Improve",
+            "Anachronism": "Something or someone misplaced in time",
+            "Analogous": "Comparable",
+            "Anarchy": "Absence of governing body; state of disorder",
+            "Anomalous": "Abnormal; irregular",
+            "Antipathy": "Aversion; dislike"
+        };
+
+        // Handle selection of words
+        document.getElementById('words-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item')) {
+                clearSelection('words-column');
+                e.target.classList.add('selected');
+                selectedWord = e.target.getAttribute('data-word');
+            }
+        });
+
+        // Handle selection of definitions
+        document.getElementById('definitions-column').addEventListener('click', function (e) {
+            if (e.target.classList.contains('item') && selectedWord) {
+                clearSelection('definitions-column');
+                e.target.classList.add('selected');
+                const selectedDefinition = e.target.getAttribute('data-definition');
+                matches[selectedWord] = selectedDefinition;
+                document.getElementById('result').innerText = `Selected: ${selectedWord} -> ${selectedDefinition}`;
+                selectedWord = null; // Reset for the next match
+                clearSelection('words-column');
+            }
+        });
+
+        // Clear previous selections
+        function clearSelection(columnId) {
+            const items = document.getElementById(columnId).getElementsByClassName('item');
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('selected');
+            }
+        }
+
+        // Check all the answers
+        function checkAnswers() {
+            const resultDiv = document.getElementById('result');
+            const correctDefinitionsDiv = document.getElementById('correct-definitions');
+            resultDiv.innerHTML = ''; // Clear previous results
+            correctDefinitionsDiv.innerHTML = ''; // Clear previous correct definitions
+            correctDefinitionsDiv.style.display = 'none'; // Hide initially 
+
+            let correct = 0, total = Object.keys(correctAnswers).length;
+
+            for (const word in correctAnswers) {
+                const selectedDefinition = matches[word];
+                const correctDefinition = correctAnswers[word];
+
+                const wordElement = document.querySelector(`[data-word="${word}"]`);
+                const definitionElement = document.querySelector(`[data-definition="${selectedDefinition}"]`);
+
+                if (selectedDefinition === correctDefinition) {
+                    wordElement.classList.add('matched');
+                    definitionElement.classList.add('matched');
+                    correct++;
+                } else {
+                    wordElement.classList.add('wrong');
+                    if (definitionElement) definitionElement.classList.add('wrong');
+                    // Display the correct definition for the wrong matches
+                    correctDefinitionsDiv.innerHTML += `<p>${word}: Correct Definition: ${correctDefinition}</p>`;
+                }
+            }
+
+            resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
+            if (correctDefinitionsDiv.innerHTML) {
+                correctDefinitionsDiv.style.display = 'block'; // Show if there are wrong matches
+            }
+        }
+
+        // Reset the game
+        function resetGame() {
+            selectedWord = null;
+            matches = {};
+            clearSelection('words-column');
+            clearSelection('definitions-column');
+            document.getElementById('result').innerText = '';
+            document.getElementById('correct-definitions').innerHTML = '';
+            document.getElementById('correct-definitions').style.display = 'none';
+            window.onload(); // Re-shuffle definitions
+        }
+    </script>
+
+</body>
+</html>
