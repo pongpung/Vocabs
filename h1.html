@@ -82,6 +82,15 @@
         .correct-definitions p {
             margin: 5px 0;
         }
+        .image {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image img {
+            width: 300px; /* Adjust the width here */
+            height: auto; /* Maintain aspect ratio */
+        }
     </style>
 </head>
 <body>
@@ -90,53 +99,54 @@
 
     <div class="container">
         <!-- Words Column -->
-        <div class="column" id="words-column">
-            <div class="item" data-word="Implicit">Implicit</div>
-            <div class="item" data-word="Implode">Implode</div>
-            <div class="item" data-word="Inadvertently">Inadvertently</div>
-            <div class="item" data-word="Inchoate">Inchoate</div>
-            <div class="item" data-word="Incongruity">Incongruity</div>
-            <div class="item" data-word="Inconsequential">Inconsequential</div>
-            <div class="item" data-word="Incorporate">Incorporate</div>
-            <div class="item" data-word="Indeterminate">Indeterminate</div>
-            <div class="item" data-word="Indigence">Indigence</div>
-            <div class="item" data-word="Indolent">Indolent</div>
-            <div class="item" data-word="Inert">Inert</div>
-            <div class="item" data-word="Ingenuous">Ingenuous</div>
-            <div class="item" data-word="Inherent">Inherent</div>
-            <div class="item" data-word="Innocuous">Innocuous</div>
-            <div class="item" data-word="Insensible">Insensible</div>
-        </div>
+        <!-- Words Column -->
+<div class="column" id="words-column">
+    <div class="item" data-word="Implicit">Implicit</div>
+    <div class="item" data-word="Implode">Implode</div>
+    <div class="item" data-word="Inadvertently">Inadvertently</div>
+    <div class="item" data-word="Inchoate">Inchoate</div>
+    <div class="item" data-word="Incongruity">Incongruity</div>
+    <div class="item" data-word="Inconsequential">Inconsequential</div>
+    <div class="item" data-word="Incorporate">Incorporate</div>
+    <div class="item" data-word="Indeterminate">Indeterminate</div>
+    <div class="item" data-word="Indigence">Indigence</div>
+    <div class="item" data-word="Indolent">Indolent</div>
+    <div class="item" data-word="Inert">Inert</div>
+    <div class="item" data-word="Ingenuous">Ingenuous</div>
+    <div class="item" data-word="Inherent">Inherent</div>
+    <div class="item" data-word="Innocuous">Innocuous</div>
+    <div class="item" data-word="Insensible">Insensible</div>
+</div>
 
-        <!-- Definitions Column (shuffled) -->
-        <div class="column" id="definitions-column">
-            <div class="item" data-definition="Understood but not stated">Understood but not stated</div>
-            <div class="item" data-definition="Burst inward">Burst inward</div>
-            <div class="item" data-definition="Unintentionally; by oversight; carelessly">Unintentionally; by oversight; carelessly</div>
-            <div class="item" data-definition="Recently begun; rudimentary; elementary">Recently begun; rudimentary; elementary</div>
-            <div class="item" data-definition="Lack of harmony; absurdity">Lack of harmony; absurdity</div>
-            <div class="item" data-definition="Insignificant; unimportant">Insignificant; unimportant</div>
-            <div class="item" data-definition="Introduce something into a larger whole; combine; unite">Introduce something into a larger whole; combine; unite</div>
-            <div class="item" data-definition="Uncertain; not clearly fixed; indefinite">Uncertain; not clearly fixed; indefinite</div>
-            <div class="item" data-definition="Poverty">Poverty</div>
-            <div class="item" data-definition="Lazy">Lazy</div>
-            <div class="item" data-definition="Inactive; lacking power to move">Inactive; lacking power to move</div>
-            <div class="item" data-definition="Naive and trusting; young; unsophisticated">Naive and trusting; young; unsophisticated</div>
-            <div class="item" data-definition="Firmly established by nature or habit">Firmly established by nature or habit</div>
-            <div class="item" data-definition="Harmless">Harmless</div>
-            <div class="item" data-definition="Unconscious; unresponsive">Unconscious; unresponsive</div>
-        </div>
+<!-- Definitions Column (shuffled) -->
+<div class="column" id="definitions-column">
+    <div class="item" data-definition="Understood but not stated">Understood but not stated</div>
+    <div class="item" data-definition="Burst inward">Burst inward</div>
+    <div class="item" data-definition="Unintentionally; by oversight; carelessly">Unintentionally; by oversight; carelessly</div>
+    <div class="item" data-definition="Recently begun; rudimentary; elementary">Recently begun; rudimentary; elementary</div>
+    <div class="item" data-definition="Lack of harmony; absurdity">Lack of harmony; absurdity</div>
+    <div class="item" data-definition="Insignificant; unimportant">Insignificant; unimportant</div>
+    <div class="item" data-definition="Introduce something into a larger whole; combine; unite">Introduce something into a larger whole; combine; unite</div>
+    <div class="item" data-definition="Uncertain; not clearly fixed; indefinite">Uncertain; not clearly fixed; indefinite</div>
+    <div class="item" data-definition="Poverty">Poverty</div>
+    <div class="item" data-definition="Lazy">Lazy</div>
+    <div class="item" data-definition="Inactive; lacking power to move">Inactive; lacking power to move</div>
+    <div class="item" data-definition="Naive and trusting; young; unsophisticated">Naive and trusting; young; unsophisticated</div>
+    <div class="item" data-definition="Firmly established by nature or habit">Firmly established by nature or habit</div>
+    <div class="item" data-definition="Harmless">Harmless</div>
+    <div class="item" data-definition="Unconscious; unresponsive">Unconscious; unresponsive</div>
+</div>
+
     </div>
 
     <button onclick="checkAnswers()">Submit and Check</button>
    
-
     <div class="result" id="result"></div>
+     <div class="image" id="image"></div>
     <div class="correct-definitions" id="correct-definitions"></div>
+   
 
 <script>
-
-
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -160,22 +170,23 @@
     let matches = {};
 
     const correctAnswers = {
-        "Implicit": "Understood but not stated",
-        "Implode": "Burst inward",
-        "Inadvertently": "Unintentionally; by oversight; carelessly",
-        "Inchoate": "Recently begun; rudimentary; elementary",
-        "Incongruity": "Lack of harmony; absurdity",
-        "Inconsequential": "Insignificant; unimportant",
-        "Incorporate": "Introduce something into a larger whole; combine; unite",
-        "Indeterminate": "Uncertain; not clearly fixed; indefinite",
-        "Indigence": "Poverty",
-        "Indolent": "Lazy",
-        "Inert": "Inactive; lacking power to move",
-        "Ingenuous": "Naive and trusting; young; unsophisticated",
-        "Inherent": "Firmly established by nature or habit",
-        "Innocuous": "Harmless",
-        "Insensible": "Unconscious; unresponsive"
-    };
+    "Implicit": "Understood but not stated",
+    "Implode": "Burst inward",
+    "Inadvertently": "Unintentionally; by oversight; carelessly",
+    "Inchoate": "Recently begun; rudimentary; elementary",
+    "Incongruity": "Lack of harmony; absurdity",
+    "Inconsequential": "Insignificant; unimportant",
+    "Incorporate": "Introduce something into a larger whole; combine; unite",
+    "Indeterminate": "Uncertain; not clearly fixed; indefinite",
+    "Indigence": "Poverty",
+    "Indolent": "Lazy",
+    "Inert": "Inactive; lacking power to move",
+    "Ingenuous": "Naive and trusting; young; unsophisticated",
+    "Inherent": "Firmly established by nature or habit",
+    "Innocuous": "Harmless",
+    "Insensible": "Unconscious; unresponsive"
+};
+
 
     // Handle selection of words
     document.getElementById('words-column').addEventListener('click', function (e) {
@@ -211,9 +222,11 @@
     function checkAnswers() {
         const resultDiv = document.getElementById('result');
         const correctDefinitionsDiv = document.getElementById('correct-definitions');
+        const imageDiv = document.getElementById('image');
         resultDiv.innerHTML = ''; // Clear previous results
         correctDefinitionsDiv.innerHTML = ''; // Clear previous correct definitions
         correctDefinitionsDiv.style.display = 'none'; // Hide initially 
+        imageDiv.style.display = 'none'; // Hide initially 
 
         let correct = 0, total = Object.keys(correctAnswers).length;
 
@@ -229,21 +242,28 @@
                 definitionElement.classList.add('matched');
                 correct++;
             } else {
-            wordElement.classList.add('wrong');
-            if (definitionElement) definitionElement.classList.add('wrong');
-            // Display the correct definition for the wrong matches with bold words
-            correctDefinitionsDiv.innerHTML += `<p><strong>${word}:</strong> Correct Definition: ${correctDefinition}</p>`;
-        }
+                wordElement.classList.add('wrong');
+                if (definitionElement) definitionElement.classList.add('wrong');
+                // Display the correct definition for the wrong matches
+                correctDefinitionsDiv.innerHTML += `<p><strong>${word}:</strong> Correct Definition: ${correctDefinition}</p>`;
+            }
         }
 
         resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
         if (correctDefinitionsDiv.innerHTML) {
             correctDefinitionsDiv.style.display = 'block'; // Show if there are wrong matches
         }
+
+        // Display the image based on the score
+        if (correct === total) {
+            imageDiv.innerHTML = `<img src="Obaidul-Qader-Daam-Meme-Template.png" alt="Congratulations!" style="width: 300px; height: auto;">`;
+            imageDiv.style.display = 'block'; // Show the image
+        } else {
+            imageDiv.innerHTML = `<img src="Sheikh-hasina.jpg" style="width: 300px; height: auto;">`;
+            imageDiv.style.display = 'block'; // Show the image
+        }
     }
 </script>
 
-
 </body>
 </html>
-
