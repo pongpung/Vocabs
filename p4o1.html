@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+        }
+        .quiz-section {
+            margin: 20px 0;
+        }
+        .question {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            margin:10px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .option:hover {
+            background-color: #0056b3;
+        }
+        .progress {
+            text-align: center;
+            margin: 10px 0;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .feedback.correct {
+            color: #1e90ff; /* Non-green color for correct */
+        }
+        .feedback.wrong {
+            color: #ff4500; /* Non-red color for wrong */
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vocabulary Quiz</h1>
+
+        <div class="quiz-section">
+            <div id="question" class="question"></div>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)"></button>
+                <button class="option" onclick="checkAnswer(1)"></button>
+                <button class="option" onclick="checkAnswer(2)"></button>
+                <button class="option" onclick="checkAnswer(3)"></button>
+            </div>
+        </div>
+
+        <div class="progress">
+            <p>Question: <span id="currentQuestion">1</span>/41</p>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="sentence" id="sentence"></div>
+        <div class="score" id="score"></div>
+
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+        <button onclick="resetQuiz()">Reset Quiz</button>
+
+    </div>
+
+    <script>
+            const vocabList = [
+    { word: "Implicit", definition: "understood but not stated", sentence: "Her approval was implicit in her smile." },
+    { word: "Implode", definition: "burst inward", sentence: "The building will implode if the explosives are set correctly." },
+    { word: "Inadvertently", definition: "unintentionally; by oversight; carelessly", sentence: "He inadvertently left his phone at the restaurant." },
+    { word: "Inchoate", definition: "recently begun; rudimentary; elementary", sentence: "The project is still in its inchoate stages." },
+    { word: "Incongruity", definition: "lack of harmony; absurdity", sentence: "There was an incongruity between the upbeat music and the sad scene." },
+    { word: "Inconsequential", definition: "insignificant; unimportant", sentence: "The details are inconsequential to the main argument." },
+    { word: "Incorporate", definition: "introduce something into a larger whole; combine; unite", sentence: "We need to incorporate feedback into our final report." },
+    { word: "Indeterminate", definition: "uncertain; not clearly fixed; indefinite", sentence: "The outcome of the election remains indeterminate." },
+    { word: "Indigence", definition: "poverty", sentence: "The charity aims to alleviate indigence in the community." },
+    { word: "Indolent", definition: "lazy", sentence: "He became indolent after he lost his job." },
+    { word: "Inert", definition: "inactive; lacking power to move", sentence: "The inert gas did not react with any other substances." },
+    { word: "Ingenuous", definition: "naive and trusting; young; unsophisticated", sentence: "Her ingenuous nature made her an easy target for deception." },
+    { word: "Inherent", definition: "firmly established by nature or habit", sentence: "There are inherent risks in starting a new business." },
+    { word: "Innocuous", definition: "harmless", sentence: "The drug is innocuous and poses no risk to health." },
+    { word: "Insensible", definition: "unconscious; unresponsive", sentence: "He was insensible after the accident." },
+    { word: "Insinuate", definition: "hint; imply; creep in", sentence: "He tried to insinuate that I was responsible for the mistake." },
+    { word: "Insipid", definition: "lacking in flavor; dull", sentence: "The soup was insipid and needed more seasoning." },
+    { word: "Insularity", definition: "narrow-mindedness; isolation", sentence: "Her insularity prevented her from understanding other cultures." },
+    { word: "Intractable", definition: "unruly; stubborn; unyielding", sentence: "The intractable problem required innovative solutions." },
+    { word: "Intransigence", definition: "refusal of any compromise; stubbornness", sentence: "His intransigence during negotiations led to a stalemate." },
+    { word: "Inundate", definition: "overwhelm; flood; submerge", sentence: "The heavy rains can inundate the low-lying areas." },
+    { word: "Inured", definition: "accustomed; hardened", sentence: "She became inured to the noise of the city." },
+    { word: "Invective", definition: "abuse", sentence: "His invective against the government was widely reported." },
+    { word: "Irascible", definition: "irritable; easily angered", sentence: "His irascible nature made him difficult to work with." },
+    { word: "Irresolute", definition: "uncertain how to act; weak", sentence: "She felt irresolute about making such a big decision." },
+    { word: "Itinerary", definition: "plan of a trip", sentence: "We followed the itinerary closely during our travels." },
+    { word: "Laconic", definition: "brief and to the point", sentence: "His laconic reply left her wanting more information." },
+    { word: "Lassitude", definition: "languor; weariness", sentence: "After the long meeting, a sense of lassitude settled over the room." },
+    { word: "Latent", definition: "potential but undeveloped; dormant; hidden", sentence: "The talent remained latent until she discovered it in herself." },
+    { word: "Laud", definition: "praise", sentence: "She was lauded for her contributions to the project." },
+    { word: "Lethargic", definition: "drowsy; dull", sentence: "He felt lethargic after staying up late." },
+    { word: "Levee", definition: "stone embankment to prevent flooding", sentence: "The levee held strong against the rising waters." },
+    { word: "Levity", definition: "lack of seriousness or steadiness; frivolity", sentence: "They approached the serious topic with surprising levity." },
+    { word: "Log", definition: "record of a voyage or flight; record of day-to-day activities", sentence: "He kept a log of his travels for future reference." },
+    { word: "Loquacious", definition: "talkative", sentence: "Her loquacious nature made her the life of the party." },
+    { word: "Lucid", definition: "easily understood; clear; intelligible", sentence: "His lucid explanation helped everyone understand the concept." },
+    { word: "Luminous", definition: "shining; issuing light", sentence: "The stars were luminous against the night sky." },
+    { word: "Magnanimity", definition: "generosity", sentence: "Her magnanimity in forgiving others was admirable." },
+    { word: "Malingerer", definition: "one who feigns illness to escape duty", sentence: "He was labeled a malingerer for skipping work without reason." },
+    { word: "Malleable", definition: "capable of being shaped by pounding; impressionable", sentence: "Gold is malleable and can be shaped into thin sheets." },
+    { word: "Maverick", definition: "rebel; nonconformist", sentence: "He was a maverick in the tech industry, often challenging norms." },
+    { word: "Mendacious", definition: "lying; habitually dishonest", sentence: "His mendacious claims were quickly debunked." },
+    { word: "Metamorphosis", definition: "change of form", sentence: "The caterpillar underwent a metamorphosis to become a butterfly." },
+    { word: "Meticulous", definition: "excessively careful; painstaking; scrupulous", sentence: "She was meticulous in her research, leaving no stone unturned." },
+    { word: "Misanthrope", definition: "one who hates mankind", sentence: "The misanthrope avoided social interactions at all costs." },
+    { word: "Mitigate", definition: "appease; moderate", sentence: "The government took steps to mitigate the effects of the recession." }
+];
+
+        
+        let currentQuestion = 0;
+let score = 0;
+let incorrectAnswers = [];
+
+function loadQuestion() {
+    const questionElement = document.getElementById('question');
+    const options = document.getElementsByClassName('option');
+    const currentVocab = vocabList[currentQuestion];
+
+    // Display the question
+    questionElement.innerText = `What is the definition of "${currentVocab.word}"?`;
+
+    // Set correct answer in a random option
+    let correctAnswerIndex = Math.floor(Math.random() * 4);
+    options[correctAnswerIndex].innerText = currentVocab.definition;
+
+    // Filter out the correct answer and shuffle the wrong options
+    let wrongOptions = vocabList.filter((_, index) => index !== currentQuestion);
+    wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+
+    // Fill the remaining options with wrong answers
+    let wrongIndex = 0;
+    for (let i = 0; i < 4; i++) {
+        if (i !== correctAnswerIndex) {
+            options[i].innerText = wrongOptions[wrongIndex].definition;
+            wrongIndex++;
+        }
+    }
+
+    // Reset feedback and next button
+    document.getElementById('nextButton').style.display = "none";
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('sentence').innerText = '';
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function checkAnswer(selectedOption) {
+    const options = document.getElementsByClassName('option');
+    const feedbackElement = document.getElementById('feedback');
+    const sentenceElement = document.getElementById('sentence');
+    
+    if (options[selectedOption].innerText === vocabList[currentQuestion].definition) {
+        feedbackElement.innerText = "Correct!";
+        feedbackElement.classList.add("correct");
+        feedbackElement.classList.remove("wrong");
+        score++;
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+    } else {
+        feedbackElement.innerText = `Wrong! The correct answer is: ${vocabList[currentQuestion].definition}`;
+        feedbackElement.classList.add("wrong");
+        feedbackElement.classList.remove("correct");
+        sentenceElement.innerText = vocabList[currentQuestion].sentence;
+        
+        // Store the incorrect answer
+        incorrectAnswers.push({
+            word: vocabList[currentQuestion].word,
+            correctAnswer: vocabList[currentQuestion].definition,
+            userAnswer: options[selectedOption].innerText
+        });
+    }
+
+    document.getElementById('currentQuestion').innerText = currentQuestion + 1;
+    document.getElementById('nextButton').style.display = "block";
+}
+
+function nextQuestion() {
+    if (currentQuestion < vocabList.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+    } else {
+        document.getElementById('score').innerText = `You scored ${score} out of ${vocabList.length}`;
+        document.getElementById('nextButton').style.display = "none";
+        displayIncorrectAnswers();
+    }
+}
+
+function displayIncorrectAnswers() {
+    // Create a new container with a unique ID for incorrect answers
+    const container = document.createElement('div');
+    container.id = 'incorrect-answers';
+    container.innerHTML = `<h2>Incorrect Answers:</h2>`;
+    
+    // Loop through incorrect answers and display them
+    incorrectAnswers.forEach(item => {
+        const answer = document.createElement('p');
+        answer.innerText = `Word: ${item.word}\nYour Answer: ${item.userAnswer}\nCorrect Answer: ${item.correctAnswer}`;
+        container.appendChild(answer);
+    });
+    document.querySelector('.container').appendChild(container);
+}
+
+function resetQuiz() {
+    // Reset quiz state
+    currentQuestion = 0;
+    score = 0;
+    incorrectAnswers = []; // Reset incorrect answers array
+    document.getElementById('score').innerText = '';
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('feedback').classList.remove("correct", "wrong");
+    document.getElementById('sentence').innerText = '';
+
+    // Remove the incorrect answers container by ID, if it exists
+    const incorrectAnswersContainer = document.getElementById('incorrect-answers');
+    if (incorrectAnswersContainer) {
+        incorrectAnswersContainer.remove();
+    }
+
+    // Load the first question
+    loadQuestion();
+}
+
+window.onload = function () {
+    loadQuestion();
+};
+        
+    </script>
+
+</body>
+</html>
