@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill in the Blanks Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .quiz-container {
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4A90E2;
+        }
+
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .options li {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .options li:hover {
+            background: #d6e9fe;
+        }
+
+        .options li.correct {
+            background: #A5D6A7;
+            cursor: not-allowed;
+        }
+
+        .options li.wrong {
+            background: #EF9A9A;
+            cursor: not-allowed;
+        }
+
+        button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #357ABD;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz-container">
+    <h1>Fill in the Blank Quiz</h1>
+    <div class="question" id="question"></div>
+    <ul class="options" id="options"></ul>
+    <button id="next-btn" onclick="nextQuestion()">Next</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+// Function to shuffle an array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+}
+
+const quizData = [
+    {
+        question: "Although she didn’t say it outright, her __________ agreement was clear to everyone in the room.",
+        correct: "implicit",
+        options: ["implicit", "indeterminate", "ingenuous", "inconsequential", "indolent"]
+    },
+    {
+        question: "The structure was designed to __________ spectacularly, collapsing inwards to minimize debris.",
+        correct: "implode",
+        options: ["implode", "inundate", "incorporate", "inert", "insipid"]
+    },
+    {
+        question: "He __________ revealed the surprise party while discussing his weekend plans.",
+        correct: "inadvertently",
+        options: ["indigence", "inadvertently", "insinuate", "insensible", "laconic"]
+    },
+    {
+        question: "The committee’s __________ ideas eventually evolved into a comprehensive plan.",
+        correct: "inchoate",
+        options: ["inchoate", "irascible", "meticulous", "mendacious", "levity"]
+    },
+    {
+        question: "There was an __________ between her sophisticated attire and the casual setting of the picnic.",
+        correct: "incongruity",
+        options: ["insipid", "incongruity", "indolent", "lucid", "latent"]
+    },
+    {
+        question: "The minor details were deemed __________ to the overall success of the project.",
+        correct: "inconsequential",
+        options: ["inconsequential", "insensible", "insinuate", "inherent", "implicit"]
+    },
+    {
+        question: "The architect aimed to __________ sustainable materials into the new building design.",
+        correct: "incorporate",
+        options: ["incorporate", "malingerer", "irresolute", "maverick", "insipid"]
+    },
+    {
+        question: "The outcome of the experiment remained __________ until further testing was conducted.",
+        correct: "indeterminate",
+        options: ["inert", "indeterminate", "insipid", "inundate", "luminous"]
+    },
+    {
+        question: "His writings often reflected the harsh realities of __________ in urban life.",
+        correct: "indigence",
+        options: ["indolent", "insidious", "indigence", "meticulous", "loquacious"]
+    },
+    {
+        question: "Her __________ habits led to missed opportunities and unfulfilled potential.",
+        correct: "indolent",
+        options: ["irascible", "indolent", "inert", "mendacious", "implicit"]
+    },
+    {
+        question: "The __________ substance showed no signs of reactivity in the chemical analysis.",
+        correct: "inert",
+        options: ["indolent", "indeterminate", "indigence", "inert", "laconic"]
+    },
+    {
+        question: "Despite her __________ nature, she quickly learned the harsh realities of the world.",
+        correct: "ingenuous",
+        options: ["implicit", "incongruous", "ingenuous", "irresolute", "mendacious"]
+    },
+    {
+        question: "There is an __________ risk in investing in the stock market that every investor must acknowledge.",
+        correct: "inherent",
+        options: ["inherent", "indeterminate", "laconic", "levity", "malingerer"]
+    },
+    {
+        question: "The __________ comment sparked an unexpected debate among the group.",
+        correct: "innocuous",
+        options: ["inconsequential", "implicit", "insipid", "innocuous", "insensible"]
+    },
+    {
+        question: "He was left __________ after the fall, requiring immediate medical attention.",
+        correct: "insensible",
+        options: ["insensible", "ingenuous", "inert", "indolent", "inchoate"]
+    },
+    {
+        question: "She tried to __________ that her colleague was not qualified for the promotion, but her tone was too subtle to be convincing.",
+        correct: "insinuate",
+        options: ["insinuate", "inadvertently", "indeterminate", "incongruity", "irresolute"]
+    },
+    {
+        question: "The __________ film failed to engage its audience, leaving many disappointed.",
+        correct: "insipid",
+        options: ["insipid", "mendacious", "irascible", "meticulous", "indigence"]
+    },
+    {
+        question: "His __________ made it difficult for him to relate to people from different backgrounds.",
+        correct: "insularity",
+        options: ["insularity", "implicit", "irresolute", "inchoate", "laconic"]
+    },
+    {
+        question: "The __________ nature of the dispute led to lengthy negotiations with no resolution in sight.",
+        correct: "intractable",
+        options: ["intractable", "indeterminate", "indolent", "insipid", "irresolute"]
+    },
+    {
+        question: "Her __________ in the discussions resulted in a stalemate that frustrated everyone involved.",
+        correct: "intransigence",
+        options: ["intransigence", "indigent", "meticulous", "mendacious", "indolent"]
+    },
+    {
+        question: "After the announcement, they were __________ with inquiries from eager customers.",
+        correct: "inundate",
+        options: ["inundate", "implore", "irascible", "laconic", "lucid"]
+    },
+    {
+        question: "Having spent years in the industry, she became __________ to the pressures of tight deadlines.",
+        correct: "inured",
+        options: ["inured", "indolent", "implicit", "luminous", "insipid"]
+    },
+    {
+        question: "The article was filled with __________ against the policy changes, showcasing the author’s strong opposition.",
+        correct: "invective",
+        options: ["invective", "indeterminate", "luminous", "loquacious", "irresolute"]
+    },
+    {
+        question: "His __________ temperament often led to conflicts with colleagues who preferred a more diplomatic approach.",
+        correct: "irascible",
+        options: ["irascible", "insipid", "indolent", "implore", "latent"]
+    },
+    {
+        question: "Standing at the crossroads, he felt __________ about which direction to take.",
+        correct: "irresolute",
+        options: ["irresolute", "inundate", "mendacious", "implicit", "laconic"]
+    },
+    {
+        question: "We received a detailed __________ for our trip, outlining every planned activity.",
+        correct: "itinerary",
+        options: ["itinerary", "indeterminate", "insidious", "insipid", "indolent"]
+    },
+    {
+        question: "His __________ replies gave little insight into his thoughts or feelings.",
+        correct: "laconic",
+        options: ["laconic", "indigent", "inert", "insensible", "implicit"]
+    },
+    {
+        question: "The intense heat brought on a sense of __________ that made it difficult to concentrate.",
+        correct: "lassitude",
+        options: ["lassitude", "mendacious", "insipid", "indolent", "implicit"]
+    },
+    {
+        question: "The scientist believed there was a __________ potential in the new material that could be unlocked through further research.",
+        correct: "latent",
+        options: ["latent", "laconic", "mendacious", "irascible", "indigent"]
+    },
+    {
+        question: "Critics were quick to __________ her performance, praising her ability to convey deep emotion.",
+        correct: "laud",
+        options: ["laud", "implore", "indolent", "mendacious", "insipid"]
+    },
+    {
+        question: "After a long night of studying, he felt __________ and struggled to keep his eyes open in class.",
+        correct: "lethargic",
+        options: ["lethargic", "indeterminate", "implicit", "incoherent", "insipid"]
+    },
+    {
+        question: "The __________ was built to protect the community from seasonal flooding, standing as a barrier against rising waters.",
+        correct: "levee",
+        options: ["levee", "irascible", "indigent", "laconic", "latent"]
+    },
+    {
+        question: "Despite the seriousness of the situation, he injected a note of __________ that lightened the atmosphere.",
+        correct: "levity",
+        options: ["levity", "incongruity", "indolent", "implicit", "laconic"]
+    },
+    {
+        question: "The captain meticulously recorded each detail of the voyage in the ship’s __________.",
+        correct: "log",
+        options: ["log", "insipid", "indigent", "luminous", "irresolute"]
+    },
+    {
+        question: "Her __________ nature made her the life of the party, engaging everyone in conversation.",
+        correct: "loquacious",
+        options: ["loquacious", "indeterminate", "irascible", "inert", "implicit"]
+    },
+    {
+        question: "The professor’s __________ explanations made complex topics accessible to all students.",
+        correct: "lucid",
+        options: ["lucid", "implicit", "indolent", "indeterminate", "insipid"]
+    },
+    {
+        question: "The __________ glow of the streetlights illuminated the path, making it easier to walk at night.",
+        correct: "luminous",
+        options: ["luminous", "laconic", "indigence", "implicit", "insipid"]
+    },
+    {
+        question: "His __________ in victory endeared him to fans and opponents alike.",
+        correct: "magnanimity",
+        options: ["magnanimity", "irascible", "indeterminate", "indigent", "incongruity"]
+    },
+    {
+        question: "The manager was quick to identify the __________ who frequently feigned illness to avoid work.",
+        correct: "malingerer",
+        options: ["malingerer", "incongruity", "indigent", "implicit", "inert"]
+    },
+    {
+        question: "The __________ nature of the clay allowed her to sculpt intricate designs with ease.",
+        correct: "malleable",
+        options: ["malleable", "irresolute", "implicit", "insipid", "indolent"]
+    },
+    {
+        question: "As a __________ in the field of science, he often pursued unconventional theories that challenged the status quo.",
+        correct: "maverick",
+        options: ["maverick", "indeterminate", "indigence", "insipid", "indolent"]
+    },
+    {
+        question: "The __________ claims made during the campaign were later proven false by independent fact-checkers.",
+        correct: "mendacious",
+        options: ["mendacious", "laconic", "implicit", "incongruity", "indigent"]
+    },
+    {
+        question: "The __________ of the caterpillar into a butterfly is a symbol of transformation and growth.",
+        correct: "metamorphosis",
+        options: ["metamorphosis", "indeterminate", "indigence", "implicit", "indolent"]
+    },
+    {
+        question: "Her __________ attention to detail ensured that the project was completed without any errors.",
+        correct: "meticulous",
+        options: ["meticulous", "indeterminate", "insipid", "implicit", "indolent"]
+    },
+    {
+        question: "The reclusive writer was often perceived as a __________, preferring solitude over social interactions.",
+        correct: "misanthrope",
+        options: ["misanthrope", "indeterminate", "implicit", "indolent", "incoherent"]
+    },
+    {
+        question: "The new policies were designed to __________ the impact of climate change on the community.",
+        correct: "mitigate",
+        options: ["mitigate", "implicit", "indeterminate", "indigence", "incoherent"]
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+// Shuffle the quiz data
+shuffleArray(quizData);
+
+// Load the first question after shuffling
+function loadQuestion() {
+    document.getElementById("result").innerHTML = "";
+    const questionData = quizData[currentQuestion];
+    document.getElementById("question").textContent = questionData.question;
+
+    const optionsList = document.getElementById("options");
+    optionsList.innerHTML = "";
+
+    // Shuffle the options for the current question
+    shuffleArray(questionData.options);
+
+    questionData.options.forEach(option => {
+        const li = document.createElement("li");
+        li.textContent = option;
+        li.onclick = () => selectOption(li, option === questionData.correct);
+        optionsList.appendChild(li);
+    });
+}
+
+function selectOption(element, isCorrect) {
+    const optionsList = document.getElementById("options").children;
+    for (let i = 0; i < optionsList.length; i++) {
+        optionsList[i].onclick = null; // Disable other options after selection
+    }
+
+    let explanation = ""; // Explanation placeholder
+    if (isCorrect) {
+        element.classList.add("correct");
+        score++;
+        explanation = "Correct! This word fits the context of the sentence perfectly.";
+    } else {
+        element.classList.add("wrong");
+        explanation = `Wrong! The correct word is "${quizData[currentQuestion].correct}". ${getExplanation(quizData[currentQuestion].correct)}.`;
+    }
+
+    document.getElementById("result").innerHTML = explanation;
+    document.getElementById("next-btn").disabled = false;
+}
+
+// Get explanation for the correct answer
+function getExplanation(word) {
+    const explanations = {
+        "implicit": "This word means understood without being directly stated. It refers to ideas or agreements that are conveyed indirectly, relying on context and shared understanding.",
+        "implode": "To implode means to collapse inwardly. In structural engineering, this term is used to describe a controlled demolition where a structure falls in on itself, minimizing outward debris.",
+        "inadvertently": "This term means unintentionally or by accident. It describes situations where something occurs without intention, often leading to unforeseen consequences.",
+        "inchoate": "This adjective refers to something that is just begun and not fully formed or developed. It can describe ideas or plans that are still in their early stages and lack completeness.",
+        "incongruity": "Incongruity denotes a lack of harmony or agreement, often highlighting a striking difference or contradiction. It is commonly used to describe situations where elements do not match or align appropriately.",
+        "inconsequential": "This word means insignificant or of little importance. It is often used to describe details or actions that have minimal impact on a larger context or outcome.",
+        "incorporate": "To incorporate means to combine or include something into a larger whole. In design or planning, it often refers to the integration of new elements with existing structures or ideas.",
+        "indeterminate": "Indeterminate refers to something that is not clearly defined or fixed. It is often used in contexts where outcomes, values, or characteristics remain uncertain until further information is available.",
+        "indigence": "This term means extreme poverty or destitution. It often reflects the social and economic challenges faced by individuals living in conditions lacking basic resources.",
+        "indolent": "Indolent describes a tendency to avoid activity or exertion; it implies laziness. This term is often used to characterize behavior that leads to missed opportunities.",
+        "inert": "Inert refers to something that is inactive or unable to move. In chemistry, it often describes substances that do not react or change under certain conditions.",
+        "ingenuous": "This term means innocent and unsuspecting. It refers to a person’s candidness and straightforwardness, often implying a lack of guile or deception.",
+        "inherent": "Inherent means existing as a permanent, essential characteristic. It often describes qualities that are naturally part of something, making them intrinsic.",
+        "innocuous": "Innocuous means harmless or not likely to offend. This term is used to describe comments, actions, or substances that do not pose a threat or cause harm.",
+        "insensible": "This adjective means unable to feel or respond, often due to unconsciousness or unresponsiveness. It can also refer to someone who is indifferent to something.",
+        "insinuate": "To insinuate means to suggest or hint at something, often in an indirect or subtle way. This term can carry a negative connotation, implying that the suggestion is insidious.",
+        "insipid": "Insipid describes something that is bland or lacking in flavor, vigor, or interest. It is often used to critique art, literature, or experiences that fail to engage or excite.",
+        "insularity": "Insularity refers to a lack of interest in cultures, ideas, or peoples outside one’s own experience. It can describe a mindset that is closed off to outside influences.",
+        "intractable": "Intractable means difficult to manage or control. It often describes problems or situations that are stubborn and resistant to resolution.",
+        "intransigence": "Intransigence refers to an unwillingness to change one's views or agree on a course of action. It can lead to stalemates in discussions or negotiations.",
+        "inundate": "To inundate means to overwhelm someone with things or people to be dealt with. This term is often used in contexts where there is an excessive amount of something.",
+        "inured": "Inured means accustomed to something, especially something unpleasant. It refers to a state of being desensitized due to prolonged exposure.",
+        "invective": "Invective refers to harsh, abusive language used to criticize or insult. It is often seen in contexts where strong emotions are involved.",
+        "irascible": "Irascible means having a tendency to be easily angered. This term describes individuals whose temperament can lead to frequent conflicts.",
+        "irresolute": "Irresolute means uncertain or indecisive. It describes a state of being unable to make a firm decision, often due to a lack of confidence.",
+        "itinerary": "An itinerary is a planned route or journey. It details the schedule of activities and locations for travel, providing structure to the trip.",
+        "laconic": "Laconic describes a style of speaking or writing that uses very few words. It often conveys a sense of brevity and conciseness.",
+        "lassitude": "Lassitude refers to a state of physical or mental weariness. It can result from fatigue, often affecting one's ability to concentrate or be active.",
+        "latent": "Latent means existing but not yet developed or manifested. It describes potential that has not been realized or expressed.",
+        "laud": "To laud means to praise highly, particularly in a public context. It often reflects admiration for someone's achievements or qualities.",
+        "lethargic": "Lethargic describes a state of sluggishness and apathy. It often results in a lack of energy or motivation to engage in activities.",
+        "levee": "A levee is an embankment built to prevent the overflow of a river. It serves as a barrier against flooding, protecting surrounding areas.",
+        "levity": "Levity refers to a lighthearted or humorous attitude, especially in serious situations. It can help to ease tension and promote a more relaxed atmosphere.",
+        "log": "A log is a systematic record of events, activities, or thoughts. It is often used to track progress, document experiences, or maintain accountability.",
+        "loquacious": "Loquacious means tending to talk a lot; it describes individuals who are very talkative and often engage others in conversation.",
+        "lucid": "Lucid means expressed clearly and easy to understand. It often describes writing or speech that conveys complex ideas in an accessible manner.",
+        "luminous": "Luminous refers to something that emits or reflects light. It often describes bright objects or environments that are well-lit.",
+        "magnanimity": "Magnanimity refers to the quality of being generous or forgiving, especially toward a rival or less powerful person. It reflects a noble spirit.",
+        "malingerer": "A malingerer is a person who pretends to be ill or incapacitated in order to avoid work or duty. This behavior often involves deceit.",
+        "malleable": "Malleable means easily influenced or shaped. It often describes materials that can be bent or molded without breaking.",
+        "maverick": "A maverick is an independent-minded person who does not conform to the norm. This term often applies to individuals who challenge traditional beliefs.",
+        "mendacious": "Mendacious refers to a tendency to lie or deceive. It describes statements or claims that are not truthful.",
+        "metamorphosis": "Metamorphosis refers to a change in form, structure, or substance. It often describes significant transformations, such as in life cycles.",
+        "meticulous": "Meticulous means showing great attention to detail. It describes a careful and precise approach to tasks or activities.",
+        "misanthrope": "A misanthrope is a person who dislikes humankind and avoids human society. This term often describes individuals who are reclusive and cynical.",
+        "mitigate": "To mitigate means to make less severe, serious, or painful. It is often used in contexts involving efforts to reduce harm or alleviate problems."
+    };
+    return explanations[word];
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+        document.getElementById("next-btn").disabled = true;
+    } else {
+        showResult(); // Call this when all questions are answered
+    }
+}
+
+function showResult() {
+    const totalQuestions = quizData.length;
+    document.getElementById("quiz-container").innerHTML = `
+        <div class="result">You scored ${score} out of ${totalQuestions}!</div>
+        <p>${getFeedback(score, totalQuestions)}</p>
+        <button onclick="restartQuiz()">Restart Quiz</button>
+    `;
+}
+
+function restartQuiz() {
+    score = 0;
+    currentQuestion = 0;
+    shuffleArray(quizData); // Shuffle questions again for the new attempt
+    loadQuestion();
+    document.getElementById("next-btn").disabled = true;
+}
+
+function getFeedback(score, total) {
+    let percentage = (score / total) * 100;
+    if (percentage === 100) {
+        return "Excellent! You got everything right!";
+    } else if (percentage >= 70) {
+        return "Good job! You did well.";
+    } else {
+        return "Keep practicing! You'll improve with more review.";
+    }
+}
+
+document.getElementById("next-btn").disabled = true;
+loadQuestion();
+</script>
+</body>
+</html>
