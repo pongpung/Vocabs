@@ -451,6 +451,7 @@ function getExplanation(word) {
     return explanations[word];
 }
 
+
 function nextQuestion() {
     currentQuestion++;
     if (currentQuestion < quizData.length) {
@@ -468,9 +469,22 @@ function updateProgress() {
 
 function showResult() {
     const totalQuestions = quizData.length;
+    const gifContainer = document.createElement("div");
+    gifContainer.className = "gif-container";
+    let gif = "";
+
+    // If all answers are correct
+    if (score === totalQuestions) {
+        gif = '<img src="https://i.giphy.com/c6HpUJzNBF7BocEI14.webp" alt="Perfect Score">';
+    } else {
+        // Use another GIF or keep the same one for incorrect attempts
+        gif = '<img src="https://media.tenor.com/wIxFiobxxbIAAAAM/john-jonah-jameson-lol.gif" alt="Try Again">';
+    }
+
     document.getElementById("quiz-container").innerHTML = `
         <div class="result">You scored ${score} out of ${totalQuestions}!</div>
         <p>${getFeedback(score, totalQuestions)}</p>
+        ${gif}
         <button onclick="restartQuiz()">Restart Quiz</button>
     `;
 }
