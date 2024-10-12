@@ -86,12 +86,20 @@
             margin-top: 20px;
             color: #333;
         }
+        
+        #progress {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <div class="quiz-container" id="quiz-container">
     <h1>Fill in the Blank Quiz</h1>
+    <div id="progress">Question 1 of 4</div> <!-- Progress indicator -->
     <div class="question" id="question"></div>
     <ul class="options" id="options"></ul>
     <button id="next-btn" onclick="nextQuestion()">Next</button>
@@ -338,6 +346,7 @@ const quizData = [
         correct: "mitigate",
         options: ["mitigate", "implicit", "indeterminate", "indigence", "incoherent"]
     }
+
 ];
 
 let currentQuestion = 0;
@@ -364,6 +373,9 @@ function loadQuestion() {
         li.onclick = () => selectOption(li, option === questionData.correct);
         optionsList.appendChild(li);
     });
+
+    // Update the progress
+    updateProgress();
 }
 
 function selectOption(element, isCorrect) {
@@ -447,6 +459,11 @@ function nextQuestion() {
     } else {
         showResult(); // Call this when all questions are answered
     }
+}
+
+function updateProgress() {
+    const progressElement = document.getElementById("progress");
+    progressElement.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
 }
 
 function showResult() {
