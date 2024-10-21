@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+        .quiz-section {
+            margin: 25px 0;
+        }
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            color: #34495e;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px 0;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .option:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .progress {
+            margin: 20px 0;
+            font-size: 1rem;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            color: #27ae60;
+        }
+        .feedback.wrong {
+            color: #e74c3c;
+        }
+        .sentence {
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #b2bec3;
+            cursor: not-allowed;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+                width: 100%;
+            }
+            .question {
+                font-size: 1.1rem;
+            }
+            .option {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vocabulary Quiz</h1>
+
+        <div class="quiz-section">
+            <div id="question" class="question"></div>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)"></button>
+                <button class="option" onclick="checkAnswer(1)"></button>
+                <button class="option" onclick="checkAnswer(2)"></button>
+                <button class="option" onclick="checkAnswer(3)"></button>
+            </div>
+        </div>
+
+        <div class="progress">
+            <p>Question: <span id="currentQuestion">1</span>/52</p>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="sentence" id="sentence"></div>
+        <div class="score" id="score"></div>
+
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+        <button onclick="resetQuiz()">Reset Quiz</button>
+    </div>
+
+    <script>
+
+const vocabList = [
+    { word: "Mollify", definition: "Soothe", sentence: "The mother tried to mollify her crying baby with a lullaby." },
+    { word: "Morose", definition: "Ill-humored; sullen; melancholy", sentence: "After losing the game, he became morose and refused to talk to anyone." },
+    { word: "Mundane", definition: "Worldly as opposed to spiritual; everyday", sentence: "She wanted to escape her mundane routine and travel the world." },
+    { word: "Negate", definition: "Cancel out; nullify; deny", sentence: "The new evidence will negate the prosecutor’s claims." },
+    { word: "Neophyte", definition: "Recent convert; beginner", sentence: "As a neophyte in coding, she was eager to learn the basics of programming." },
+    { word: "Obdurate", definition: "Stubborn", sentence: "Despite the protests, the mayor remained obdurate in his decision." },
+    { word: "Obsequious", definition: "Lavishly attentive; servile; sycophantic", sentence: "The obsequious assistant laughed at all the boss’s jokes, even the bad ones." },
+    { word: "Obviate", definition: "Make unnecessary; get rid of", sentence: "A peaceful solution would obviate the need for military intervention." },
+    { word: "Occlude", definition: "Shut; close", sentence: "The dentist noticed that her teeth didn’t occlude properly." },
+    { word: "Officious", definition: "Meddlesome; excessively pushy in offering one’s services", sentence: "The officious neighbor was always poking around in other people’s business." },
+    { word: "Onerous", definition: "Burdensome", sentence: "The manager assigned him the onerous task of cleaning the entire warehouse." },
+    { word: "Opprobrium", definition: "Infamy; vilification", sentence: "The celebrity faced public opprobrium after the scandal was exposed." },
+    { word: "Oscillate", definition: "Vibrate; waver", sentence: "The fan oscillated from side to side, cooling the entire room." },
+    { word: "Ostentatious", definition: "Showy; pretentious; trying to attract attention", sentence: "Her ostentatious display of wealth made her the subject of gossip." },
+    { word: "Paragon", definition: "Model of perfection", sentence: "She is considered a paragon of virtue and grace." },
+    { word: "Partisan", definition: "One-sided; prejudiced; committed to a party", sentence: "The news channel was criticized for its partisan reporting." },
+    { word: "Pathological", definition: "Pertaining to disease", sentence: "His pathological lying was a sign of deeper psychological issues." },
+    { word: "Paucity", definition: "Scarcity", sentence: "The paucity of affordable housing is a major concern in the city." },
+    { word: "Pedantic", definition: "Showing off learning; bookish", sentence: "His pedantic explanations of obscure trivia bored everyone at the party." },
+    { word: "Penchant", definition: "Strong inclination; liking", sentence: "She has a penchant for collecting vintage jewelry." },
+    { word: "Penury", definition: "Severe poverty; stinginess", sentence: "After years of living in penury, the artist finally sold one of his paintings." },
+    { word: "Perennial", definition: "Something long-lasting", sentence: "The perennial beauty of the landscape has attracted tourists for centuries." },
+    { word: "Perfidious", definition: "Treacherous; disloyal", sentence: "The perfidious act of betrayal left her feeling devastated." },
+    { word: "Perfunctory", definition: "Superficial; not thorough; lacking interest, care, or enthusiasm", sentence: "His perfunctory apology didn’t feel sincere to anyone in the room." },
+    { word: "Permeable", definition: "Penetrable; porous; allowing liquids or gas to pass through", sentence: "The fabric was not permeable to water, making it ideal for raincoats." },
+    { word: "Pervasive", definition: "Spread throughout", sentence: "The pervasive scent of lavender filled the entire house." },
+    { word: "Phlegmatic", definition: "Calm; not easily disturbed", sentence: "Despite the chaos, she remained phlegmatic and continued with her work." },
+    { word: "Piety", definition: "Devoutness; reverence for God", sentence: "His acts of charity were motivated by genuine piety." },
+    { word: "Placate", definition: "Pacify; conciliate", sentence: "The company tried to placate the angry customers by offering refunds." },
+    { word: "Plasticity", definition: "Ability to be molded", sentence: "The plasticity of clay allows sculptors to create a variety of shapes." },
+    { word: "Platitude", definition: "Trite remark; commonplace statement", sentence: "He filled his speech with meaningless platitudes." },
+    { word: "Plethora", definition: "Excess; overabundance", sentence: "There was a plethora of desserts at the party, more than anyone could eat." },
+    { word: "Plummet", definition: "Fall sharply", sentence: "After the scandal, the company’s stock price plummeted." },
+    { word: "Porous", definition: "Full of pores; like a sieve", sentence: "The porous material allowed water to pass through easily." },
+    { word: "Pragmatic", definition: "Practical (as opposed to idealistic); concerned with the practical worth or impact of something", sentence: "Her pragmatic approach to problem-solving helped the team stay focused." },
+    { word: "Preamble", definition: "Introductory statement", sentence: "The Constitution’s preamble outlines the purposes of the government." },
+    { word: "Precarious", definition: "Uncertain; risky", sentence: "The climber found himself in a precarious position, hanging from the cliff." },
+    { word: "Precipitate", definition: "Rash, premature, hasty, sudden", sentence: "The precipitate decision to cut the budget led to numerous problems." },
+    { word: "Precursor", definition: "Forerunner", sentence: "The telephone was a precursor to modern communication technology." },
+    { word: "Presumptuous", definition: "Arrogant; taking liberties", sentence: "It was presumptuous of him to assume he would be invited to the meeting." },
+    { word: "Prevaricate", definition: "Lie", sentence: "He seemed to prevaricate when journalists asked pointed questions." },
+    { word: "Pristine", definition: "Characteristic of earlier times; primitive; unspoiled", sentence: "The pristine beaches were untouched by tourism." },
+    { word: "Probity", definition: "Uprightness; incorruptibility", sentence: "Her probity was never questioned, even by her fiercest critics." }
+];
+
+
+
+
+
+let currentQuestion = 0;
+let score = 0;
+let incorrectAnswers = [];
+
+function loadQuestion() {
+    const questionElement = document.getElementById('question');
+    const options = document.getElementsByClassName('option');
+    const currentVocab = vocabList[currentQuestion];
+
+    questionElement.innerText = `What is the definition of "${currentVocab.word}"?`;
+
+    let correctAnswerIndex = Math.floor(Math.random() * 4);
+    options[correctAnswerIndex].innerText = currentVocab.definition;
+
+    let wrongOptions = vocabList.filter((_, index) => index !== currentQuestion);
+    wrongOptions = shuffleArray(wrongOptions).slice(0, 3);
+
+    let wrongIndex = 0;
+    for (let i = 0; i < 4; i++) {
+        if (i !== correctAnswerIndex) {
+            options[i].innerText = wrongOptions[wrongIndex].definition;
+            wrongIndex++;
+        }
+        options[i].disabled = false;  // Ensure buttons are enabled
+    }
+
+    document.getElementById('nextButton').style.display = "none";
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('sentence').innerText = '';
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function checkAnswer(selectedOption) {
+    const options = document.getElementsByClassName('option');
+    const feedbackElement = document.getElementById('feedback');
+    const sentenceElement = document.getElementById('sentence');
+
+    if (options[selectedOption].innerText === vocabList[currentQuestion].definition) {
+        feedbackElement.innerText = "Correct!";
+        feedbackElement.classList.add("correct");
+        feedbackElement.classList.remove("wrong");
+        score++;
+    } else {
+        feedbackElement.innerText = `Wrong! The correct answer is: ${vocabList[currentQuestion].definition}`;
+        feedbackElement.classList.add("wrong");
+        feedbackElement.classList.remove("correct");
+        incorrectAnswers.push({
+            word: vocabList[currentQuestion].word,
+            correctAnswer: vocabList[currentQuestion].definition,
+            userAnswer: options[selectedOption].innerText
+        });
+    }
+
+    sentenceElement.innerText = vocabList[currentQuestion].sentence;
+
+    for (let i = 0; i < options.length; i++) {
+        options[i].disabled = true;  // Disable all options after an answer is selected
+    }
+
+    document.getElementById('currentQuestion').innerText = currentQuestion + 1;
+    document.getElementById('nextButton').style.display = "block";
+}
+
+function nextQuestion() {
+    if (currentQuestion < vocabList.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+    } else {
+        document.getElementById('score').innerText = `You scored ${score} out of ${vocabList.length}`;
+        document.getElementById('nextButton').style.display = "none";
+        displayIncorrectAnswers();
+    }
+}
+
+function displayIncorrectAnswers() {
+    const container = document.createElement('div');
+    container.id = 'incorrect-answers';
+    container.innerHTML = `<h2>Incorrect Answers:</h2>`;
+
+    incorrectAnswers.forEach(item => {
+        const answer = document.createElement('p');
+        answer.innerText = `Word: ${item.word}\nYour Answer: ${item.userAnswer}\nCorrect Answer: ${item.correctAnswer}`;
+        container.appendChild(answer);
+    });
+
+    document.querySelector('.container').appendChild(container);
+}
+
+function resetQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    incorrectAnswers = [];
+    document.getElementById('score').innerText = '';
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('feedback').classList.remove("correct", "wrong");
+    document.getElementById('sentence').innerText = '';
+
+    const incorrectAnswersContainer = document.getElementById('incorrect-answers');
+    if (incorrectAnswersContainer) {
+        incorrectAnswersContainer.remove();
+    }
+
+    loadQuestion();
+}
+
+window.onload = function () {
+    loadQuestion();
+};
+    </script>
+
+</body>
+</html>
