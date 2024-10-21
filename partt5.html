@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text color */
+        }
+        h1 {
+            margin-bottom: 40px;
+            font-size: 3rem;
+            color: #ffffff; /* White text for the heading */
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
+            justify-content: center; /* Center cards */
+        }
+        .card {
+            background-color: #1e1e1e; /* Dark card background */
+            border: 1px solid #444; /* Darker border for contrast */
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px;
+            width: 200px; /* Fixed width for cards */
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow effect */
+            transition: transform 0.3s, background-color 0.3s; /* Smooth scaling and background color change */
+        }
+        .card:hover {
+            transform: scale(1.05); /* Scale effect on hover */
+            background-color: #2a2a2a; /* Lighter background on hover */
+        }
+        a {
+            text-decoration: none;
+            font-size: 1.5em; /* Font size for card links */
+            color: #1e90ff; /* Bright blue color for links */
+            transition: color 0.3s; /* Smooth color transition */
+        }
+        a:hover {
+            color: #00bfff; /* Lighter blue on hover */
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem; /* Smaller heading on small screens */
+            }
+            .card {
+                width: 90%; /* Full width for cards on small screens */
+                max-width: 300px; /* Maximum width for better visibility */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Vocab (GRE 333)</h1>
+    <div class="card-container">
+        <div class="card">
+            <a href="i1.html">Section 1</a>
+        </div>
+        <div class="card">
+            <a href="i2.html">Section 2</a>
+        </div>
+        <div class="card">
+            <a href="i3.html">Section 3</a>
+        </div>
+        
+    </div>
+</body>
+</html>
