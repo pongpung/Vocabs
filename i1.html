@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .column {
+            width: 45%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #e7f1ff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .item:hover {
+            background-color: #d1e7ff;
+            transform: scale(1.02);
+        }
+        .item.selected {
+            background-color: #a7c6ed;
+        }
+        .item.matched {
+            background-color: #c3f9c6;
+        }
+        .item.wrong {
+            background-color: #f8d7da;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+        .correct-definitions {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #007bff;
+            background-color: #e9f7ff;
+            border-radius: 5px;
+            display: none;
+        }
+        .correct-definitions p {
+            margin: 5px 0;
+        }
+        .image {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image img {
+            width: 300px; /* Adjust the width here */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vocabulary Matching Game</h1>
+
+<div class="container">
+    <!-- Words Column -->
+    <div class="column" id="words-column">
+        <div class="item" data-word="Mollify">Mollify</div>
+        <div class="item" data-word="Morose">Morose</div>
+        <div class="item" data-word="Mundane">Mundane</div>
+        <div class="item" data-word="Negate">Negate</div>
+        <div class="item" data-word="Neophyte">Neophyte</div>
+        <div class="item" data-word="Obdurate">Obdurate</div>
+        <div class="item" data-word="Obsequious">Obsequious</div>
+        <div class="item" data-word="Obviate">Obviate</div>
+        <div class="item" data-word="Occlude">Occlude</div>
+        <div class="item" data-word="Officious">Officious</div>
+        <div class="item" data-word="Onerous">Onerous</div>
+        <div class="item" data-word="Opprobrium">Opprobrium</div>
+        <div class="item" data-word="Oscillate">Oscillate</div>
+        <div class="item" data-word="Ostentatious">Ostentatious</div>
+    </div>
+
+    <!-- Definitions Column (shuffled) -->
+    <div class="column" id="definitions-column">
+        <div class="item" data-definition="Soothe">Soothe</div>
+        <div class="item" data-definition="Ill-humored; sullen; melancholy">Ill-humored; sullen; melancholy</div>
+        <div class="item" data-definition="Worldly as opposed to spiritual; everyday">Worldly as opposed to spiritual; everyday</div>
+        <div class="item" data-definition="Cancel out; nullify; deny">Cancel out; nullify; deny</div>
+        <div class="item" data-definition="Recent convert; beginner">Recent convert; beginner</div>
+        <div class="item" data-definition="Stubborn">Stubborn</div>
+        <div class="item" data-definition="Lavishly attentive; servile; sycophantic">Lavishly attentive; servile; sycophantic</div>
+        <div class="item" data-definition="Make unnecessary; get rid of">Make unnecessary; get rid of</div>
+        <div class="item" data-definition="Shut; close">Shut; close</div>
+        <div class="item" data-definition="Meddlesome; excessively pushy in offering one’s services">Meddlesome; excessively pushy in offering one’s services</div>
+        <div class="item" data-definition="Burdensome">Burdensome</div>
+        <div class="item" data-definition="Infamy; vilification">Infamy; vilification</div>
+        <div class="item" data-definition="Vibrate; waver">Vibrate; waver</div>
+        <div class="item" data-definition="Showy; pretentious; trying to attract attention">Showy; pretentious; trying to attract attention</div>
+    </div>
+</div>
+
+
+    <button onclick="checkAnswers()">Submit and Check</button>
+   
+    <div class="result" id="result"></div>
+     <div class="image" id="image"></div>
+    <div class="correct-definitions" id="correct-definitions"></div>
+   
+
+<script>
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Shuffle the definitions on page load
+    window.onload = function() {
+        const definitionsColumn = document.getElementById('definitions-column');
+        const definitions = Array.from(definitionsColumn.children);
+        const shuffledDefinitions = shuffle(definitions);
+        definitionsColumn.innerHTML = '';
+        shuffledDefinitions.forEach(definition => {
+            definitionsColumn.appendChild(definition);
+        });
+    };
+
+    let selectedWord = null;
+    let matches = {};
+
+const correctAnswers = {
+    "Mollify": "Soothe",
+    "Morose": "Ill-humored; sullen; melancholy",
+    "Mundane": "Worldly as opposed to spiritual; everyday",
+    "Negate": "Cancel out; nullify; deny",
+    "Neophyte": "Recent convert; beginner",
+    "Obdurate": "Stubborn",
+    "Obsequious": "Lavishly attentive; servile; sycophantic",
+    "Obviate": "Make unnecessary; get rid of",
+    "Occlude": "Shut; close",
+    "Officious": "Meddlesome; excessively pushy in offering one’s services",
+    "Onerous": "Burdensome",
+    "Opprobrium": "Infamy; vilification",
+    "Oscillate": "Vibrate; waver",
+    "Ostentatious": "Showy; pretentious; trying to attract attention"
+};
+
+
+    // Handle selection of words
+    document.getElementById('words-column').addEventListener('click', function (e) {
+        if (e.target.classList.contains('item')) {
+            clearSelection('words-column');
+            e.target.classList.add('selected');
+            selectedWord = e.target.getAttribute('data-word');
+        }
+    });
+
+    // Handle selection of definitions
+    document.getElementById('definitions-column').addEventListener('click', function (e) {
+        if (e.target.classList.contains('item') && selectedWord) {
+            clearSelection('definitions-column');
+            e.target.classList.add('selected');
+            const selectedDefinition = e.target.getAttribute('data-definition');
+            matches[selectedWord] = selectedDefinition;
+            document.getElementById('result').innerText = `Selected: ${selectedWord} -> ${selectedDefinition}`;
+            selectedWord = null; // Reset for the next match
+            clearSelection('words-column');
+        }
+    });
+
+    // Clear previous selections
+    function clearSelection(columnId) {
+        const items = document.getElementById(columnId).getElementsByClassName('item');
+        for (let i = 0; i < items.length; i++) {
+            items[i].classList.remove('selected');
+        }
+    }
+
+    // Check all the answers
+    function checkAnswers() {
+        const resultDiv = document.getElementById('result');
+        const correctDefinitionsDiv = document.getElementById('correct-definitions');
+        const imageDiv = document.getElementById('image');
+        resultDiv.innerHTML = ''; // Clear previous results
+        correctDefinitionsDiv.innerHTML = ''; // Clear previous correct definitions
+        correctDefinitionsDiv.style.display = 'none'; // Hide initially 
+        imageDiv.style.display = 'none'; // Hide initially 
+
+        let correct = 0, total = Object.keys(correctAnswers).length;
+
+        for (const word in correctAnswers) {
+            const selectedDefinition = matches[word];
+            const correctDefinition = correctAnswers[word];
+
+            const wordElement = document.querySelector(`[data-word="${word}"]`);
+            const definitionElement = document.querySelector(`[data-definition="${selectedDefinition}"]`);
+
+            if (selectedDefinition === correctDefinition) {
+                wordElement.classList.add('matched');
+                definitionElement.classList.add('matched');
+                correct++;
+            } else {
+                wordElement.classList.add('wrong');
+                if (definitionElement) definitionElement.classList.add('wrong');
+                // Display the correct definition for the wrong matches
+                correctDefinitionsDiv.innerHTML += `<p><strong>${word}:</strong> Correct Definition: ${correctDefinition}</p>`;
+            }
+        }
+
+        resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
+        if (correctDefinitionsDiv.innerHTML) {
+            correctDefinitionsDiv.style.display = 'block'; // Show if there are wrong matches
+        }
+
+        // Display the image based on the score
+        if (correct === total) {
+            imageDiv.innerHTML = `<img src="Obaidul-Quader-Daam-Meme-Template.png" alt="Congratulations!" style="width: 300px; height: auto;">`;
+            imageDiv.style.display = 'block'; // Show the image
+        } else {
+            imageDiv.innerHTML = `<img src="Sheikh-hasina.jpg" style="width: 300px; height: auto;">`;
+            imageDiv.style.display = 'block'; // Show the image
+        }
+    }
+</script>
+
+</body>
+</html>
