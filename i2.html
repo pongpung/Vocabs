@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Matching Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .column {
+            width: 45%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #e7f1ff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .item:hover {
+            background-color: #d1e7ff;
+            transform: scale(1.02);
+        }
+        .item.selected {
+            background-color: #a7c6ed;
+        }
+        .item.matched {
+            background-color: #c3f9c6;
+        }
+        .item.wrong {
+            background-color: #f8d7da;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+        .correct-definitions {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #007bff;
+            background-color: #e9f7ff;
+            border-radius: 5px;
+            display: none;
+        }
+        .correct-definitions p {
+            margin: 5px 0;
+        }
+        .image {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image img {
+            width: 300px; /* Adjust the width here */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vocabulary Matching Game</h1>
+
+<div class="container">
+    <!-- Words Column -->
+    <div class="column" id="words-column">
+        <div class="item" data-word="Paragon">Paragon</div>
+        <div class="item" data-word="Partisan">Partisan</div>
+        <div class="item" data-word="Pathological">Pathological</div>
+        <div class="item" data-word="Paucity">Paucity</div>
+        <div class="item" data-word="Pedantic">Pedantic</div>
+        <div class="item" data-word="Penchant">Penchant</div>
+        <div class="item" data-word="Penury">Penury</div>
+        <div class="item" data-word="Perennial">Perennial</div>
+        <div class="item" data-word="Perfidious">Perfidious</div>
+        <div class="item" data-word="Perfunctory">Perfunctory</div>
+        <div class="item" data-word="Permeable">Permeable</div>
+        <div class="item" data-word="Pervasive">Pervasive</div>
+        <div class="item" data-word="Phlegmatic">Phlegmatic</div>
+        <div class="item" data-word="Piety">Piety</div>
+    </div>
+
+    <!-- Definitions Column (shuffled) -->
+    <div class="column" id="definitions-column">
+        <div class="item" data-definition="Model of perfection">Model of perfection</div>
+        <div class="item" data-definition="One-sided; prejudiced; committed to a party">One-sided; prejudiced; committed to a party</div>
+        <div class="item" data-definition="Pertaining to disease">Pertaining to disease</div>
+        <div class="item" data-definition="Scarcity">Scarcity</div>
+        <div class="item" data-definition="Showing off learning; bookish">Showing off learning; bookish</div>
+        <div class="item" data-definition="Strong inclination; liking">Strong inclination; liking</div>
+        <div class="item" data-definition="Severe poverty; stinginess">Severe poverty; stinginess</div>
+        <div class="item" data-definition="Something long-lasting">Something long-lasting</div>
+        <div class="item" data-definition="Treacherous; disloyal">Treacherous; disloyal</div>
+        <div class="item" data-definition="Superficial; not thorough; lacking interest, care, or enthusiasm">Superficial; not thorough; lacking interest, care, or enthusiasm</div>
+        <div class="item" data-definition="Penetrable; porous; allowing liquids or gas to pass through">Penetrable; porous; allowing liquids or gas to pass through</div>
+        <div class="item" data-definition="Spread throughout">Spread throughout</div>
+        <div class="item" data-definition="Calm; not easily disturbed">Calm; not easily disturbed</div>
+        <div class="item" data-definition="Devoutness; reverence for God">Devoutness; reverence for God</div>
+    </div>
+</div>
+
+
+
+    <button onclick="checkAnswers()">Submit and Check</button>
+   
+    <div class="result" id="result"></div>
+     <div class="image" id="image"></div>
+    <div class="correct-definitions" id="correct-definitions"></div>
+   
+
+<script>
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Shuffle the definitions on page load
+    window.onload = function() {
+        const definitionsColumn = document.getElementById('definitions-column');
+        const definitions = Array.from(definitionsColumn.children);
+        const shuffledDefinitions = shuffle(definitions);
+        definitionsColumn.innerHTML = '';
+        shuffledDefinitions.forEach(definition => {
+            definitionsColumn.appendChild(definition);
+        });
+    };
+
+    let selectedWord = null;
+    let matches = {};
+
+const correctAnswers = {
+    "Paragon": "Model of perfection",
+    "Partisan": "One-sided; prejudiced; committed to a party",
+    "Pathological": "Pertaining to disease",
+    "Paucity": "Scarcity",
+    "Pedantic": "Showing off learning; bookish",
+    "Penchant": "Strong inclination; liking",
+    "Penury": "Severe poverty; stinginess",
+    "Perennial": "Something long-lasting",
+    "Perfidious": "Treacherous; disloyal",
+    "Perfunctory": "Superficial; not thorough; lacking interest, care, or enthusiasm",
+    "Permeable": "Penetrable; porous; allowing liquids or gas to pass through",
+    "Pervasive": "Spread throughout",
+    "Phlegmatic": "Calm; not easily disturbed",
+    "Piety": "Devoutness; reverence for God"
+};
+
+
+
+    // Handle selection of words
+    document.getElementById('words-column').addEventListener('click', function (e) {
+        if (e.target.classList.contains('item')) {
+            clearSelection('words-column');
+            e.target.classList.add('selected');
+            selectedWord = e.target.getAttribute('data-word');
+        }
+    });
+
+    // Handle selection of definitions
+    document.getElementById('definitions-column').addEventListener('click', function (e) {
+        if (e.target.classList.contains('item') && selectedWord) {
+            clearSelection('definitions-column');
+            e.target.classList.add('selected');
+            const selectedDefinition = e.target.getAttribute('data-definition');
+            matches[selectedWord] = selectedDefinition;
+            document.getElementById('result').innerText = `Selected: ${selectedWord} -> ${selectedDefinition}`;
+            selectedWord = null; // Reset for the next match
+            clearSelection('words-column');
+        }
+    });
+
+    // Clear previous selections
+    function clearSelection(columnId) {
+        const items = document.getElementById(columnId).getElementsByClassName('item');
+        for (let i = 0; i < items.length; i++) {
+            items[i].classList.remove('selected');
+        }
+    }
+
+    // Check all the answers
+    function checkAnswers() {
+        const resultDiv = document.getElementById('result');
+        const correctDefinitionsDiv = document.getElementById('correct-definitions');
+        const imageDiv = document.getElementById('image');
+        resultDiv.innerHTML = ''; // Clear previous results
+        correctDefinitionsDiv.innerHTML = ''; // Clear previous correct definitions
+        correctDefinitionsDiv.style.display = 'none'; // Hide initially 
+        imageDiv.style.display = 'none'; // Hide initially 
+
+        let correct = 0, total = Object.keys(correctAnswers).length;
+
+        for (const word in correctAnswers) {
+            const selectedDefinition = matches[word];
+            const correctDefinition = correctAnswers[word];
+
+            const wordElement = document.querySelector(`[data-word="${word}"]`);
+            const definitionElement = document.querySelector(`[data-definition="${selectedDefinition}"]`);
+
+            if (selectedDefinition === correctDefinition) {
+                wordElement.classList.add('matched');
+                definitionElement.classList.add('matched');
+                correct++;
+            } else {
+                wordElement.classList.add('wrong');
+                if (definitionElement) definitionElement.classList.add('wrong');
+                // Display the correct definition for the wrong matches
+                correctDefinitionsDiv.innerHTML += `<p><strong>${word}:</strong> Correct Definition: ${correctDefinition}</p>`;
+            }
+        }
+
+        resultDiv.innerText = `You got ${correct} out of ${total} correct!`;
+        if (correctDefinitionsDiv.innerHTML) {
+            correctDefinitionsDiv.style.display = 'block'; // Show if there are wrong matches
+        }
+
+        // Display the image based on the score
+        if (correct === total) {
+            imageDiv.innerHTML = `<img src="Obaidul-Quader-Daam-Meme-Template.png" alt="Congratulations!" style="width: 300px; height: auto;">`;
+            imageDiv.style.display = 'block'; // Show the image
+        } else {
+            imageDiv.innerHTML = `<img src="Sheikh-hasina.jpg" style="width: 300px; height: auto;">`;
+            imageDiv.style.display = 'block'; // Show the image
+        }
+    }
+</script>
+
+</body>
+</html>
