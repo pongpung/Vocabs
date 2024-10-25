@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Vocab (GRE 333) Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,39 +11,71 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f5f5f5; /* Light background for contrast */
+            background-color: #333; /* Dark background */
+            color: #f5f5f5; /* Light text color for contrast */
         }
+
         h1 {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
         .card {
-            background-color: white;
-            border: 1px solid #ccc;
+            background-color: #444; /* Darker card background */
+            border: 1px solid #666; /* Slightly lighter border */
             border-radius: 8px;
             padding: 20px;
-            margin: 15px;
-            width: 150px; /* Fixed width for cards */
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
-            transition: transform 0.2s; /* Smooth scaling effect */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+            position: relative;
         }
+
         .card:hover {
-            transform: scale(1.05); /* Scale effect on hover */
+            transform: scale(1.05);
         }
-        a {
+
+        .card a {
             text-decoration: none;
-            font-size: 1.5em; /* Slightly smaller font for card */
-            color: #3498db;
+            font-size: 1.5em;
+            color: #87ceeb; /* Light blue for links */
+            transition: color 0.3s;
         }
-        a:hover {
-            color: #2980b9;
+
+        .card a:hover {
+            color: #5da4c2; /* Darker blue on hover */
         }
-        .card-container {
-            display: flex;
-            flex-direction: column; /* Arrange cards vertically */
-            align-items: center; /* Center cards horizontally */
+
+        /* Tooltip */
+        .card:hover .tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background-color: #555; /* Darker tooltip background */
+            color: white;
+            padding: 10px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -52,21 +84,27 @@
     <div class="card-container">
         <div class="card">
             <a href="p.html">P</a>
+            <span class="tooltip" aria-label="Page with vocab starting with P">Vocab List P</span>
         </div>
         <div class="card">
             <a href="p1.html">P1</a>
+            <span class="tooltip" aria-label="Page with vocab starting with P1">Vocab List P1</span>
         </div>
         <div class="card">
             <a href="p2.html">P2</a>
+            <span class="tooltip" aria-label="Page with vocab starting with P2">Vocab List P2</span>
         </div>
         <div class="card">
             <a href="p3.html">P3</a>
+            <span class="tooltip" aria-label="Page with vocab starting with P3">Vocab List P3</span>
         </div>
         <div class="card">
             <a href="p4.html">P4</a>
+            <span class="tooltip" aria-label="Page with vocab starting with P4">Vocab List P4</span>
         </div>
         <div class="card">
             <a href="p5.html">P5</a>
+            <span class="tooltip" aria-label="Page with vocab starting with P5">Vocab List P5</span>
         </div>
     </div>
 </body>
