@@ -6,37 +6,38 @@
     <title>Vocab (GRE 333) Quiz</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #333; /* Dark background */
-            color: #f5f5f5; /* Light text color for contrast */
+            background-color: #121212;
+            color: #E0E0E0;
         }
 
         h1 {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-align: center;
         }
 
         .card-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             padding: 20px;
         }
 
         .card {
-            background-color: #444; /* Darker card background */
-            border: 1px solid #666; /* Slightly lighter border */
-            border-radius: 8px;
+            background-color: #1E1E1E;
+            border-radius: 10px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             transition: transform 0.2s;
             position: relative;
         }
@@ -48,72 +49,94 @@
         .card a {
             text-decoration: none;
             font-size: 1.5em;
-            color: #87ceeb; /* Light blue for links */
+            color: #00BFFF; /* Bright blue for links */
             transition: color 0.3s;
         }
 
         .card a:hover {
-            color: #5da4c2; /* Darker blue on hover */
-        }
-
-        /* Tooltip */
-        .card:hover .tooltip {
-            opacity: 1;
-            transform: translateY(0);
+            color: #1E90FF; /* Lighter blue on hover */
         }
 
         .tooltip {
             position: absolute;
-            bottom: -30px;
+            bottom: -40px;
             left: 50%;
             transform: translateX(-50%) translateY(10px);
-            background-color: #555; /* Darker tooltip background */
-            color: white;
-            padding: 10px 10px;
-            border-radius: 4px;
-            font-size: 0.8em;
+            background-color: #444;
+            color: #FFF;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
             opacity: 0;
             transition: opacity 0.3s, transform 0.3s;
             pointer-events: none;
             white-space: nowrap;
         }
+
+        .card:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .full-test-card {
+            grid-column: span 2; /* Makes it span across two columns */
+            background-color: #FF5722; /* Distinct background for the full test */
+            color: white; /* Text color */
+            padding: 40px; /* Increased padding */
+            font-size: 2em; /* Larger font size */
+            text-align: center; /* Centered text */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .full-test-card a {
+            color: #FFFFFF; /* White color for the link */
+        }
+
+        .full-test-card a:hover {
+            color: #FFCCBC; /* Lighter color on hover */
+        }
     </style>
 </head>
 <body>
-    <h1>Vocab (GRE 333)</h1>
+    <h1>Vocab (GRE 333) Quiz 📚</h1>
     <div class="card-container">
         <div class="card">
             <a href="p.html">P</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P">Vocab List P</span>
+            <span class="tooltip">Vocab List P</span>
         </div>
         <div class="card">
             <a href="p1.html">P1</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P1">Vocab List P1</span>
+            <span class="tooltip">Vocab List P1</span>
         </div>
         <div class="card">
             <a href="p2.html">P2</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P2">Vocab List P2</span>
+            <span class="tooltip">Vocab List P2</span>
         </div>
         <div class="card">
             <a href="p3.html">P3</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P3">Vocab List P3</span>
+            <span class="tooltip">Vocab List P3</span>
         </div>
         <div class="card">
             <a href="p4.html">P4</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P4">Vocab List P4</span>
+            <span class="tooltip">Vocab List P4</span>
         </div>
         <div class="card">
             <a href="p5.html">P5</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P5">Vocab List P5</span>
+            <span class="tooltip">Vocab List P5</span>
         </div>
-                <div class="card">
+        <div class="card">
             <a href="p6.html">P6</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P6">Vocab List P5</span>
+            <span class="tooltip">Vocab List P6</span>
         </div>
-                <div class="card">
+        <div class="card">
             <a href="p7.html">P7</a>
-            <span class="tooltip" aria-label="Page with vocab starting with P7">Vocab List P5</span>
+            <span class="tooltip">Vocab List P7</span>
         </div>
+    </div>
+    <div class="full-test-card">
+        <a href="hudai.html">Full Test (P1-P7) 📝</a>
+        <span class="tooltip">Take the full GRE 333 vocabulary test</span>
     </div>
 </body>
 </html>
