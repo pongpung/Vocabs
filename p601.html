@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+        .quiz-section {
+            margin: 25px 0;
+        }
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            color: #34495e;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px 0;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .option:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .progress {
+            margin: 20px 0;
+            font-size: 1rem;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            color: #27ae60;
+        }
+        .feedback.wrong {
+            color: #e74c3c;
+        }
+        .sentence {
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #b2bec3;
+            cursor: not-allowed;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+                width: 100%;
+            }
+            .question {
+                font-size: 1.1rem;
+            }
+            .option {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vocabulary Quiz</h1>
+
+        <div class="quiz-section">
+            <div id="question" class="question"></div>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)"></button>
+                <button class="option" onclick="checkAnswer(1)"></button>
+                <button class="option" onclick="checkAnswer(2)"></button>
+                <button class="option" onclick="checkAnswer(3)"></button>
+            </div>
+        </div>
+
+        <div class="progress">
+            <p>Question: <span id="currentQuestion">1</span>/52</p>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="sentence" id="sentence"></div>
+        <div class="score" id="score"></div>
+
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <script>
+const vocabList = [
+    { word: "Problematic", definition: "doubtful; unsettled; questionable; perplexing", sentence: "The problematic situation required immediate attention." },
+    { word: "Prodigal", definition: "wasteful; reckless with money", sentence: "The prodigal son wasted his inheritance on extravagant living." },
+    { word: "Profound", definition: "deep; not superficial; complete", sentence: "Her profound understanding of the topic impressed everyone." },
+    { word: "Prohibitive", definition: "tending to prevent the purchase or use of something; inclined to prevent or forbid", sentence: "The prohibitive price of the car kept many buyers away." },
+    { word: "Proliferate", definition: "grow rapidly; spread; multiply", sentence: "The use of smartphones has proliferated over the past decade." },
+    { word: "Propensity", definition: "natural inclination", sentence: "He has a propensity for taking risks." },
+    { word: "Propitiate", definition: "appease", sentence: "They offered gifts to propitiate the angry gods." },
+    { word: "Propriety", definition: "fitness; correct conduct", sentence: "She conducted herself with propriety at the formal event." },
+    { word: "Proscribe", definition: "ostracize; banish; outlaw", sentence: "The law proscribes certain types of behavior." },
+    { word: "Pungent", definition: "stinging; sharp in taste or smell; caustic", sentence: "The pungent odor of garlic filled the kitchen." },
+    { word: "Qualified", definition: "limited; restricted", sentence: "His qualified support was not enough to sway the vote." },
+    { word: "Quibble", definition: "minor objection or complaint", sentence: "They quibbled over the details of the agreement." },
+    { word: "Quiescent", definition: "at rest; dormant; temporarily inactive", sentence: "The volcano has been quiescent for many years." },
+    { word: "Rarefied", definition: "made less dense (of a gas)", sentence: "The rarefied air at high altitudes can be difficult to breathe." },
+    { word: "Recalcitrant", definition: "obstinately stubborn; determined to resist authority; unruly", sentence: "The recalcitrant student refused to follow the rules." },
+    { word: "Recant", definition: "disclaim or disavow; retract a previous statement; openly confess error", sentence: "He was forced to recant his earlier statement." },
+    { word: "Recluse", definition: "hermit; loner", sentence: "The recluse lived in a cabin deep in the woods." },
+    { word: "Recondite", definition: "abstruse; profound; secret", sentence: "The professor's lecture was filled with recondite references." },
+    { word: "Refractory", definition: "stubborn; unmanageable", sentence: "The refractory child refused to listen to his parents." },
+    { word: "Refute", definition: "disprove", sentence: "She was able to refute the allegations against her." },
+    { word: "Relegate", definition: "banish to an inferior position; delegate; assign", sentence: "He was relegated to a lesser role in the company." },
+    { word: "Reproach", definition: "express disapproval or disappointment", sentence: "She looked at him with reproach after his mistake." },
+    { word: "Reprobate", definition: "person hardened in sin; devoid of a sense of decency", sentence: "The reprobate was shunned by the community." },
+    { word: "Repudiate", definition: "disown; disavow", sentence: "She decided to repudiate the claims made against her." },
+    { word: "Rescind", definition: "cancel", sentence: "The company decided to rescind the job offer." },
+    { word: "Resolution", definition: "Determination", sentence: "Her resolution to improve her grades motivated her to study harder." },
+    { word: "Resolve", definition: "determination; firmness of purpose", sentence: "He had the resolve to finish the race despite the pain." },
+    { word: "Reticent", definition: "reserved; uncommunicative; inclined to silence", sentence: "She was reticent about her personal life." },
+    { word: "Reverent", definition: "respectful; worshipful", sentence: "They were reverent in the presence of the ancient artifacts." },
+    { word: "Sage", definition: "person celebrated for wisdom", sentence: "The sage offered valuable advice to the young." },
+    { word: "Salubrious", definition: "healthful", sentence: "The salubrious climate was perfect for outdoor activities." },
+    { word: "Sanction", definition: "approve; ratify", sentence: "The board sanctioned the new policy after much debate." },
+    { word: "Satiate", definition: "satisfy fully", sentence: "He was satiated after the large meal." },
+    { word: "Saturate", definition: "soak thoroughly", sentence: "The heavy rain saturated the ground." },
+    { word: "Savor", definition: "enjoy; have a distinctive flavor, smell, or quality", sentence: "She took a moment to savor the rich taste of the chocolate." },
+    { word: "Secrete", definition: "hide away or cache; produce and release a substance into an organism", sentence: "The plant can secrete a sticky substance to trap insects." },
+    { word: "Shard", definition: "fragment, generally of pottery", sentence: "She found a shard of pottery in the garden." },
+    { word: "Skeptic", definition: "doubter; person who suspends judgment until having examined evidence supporting a point of view", sentence: "The skeptic questioned the validity of the study's results." }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    const currentQuestion = vocabList[currentQuestionIndex];
+    document.getElementById("question").innerText = `What is the definition of "${currentQuestion.word}"?`;
+    const options = document.querySelectorAll(".option");
+    options.forEach((option, index) => {
+        option.innerText = vocabList[(currentQuestionIndex + index) % vocabList.length].definition;
+    });
+    document.getElementById("currentQuestion").innerText = currentQuestionIndex + 1;
+    document.getElementById("feedback").innerText = '';
+    document.getElementById("sentence").innerText = '';
+    document.getElementById("nextButton").style.display = 'none';
+}
+
+function checkAnswer(selectedIndex) {
+    const selectedDefinition = document.querySelectorAll(".option")[selectedIndex].innerText;
+    const correctDefinition = vocabList[currentQuestionIndex].definition;
+
+    if (selectedDefinition === correctDefinition) {
+        score++;
+        document.getElementById("feedback").innerText = "Correct!";
+        document.getElementById("feedback").className = "feedback correct";
+    } else {
+        document.getElementById("feedback").innerText = "Wrong! The correct definition is: " + correctDefinition;
+        document.getElementById("feedback").className = "feedback wrong";
+    }
+
+    document.getElementById("sentence").innerText = vocabList[currentQuestionIndex].sentence;
+    document.getElementById("nextButton").style.display = 'inline-block';
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < vocabList.length) {
+        loadQuestion();
+    } else {
+        document.getElementById("question").innerText = "Quiz Finished!";
+        document.getElementById("score").innerText = `Your score: ${score}/${vocabList.length}`;
+        document.querySelectorAll(".options").forEach(option => option.style.display = 'none');
+        document.getElementById("nextButton").style.display = 'none';
+    }
+}
+
+loadQuestion();
+    </script>
+
+</body>
+</html>
