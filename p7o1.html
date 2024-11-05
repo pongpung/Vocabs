@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+        .quiz-section {
+            margin: 25px 0;
+        }
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            color: #34495e;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 8px 0;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .option:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .progress {
+            margin: 20px 0;
+            font-size: 1rem;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .feedback.correct {
+            color: #27ae60;
+        }
+        .feedback.wrong {
+            color: #e74c3c;
+        }
+        .sentence {
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #b2bec3;
+            cursor: not-allowed;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+                width: 100%;
+            }
+            .question {
+                font-size: 1.1rem;
+            }
+            .option {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vocabulary Quiz</h1>
+
+        <div class="quiz-section">
+            <div id="question" class="question"></div>
+            <div class="options">
+                <button class="option" onclick="checkAnswer(0)"></button>
+                <button class="option" onclick="checkAnswer(1)"></button>
+                <button class="option" onclick="checkAnswer(2)"></button>
+                <button class="option" onclick="checkAnswer(3)"></button>
+            </div>
+        </div>
+
+        <div class="progress">
+            <p>Question: <span id="currentQuestion">1</span>/39</p>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="sentence" id="sentence"></div>
+        <div class="score" id="score"></div>
+
+        <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <script>
+const vocabList = [
+    { word: "Solicitous", definition: "worried; concerned", sentence: "She was solicitous for the well-being of her friends." },
+    { word: "Soporific", definition: "sleep-causing; marked by sleepiness", sentence: "The soporific effect of the lecture caused many students to doze off." },
+    { word: "Specious", definition: "seemingly reasonable but incorrect; misleading (often intentionally)", sentence: "His argument was specious and did not hold up under scrutiny." },
+    { word: "Spectrum", definition: "colored band produced when a beam of light passes through a prism", sentence: "The artist used a spectrum of colors in her painting." },
+    { word: "Sporadic", definition: "occurring irregularly", sentence: "Sporadic rainfall is expected throughout the week." },
+    { word: "Stigma", definition: "token of disgrace; brand", sentence: "There is a stigma associated with mental health issues." },
+    { word: "Stint", definition: "be thrifty; set limits", sentence: "He had to stint on luxuries to save money for his education." },
+    { word: "Stipulate", definition: "make express conditions; specify", sentence: "The contract stipulates that all work must be completed by June." },
+    { word: "Stolid", definition: "dull; impassive", sentence: "His stolid demeanor made it difficult to read his emotions." },
+    { word: "Striated", definition: "marked with parallel bands; grooved", sentence: "The striated rock formations were a result of geological activity." },
+    { word: "Strut", definition: "pompous walk", sentence: "He had a confident strut as he walked into the room." },
+    { word: "Strut", definition: "supporting bar", sentence: "The engineer designed a strut to support the weight of the roof." },
+    { word: "Subpoena", definition: "writ summoning a witness to appear", sentence: "The lawyer issued a subpoena to compel the witness to testify." },
+    { word: "Subside", definition: "settle down; descend; grow quiet", sentence: "The storm began to subside after several hours." },
+    { word: "Substantiate", definition: "establish by evidence; verify; support", sentence: "The researchers were able to substantiate their findings with data." },
+    { word: "Supersede", definition: "cause to be set aside; replace; make obsolete", sentence: "The new technology will soon supersede the old models." },
+    { word: "Supposition", definition: "hypothesis; surmise", sentence: "The theory was based on the supposition that all humans are rational." },
+    { word: "Tacit", definition: "understood; not put into words", sentence: "There was a tacit agreement between them not to discuss the issue." },
+    { word: "Tangential", definition: "peripheral; only slightly connected; digressing", sentence: "His tangential remarks did not contribute to the main discussion." },
+    { word: "Tenuous", definition: "thin; rare; slim", sentence: "The evidence for the claim was tenuous at best." },
+    { word: "Tirade", definition: "extended scolding; denunciation; harangue", sentence: "She launched into a tirade about the injustices she faced." },
+    { word: "Torpor", definition: "lethargy; sluggishness; dormancy", sentence: "After the meal, a feeling of torpor settled over the group." },
+    { word: "Tortuous", definition: "winding; full of curves", sentence: "The tortuous path made the hike much more challenging." },
+    { word: "Tractable", definition: "docile; easily managed", sentence: "The tractable puppy quickly learned to follow commands." },
+    { word: "Transgression", definition: "violation of a law; sin", sentence: "His transgression of the rules resulted in a penalty." },
+    { word: "Truculence", definition: "aggressiveness; ferocity", sentence: "The truculence of the lion was evident during the feeding." },
+    { word: "Vacillate", definition: "waver; fluctuate", sentence: "She would vacillate between different opinions on the topic." },
+    { word: "Venerate", definition: "revere", sentence: "Many people venerate historical figures for their contributions." },
+    { word: "Veracious", definition: "truthful", sentence: "Her veracious account of the events was appreciated by the jury." },
+    { word: "Verbose", definition: "wordy", sentence: "His verbose writing style often obscured his main points." },
+    { word: "Viable", definition: "practical or workable", sentence: "The team developed a viable solution to the problem." },
+    { word: "Viscous", definition: "sticky; gluey", sentence: "The viscous substance made it difficult to clean up." },
+    { word: "Vituperative", definition: "abusive; scolding", sentence: "The vituperative comments left her feeling hurt." },
+    { word: "Volatile", definition: "changeable; explosive; evaporation rapidly", sentence: "The stock market can be quite volatile." },
+    { word: "Warranted", definition: "justified; authorized", sentence: "The police action was warranted under the circumstances." },
+    { word: "Wary", definition: "very cautious", sentence: "She was wary of strangers in unfamiliar places." },
+    { word: "Welter", definition: "turmoil; bewildering jumble", sentence: "The welter of emotions overwhelmed him." },
+    { word: "Whimsical", definition: "capricious; fanciful", sentence: "The whimsical designs brought joy to the children." },
+    { word: "Zealot", definition: "fanatic; person who shows excessive zeal", sentence: "He was a zealot in his pursuit of environmental causes." }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    const currentQuestion = vocabList[currentQuestionIndex];
+    document.getElementById("question").innerText = `What is the definition of "${currentQuestion.word}"?`;
+    const options = document.querySelectorAll(".option");
+    options.forEach((option, index) => {
+        option.innerText = vocabList[(currentQuestionIndex + index) % vocabList.length].definition;
+    });
+    document.getElementById("currentQuestion").innerText = currentQuestionIndex + 1;
+    document.getElementById("feedback").innerText = '';
+    document.getElementById("sentence").innerText = '';
+    document.getElementById("nextButton").style.display = 'none';
+}
+
+function checkAnswer(selectedIndex) {
+    const selectedDefinition = document.querySelectorAll(".option")[selectedIndex].innerText;
+    const correctDefinition = vocabList[currentQuestionIndex].definition;
+
+    if (selectedDefinition === correctDefinition) {
+        score++;
+        document.getElementById("feedback").innerText = "Correct!";
+        document.getElementById("feedback").className = "feedback correct";
+    } else {
+        document.getElementById("feedback").innerText = "Wrong! The correct definition is: " + correctDefinition;
+        document.getElementById("feedback").className = "feedback wrong";
+    }
+
+    document.getElementById("sentence").innerText = vocabList[currentQuestionIndex].sentence;
+    document.getElementById("nextButton").style.display = 'inline-block';
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < vocabList.length) {
+        loadQuestion();
+    } else {
+        document.getElementById("question").innerText = "Quiz Finished!";
+        document.getElementById("score").innerText = `Your score: ${score}/${vocabList.length}`;
+        document.querySelectorAll(".options").forEach(option => option.style.display = 'none');
+        document.getElementById("nextButton").style.display = 'none';
+    }
+}
+
+loadQuestion();
+    </script>
+
+</body>
+</html>
