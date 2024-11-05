@@ -128,6 +128,12 @@
             margin-top: 20px;
             text-align: left;
             font-size: 1.1rem;
+            max-height: 300px; /* Limit the height */
+            overflow-y: auto; /* Enable scrolling */
+            padding: 10px; /* Add padding */
+            border: 1px solid #e0e0e0; /* Optional border */
+            border-radius: 8px; /* Match the design */
+            background-color: #f9f9f9; /* Light background */
         }
 
         #nextButton {
@@ -212,7 +218,7 @@
         </div>
 
         <div class="progress">
-            <p>Question: <span id="currentQuestion">1</span>/30</p>
+            <p>Question: <span id="currentQuestion">1</span>/50</p>
         </div>
 
         <div class="feedback" id="feedback"></div>
@@ -226,7 +232,7 @@
 
     <script>
         const vocabList = [
-    { word: "Abate", definition: "subside, or moderate", sentence: "The storm began to abate after several hours of heavy rain." },
+                { word: "Abate", definition: "subside, or moderate", sentence: "The storm began to abate after several hours of heavy rain." },
     { word: "Aberrant", definition: "abnormal, or deviant", sentence: "The scientist studied the aberrant behavior of the rare species." },
     { word: "Abeyance", definition: "suspended action", sentence: "The project was held in abeyance until more funding was secured." },
     { word: "Abscond", definition: "depart secretly and hide", sentence: "The thief tried to abscond with the stolen jewels." },
@@ -558,7 +564,7 @@
     { word: "Wary", definition: "very cautious", sentence: "She was wary of strangers in unfamiliar places." },
     { word: "Welter", definition: "turmoil; bewildering jumble", sentence: "The welter of emotions overwhelmed him." },
     { word: "Whimsical", definition: "capricious; fanciful", sentence: "The whimsical designs brought joy to the children." },
-    { word: "Zealot", definition: "fanatic; person who shows excessive zeal", sentence: "He was a zealot in his pursuit of environmental causes." }
+    { word: "Zealot", definition: "fanatic; person who shows excessive zeal", sentence: "He was a zealot in his pursuit of environmental causes." }// Add your vocabulary words and definitions here
         ];
 
         // Function to get 30 random unique questions
@@ -568,7 +574,7 @@
         }
 
         // Select 30 random questions from the vocab list
-        const selectedQuestions = getRandomQuestions(vocabList, 30);
+        const selectedQuestions = getRandomQuestions(vocabList, 50);
         let currentQuestionIndex = 0;
         let score = 0;
         let wrongAnswers = [];
@@ -609,43 +615,48 @@
                 if (index === correctAnswerIndex) {
                     option.innerText = currentQuestion.definition;
                 } else {
-                    // Randomly select a definition for the incorrect options
-                    const randomQuestion = selectedQuestions[Math.floor(Math.random() * selectedQuestions.length)];
-                    option.innerText = randomQuestion.definition;
+                    // Randomly select a definition for the incorrect answers
+                    let wrongAnswer;
+                    do {
+                        wrongAnswer = selectedQuestions[Math.floor(Math.random() * selectedQuestions.length)].definition;
+                    } while (wrongAnswers.includes(wrongAnswer) || wrongAnswer === currentQuestion.definition);
+                    option.innerText = wrongAnswer;
                 }
             });
 
             document.getElementById("currentQuestion").innerText = currentQuestionIndex + 1;
-            document.getElementById("feedback").innerText = '';
-            document.getElementById("sentence").innerText = '';
-            document.getElementById("nextButton").style.display = 'none';
             document.getElementById("progressBarFill").style.width = `${(currentQuestionIndex / selectedQuestions.length) * 100}%`;
+            document.getElementById("nextButton").style.display = 'none';
+            document.getElementById("feedback").innerText = '';
         }
 
-        function checkAnswer(selectedIndex) {
-            const selectedDefinition = document.querySelectorAll(".option")[selectedIndex].innerText;
-            const correctDefinition = selectedQuestions[currentQuestionIndex].definition;
+        function checkAnswer(index) {
+            const currentQuestion = selectedQuestions[currentQuestionIndex];
+            const options = document.querySelectorAll(".option");
+            const selectedAnswer = options[index].innerText;
 
-            if (selectedDefinition === correctDefinition) {
+            if (selectedAnswer === currentQuestion.definition) {
                 score++;
-                document.getElementById("feedback").innerText = "Correct!";
+                document.getElementById("feedback").innerText = "Correct! 🎉";
                 document.getElementById("feedback").className = "feedback correct";
             } else {
-                document.getElementById("feedback").innerText = "Wrong! The correct definition is: " + correctDefinition;
+                wrongAnswers.push(currentQuestion.word);
+                document.getElementById("feedback").innerText = `Wrong! 😞 The correct answer is: ${currentQuestion.definition}`;
                 document.getElementById("feedback").className = "feedback wrong";
-                wrongAnswers.push({
-                    word: selectedQuestions[currentQuestionIndex].word,
-                    givenAnswer: selectedDefinition,
-                    correctAnswer: correctDefinition
-                });
+                showWrongAnswers();
             }
 
-            document.getElementById("sentence").innerText = selectedQuestions[currentQuestionIndex].sentence;
-            document.getElementById("nextButton").style.display = 'inline-block';
+            currentQuestionIndex++;
+            document.getElementById("nextButton").style.display = 'block';
+        }
+
+        function showWrongAnswers() {
+            const wrongAnswersDiv = document.getElementById("wrongAnswers");
+            wrongAnswersDiv.innerHTML = '<strong>Wrong Answers:</strong> <br/>' + wrongAnswers.join(', ');
+            wrongAnswersDiv.style.display = 'block';
         }
 
         function nextQuestion() {
-            currentQuestionIndex++;
             if (currentQuestionIndex < selectedQuestions.length) {
                 loadQuestion();
             } else {
@@ -654,30 +665,14 @@
         }
 
         function showResults() {
+            endTime = new Date();
+            const totalTime = (endTime - startTime) / 1000; // Time in seconds
+            const resultMessage = `Quiz completed! Your score: ${score}/${selectedQuestions.length}. Time taken: ${totalTime.toFixed(2)} seconds.`;
             document.getElementById("quizSection").style.display = 'none';
-            document.getElementById("timer").style.display = 'none';
-            document.getElementById("score").innerText = `You scored ${score} out of ${selectedQuestions.length}`;
-
-            const totalTimeTaken = endTime - startTime; // Calculate total time taken in milliseconds
-            const seconds = Math.floor(totalTimeTaken / 1000);
-            const milliseconds = Math.floor((totalTimeTaken % 1000) / 10); // Get the milliseconds part
-            document.getElementById("score").innerText += ` | Total time taken: ${seconds}.${milliseconds.toString().padStart(2, '0')} seconds`;
-
-            const wrongAnswersDiv = document.getElementById("wrongAnswers");
-            wrongAnswersDiv.innerHTML = '<h2>Wrong Answers:</h2>';
-
-            if (wrongAnswers.length > 0) {
-                wrongAnswers.forEach(answer => {
-                    wrongAnswersDiv.innerHTML += `<p>${answer.word}: Your answer: "${answer.givenAnswer}", Correct answer: "${answer.correctAnswer}"</p>`;
-                });
-            } else {
-                wrongAnswersDiv.innerHTML = '<p>None</p>'; // Show "None" if no wrong answers
-            }
-
-            wrongAnswersDiv.style.display = 'block';
+            document.getElementById("score").innerText = resultMessage;
+            document.getElementById("nextButton").style.display = 'none';
         }
     </script>
-
 </body>
 
 </html>
