@@ -139,11 +139,9 @@
         <div class="score" id="score"></div>
 
         <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
-        <button onclick="resetQuiz()">Reset Quiz</button>
     </div>
 
     <script>
-
 const vocabList = [
     { word: "Mollify", definition: "Soothe", sentence: "The mother tried to mollify her crying baby with a lullaby." },
     { word: "Morose", definition: "Ill-humored; sullen; melancholy", sentence: "After losing the game, he became morose and refused to talk to anyone." },
@@ -189,10 +187,6 @@ const vocabList = [
     { word: "Pristine", definition: "Characteristic of earlier times; primitive; unspoiled", sentence: "The pristine beaches were untouched by tourism." },
     { word: "Probity", definition: "Uprightness; incorruptibility", sentence: "Her probity was never questioned, even by her fiercest critics." }
 ];
-
-
-
-
 
 let currentQuestion = 0;
 let score = 0;
